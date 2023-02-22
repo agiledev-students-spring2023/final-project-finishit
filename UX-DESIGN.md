@@ -27,7 +27,7 @@ This page provides the user with options to modify their username or password, o
 ## Confirmation page
 <img alt="Confirmation page" width="200px" src="https://github.com/agiledev-students-spring-2023/final-project-finishit/blob/master/ux-design/wireframes/Confirmation-page.png">
 
-This page appears when the user has successfully changed or deleted their account, and redirects them to log in.
+This page appears when the user has successfully changed their username or password, and redirects them to log in.
 
 ## Sign Up page
 <img alt="Sign Up page" width="200px" src="https://github.com/agiledev-students-spring-2023/final-project-finishit/blob/master/ux-design/wireframes/Sign Up Page.png">
