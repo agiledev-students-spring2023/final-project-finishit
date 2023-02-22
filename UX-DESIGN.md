@@ -64,3 +64,14 @@ This page is the password reset page. The user verifies their identity by provid
 
 This page displays two text boxes where the user can input the new password and then confirm the new password respectively. Upon clicking the "Confirm changes" button, the user will be redirected to the log in page. This page has two links: a link to create a new account, and a link to the log in page.
 
+## Hamburger Menu
+<img alt="Hamburger Menu" width="200px" src="https://github.com/agiledev-students-spring-2023/final-project-finishit/blob/master/ux-design/wireframes/Menu-options.png">
+
+This is the hamburger menu. It allows you to login, create a new task, and more.
+
+
+
+## New Task Page
+<img alt="new Task page" width="200px" src="https://github.com/agiledev-students-spring-2023/final-project-finishit/blob/master/ux-design/wireframes/New-task.png">
+
+This is the page that allows you to add a new task. When doing it, add a reminder time, deadline, and name of the task.
