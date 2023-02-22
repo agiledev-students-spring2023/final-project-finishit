@@ -1,0 +1,2 @@
+## Visit this link for the prototype in Figma
+[FinishIt prototype](https://www.figma.com/proto/OViPqrVoL9NcxwW0eCITVI/FinishIt---Group-Project?node-id=1%3A44&scaling=scale-down&page-id=0%3A1&starting-point-node-id=1%3A44&show-proto-sidebar=1)
