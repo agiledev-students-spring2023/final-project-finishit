@@ -29,3 +29,15 @@ This page provides the user with options to modify their username or password, o
 
 This page appears when the user has successfully changed or deleted their account, and redirects them to log in.
 
+## Hamburger menu
+
+<img alt="Hamburger menu" width="200px" src="https://github.com/agiledev-students-spring-2023/final-project-finishit/blob/master/ux-design/wireframes/menu-options1.png">
+
+This is the list of options for the hamburger menu. People can choose to go to main menu, login page, create a new task, etc.
+
+
+## New Task
+
+<img alt="new task adding page" width="200px" src="https://github.com/agiledev-students-spring-2023/final-project-finishit/blob/master/ux-design/wireframes/New-task.png">
+
+Here, a user can enter a new task and set a reminder time before deadline, the real deadline, and the name of the task.
