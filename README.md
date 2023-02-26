@@ -14,7 +14,7 @@ FinishIt will be a supercharged to-do system to help students and professionals 
 
 - Allen Li: <https://github.com/Bast1onic>
 
-- Daniel Chen: <https://github.com/dc4472>
+- David Chen: <https://github.com/dc4472>
 
 ## History & Contributing
 
