@@ -9,12 +9,12 @@ import './Menu.css'
 const Menu = props => {
   return (
     <>
-      <Link to="/login">Log in</Link>
-      <br></br>
-      <Link to="/">Main</Link>
-      <br></br>
-      <Link to="/settings">Settings</Link>
-      
+    <br></br>
+    <div className='menuView'>
+      <Link to="/login" className='menuButton'><h4>Log In</h4></Link>
+      <Link to="/" className='menuButton'><h4>Main</h4></Link>
+      <Link to="/settings" className='menuButton'><h4>Settings</h4></Link>
+    </div>
     </>
   )
 }

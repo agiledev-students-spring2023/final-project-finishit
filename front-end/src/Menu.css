@@ -1,0 +1,25 @@
+div.menuView {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    justify-items: center;
+    gap: 12vh;
+}
+
+.menuButton{
+    background-color: #36f498;
+    align-self: center;
+    width: 50vw;
+    height: 20vh;
+}
+
+a:link {
+    text-decoration: none;
+    font-size: 2em;
+    align-content: center;
+    justify-content: center;
+}
+  
+a:visited {
+    text-decoration: none;
+}
