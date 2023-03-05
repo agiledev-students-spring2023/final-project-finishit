@@ -14,6 +14,8 @@ const Menu = props => {
       <Link to="/login" className='menuButton'><h4>Log In</h4></Link>
       <Link to="/" className='menuButton'><h4>Main</h4></Link>
       <Link to="/settings" className='menuButton'><h4>Settings</h4></Link>
+      <Link to="/newtask" className='menuButton'><h4>New Task</h4></Link>
+     
     </div>
     </>
   )
