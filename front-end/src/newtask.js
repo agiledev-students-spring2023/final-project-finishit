@@ -1,3 +1,6 @@
+import './newtask.css'
+import hamburger_menu from './hamburger.png'
+
 const newtask = () => {
 
     return (
@@ -6,16 +9,16 @@ const newtask = () => {
 
             <form>
                 <label >Reminder Time till dueDate:</label>
-                <br>
+                
                 <input type="text"></input>
-                </br>
+                
 
                 
                 <label >Name of task:</label>
-                <br><input type="text"></input></br>
+                <input type="text"></input>
 
                 <label >Due Date</label>
-                <br><input type="text"></input></br>
+                <input type="text"></input>
                 
 
 
@@ -46,3 +49,5 @@ const newtask = () => {
 
 
 }
+
+export default newtask;
