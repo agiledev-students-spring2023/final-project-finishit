@@ -1,0 +1,31 @@
+div.menuView {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    justify-items: center;
+    gap: 12vh;
+}
+
+.menuButton{
+    background-color: white;
+    border-style: solid;
+    border-color: black;
+    border-width: 1vh;
+    align-self: center;
+    width: 50vw;
+    height: 20vh;
+}
+
+
+a {
+    text-decoration: none;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2em;
+    align-content: center;
+    justify-content: center;
+}
+  
+a:hover {
+    text-decoration: underline;
+}
