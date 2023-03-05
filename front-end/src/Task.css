@@ -1,0 +1,33 @@
+.task-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+}
+  
+.task-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+  
+.task-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+  
+.task-due-date {
+    font-size: 16px;
+    color: gray;
+}
+  
+.task-checkbox {
+    display: flex;
+    align-items: center;
+}
+
+.task-checkbox-input {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
