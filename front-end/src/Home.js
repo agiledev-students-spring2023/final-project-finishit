@@ -3,18 +3,24 @@ import React, { useState } from 'react'
 import Task from './Task'
 import TaskFilterBar from './TaskFilterBar'
 
+const daysAgo = days => {
+    var d = new Date()
+    d.setDate(d.getDate()+days)
+    return d
+}
+
 const Home = props => {
     const dummyTasks = [
-        { id: 1, title: 'Task 1', dueDate: '2023-03-05', status: 'NOT_STARTED' },
-        { id: 2, title: 'Task 2', dueDate: '2023-03-06', status: 'IN_PROGRESS' },
-        { id: 3, title: 'Task 3', dueDate: '2023-03-07', status: 'COMPLETED' },
-        { id: 4, title: 'Task 4', dueDate: '2023-03-08', status: 'NOT_STARTED' },
-        { id: 5, title: 'Task 5', dueDate: '2023-03-09', status: 'IN_PROGRESS' },
-        { id: 6, title: 'Task 6', dueDate: '2023-03-10', status: 'COMPLETED' },
-        { id: 7, title: 'Task 7', dueDate: '2023-03-11', status: 'NOT_STARTED' },
-        { id: 8, title: 'Task 8', dueDate: '2023-03-12', status: 'IN_PROGRESS' },
-        { id: 9, title: 'Task 9', dueDate: '2023-03-13', status: 'COMPLETED' },
-        { id: 10, title: 'Task 10', dueDate: '2023-03-14', status: 'NOT_STARTED' },
+        { id: 1, title: 'Task 1', dueDate: daysAgo(-1), status: 'NOT_STARTED' },
+        { id: 2, title: 'Task 2', dueDate: daysAgo(0), status: 'IN_PROGRESS' },
+        { id: 3, title: 'Task 3', dueDate: daysAgo(1), status: 'COMPLETED' },
+        { id: 4, title: 'Task 4', dueDate: daysAgo(2), status: 'NOT_STARTED' },
+        { id: 5, title: 'Task 5', dueDate: daysAgo(3), status: 'IN_PROGRESS' },
+        { id: 6, title: 'Task 6', dueDate: daysAgo(4), status: 'COMPLETED' },
+        { id: 7, title: 'Task 7', dueDate: daysAgo(5), status: 'NOT_STARTED' },
+        { id: 8, title: 'Task 8', dueDate: daysAgo(6), status: 'IN_PROGRESS' },
+        { id: 9, title: 'Task 9', dueDate: daysAgo(7), status: 'COMPLETED' },
+        { id: 10, title: 'Task 10', dueDate: daysAgo(8), status: 'NOT_STARTED' },
     ]
 
     const [tasks] = useState(dummyTasks)
@@ -36,5 +42,4 @@ const Home = props => {
     )
 }
 
-// make this component available to be imported into any other file
 export default Home

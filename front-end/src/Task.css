@@ -4,23 +4,29 @@
     align-items: center;
     padding: 8px;
 }
-  
+
+.overdue {
+    /*background: #f99;*/
+    color: red !important;
+    font-weight: bold;
+}
+
 .task-info {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
-  
+
 .task-title {
     font-size: 20px;
     font-weight: bold;
 }
-  
+
 .task-due-date {
     font-size: 16px;
     color: gray;
 }
-  
+
 .task-checkbox {
     display: flex;
     align-items: center;
@@ -30,4 +36,8 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
+}
+
+.overdue .task-due-date {
+    color: inherit !important;
 }
