@@ -13,9 +13,7 @@ const Task = props => {
                 <input type="checkbox" class="task-checkbox-input" checked={status === "COMPLETED"} />
             </div>
 
-            <div>
-               
-            </div>
+        
         </div>
     )
 }
