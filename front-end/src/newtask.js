@@ -9,17 +9,17 @@ const NewTask = (props) => {
 
             <form>
                 <div>
-                    <label >Reminder Date:</label>
+                    <label >Reminder Date:</label><br />
                     <input type="text"></input>
                 </div>
                 
                 <div>
-                    <label >Name of task:</label>
+                    <label >Name of Task:</label><br />
                     <input type="text"></input>
                 </div>
  
                 <div>
-                    <label >Due Date:</label>
+                    <label >Due Date:</label><br />
                     <input type="text"></input>
                 </div>
             </form>
