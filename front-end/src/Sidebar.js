@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { slide as Menu } from 'react-burger-menu';
 import './Sidebar.css'
-//import menu_icon from './hamburger.png'
 
 /**
  * A React component that represents the Menu page of the app.
