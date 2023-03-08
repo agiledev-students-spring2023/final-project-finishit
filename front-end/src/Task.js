@@ -14,10 +14,7 @@ const Task = props => {
             </div>
 
             <div>
-                <a href="newtask.js">
-                <button>Edit Task</button>
-                </a>
-
+               
             </div>
         </div>
     )
