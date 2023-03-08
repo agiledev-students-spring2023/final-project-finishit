@@ -1,53 +1,33 @@
-import './newtask.css'
-import hamburger_menu from './hamburger.png'
+import './NewTask.css'
+import React from 'react'
 
-const newtask = () => {
+const NewTask = (props) => {
 
     return (
-        <div>
+        <>
             <h1>Add a new Task Here.</h1>
 
             <form>
-                <label >Reminder Time till dueDate:</label>
+                <div>
+                    <label >Reminder Time till dueDate:</label>
+                    <input type="text"> </input>
+                </div>
                 
-                <input type="text"></input>
-                
-
-                
-                <label >Name of task:</label>
-                <input type="text"></input>
-
-                <label >Due Date</label>
-                <input type="text"></input>
-                
-
-
-
-
+                <div>
+                    <label >Name of task:</label>
+                    <input type="text"></input>
+                </div>
+ 
+                <div>
+                    <label >Due Date</label>
+                    <input type="text"></input>
+                </div>
             </form>
 
-
-
-
-
-
-
-
-        </div>
-
-
+        </>
 
     )
 
-
-
-
-
-
-
-
-
-
 }
 
-export default newtask;
+export default NewTask;

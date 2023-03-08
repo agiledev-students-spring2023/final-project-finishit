@@ -3,6 +3,8 @@ import './App.css'
 import Home from './Home'
 import Header from './Header'
 import Menu from './Menu'
+import NewTask from './NewTask'
+
 
 const App = props => {
   return (
@@ -16,7 +18,8 @@ const App = props => {
 
             {/* a route to see a list of all messages */}
             <Route path="/menu" element={<Menu />} />
-
+            <Route path="/newtask" element={<NewTask />} />
+            
 
           </Routes>
         </main>
