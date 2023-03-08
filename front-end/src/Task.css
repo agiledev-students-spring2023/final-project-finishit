@@ -6,8 +6,7 @@
 }
 
 .overdue {
-    /*background: #f99;*/
-    color: red !important;
+    background: #fcc;
     font-weight: bold;
 }
 
