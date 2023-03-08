@@ -5,12 +5,12 @@ const NewTask = (props) => {
 
     return (
         <>
-            <h1>Add a new Task Here.</h1>
+            <h1>New Task</h1>
 
             <form>
                 <div>
-                    <label >Reminder Time till dueDate:</label>
-                    <input type="text"> </input>
+                    <label >Reminder Date:</label>
+                    <input type="text"></input>
                 </div>
                 
                 <div>
@@ -19,7 +19,7 @@ const NewTask = (props) => {
                 </div>
  
                 <div>
-                    <label >Due Date</label>
+                    <label >Due Date:</label>
                     <input type="text"></input>
                 </div>
             </form>
