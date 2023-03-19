@@ -6,21 +6,21 @@ const TaskFilterBar = props => {
     const checkStatusFilter = status => status === statusFilter ? "active" : ""
   
     return (
-        <div class="task-filter-bar">
+        <div className="task-filter-bar">
             <div
-                class={`task-filter-button ${checkStatusFilter("NOT_STARTED")}`}
+                className={`task-filter-button ${checkStatusFilter("NOT_STARTED")}`}
                 onClick={() => setStatusFilter("NOT_STARTED")}
             >
                 Not Started
             </div>
             <div
-                class={`task-filter-button ${checkStatusFilter("IN_PROGRESS")}`}
+                className={`task-filter-button ${checkStatusFilter("IN_PROGRESS")}`}
                 onClick={() => setStatusFilter("IN_PROGRESS")}
             >
                 In Progress
             </div>
             <div
-                class={`task-filter-button ${checkStatusFilter("COMPLETED")}`}
+                className={`task-filter-button ${checkStatusFilter("COMPLETED")}`}
                 onClick={() => setStatusFilter("COMPLETED")}
             >
                 Completed
