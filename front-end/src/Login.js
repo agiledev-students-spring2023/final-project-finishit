@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import React, { useState } from 'react';
-import './Login';
+import './Login.css';
 
 
 const Login = props => {
@@ -44,6 +44,7 @@ const Login = props => {
             <br></br>
             <br></br>
             <button CLASS="submitButton" type="submit">Log in</button>
+            <p><Link class="loginText" to="/reset">Forgot password?</Link></p>
             <br></br>
             <br></br>
             <p>Don't have an account? <Link class="loginText" to="/create">Sign up</Link></p>
