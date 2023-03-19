@@ -25,7 +25,7 @@ const EditTask = (props) => {
                 </div>
 
                 <div>
-                    <Link to="/"><button>Submit</button></Link>
+                    <Link to="/"><button>Edit Task</button></Link>
                 </div>
 
                
