@@ -18,16 +18,18 @@
 }
   
 /* Position and sizing of clickable cross button */
-.bm-cross-button {
-  height: 50px;
-  width: 50px;
+.bm-cross-button > span{
+  top: 2px !important;
+  right: 2px !important;
+  width: 36px !important;
+  height: 36px !important;
 }
   
 /* Color/shape of close button cross */
 .bm-cross {
-  background: #bdc3c7;
-  height: 50px;
-  width: 50px;
+  background: #bdc7c6;
+  width: 10px !important;
+  height: 40px !important;
 }
   
 /*
