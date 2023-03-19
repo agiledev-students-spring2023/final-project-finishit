@@ -29,7 +29,11 @@ const Home = props => {
                         <Task key={task.id} task={task} />
                         {idx < filteredTasks.length-1 && <hr class="task-separator" />}
                     </React.Fragment>
+                    
                 ))}
+
+                
+
             </div>
             <TaskFilterBar statusFilter={statusFilter} setStatusFilter={setStatusFilter} />
         </div>
