@@ -1,5 +1,6 @@
 import './NewTask.css'
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 const NewTask = (props) => {
 
@@ -21,6 +22,10 @@ const NewTask = (props) => {
                 <div>
                     <label >Due Date:</label><br />
                     <input type="text"></input>
+                </div>
+
+                <div>
+                    <Link to="/"><button>Submit</button></Link>
                 </div>
             </form>
 

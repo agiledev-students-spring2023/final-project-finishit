@@ -1,5 +1,6 @@
 import './EditTask.css'
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 const EditTask = (props) => {
 
@@ -22,6 +23,12 @@ const EditTask = (props) => {
                     <label >Due Date:</label><br />
                     <input type="text" value={"3/13/2023"}></input>
                 </div>
+
+                <div>
+                    <Link to="/"><button>Submit</button></Link>
+                </div>
+
+               
             </form>
 
         </>
