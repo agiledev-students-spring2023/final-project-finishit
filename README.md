@@ -24,7 +24,39 @@ If you'd like to make a contribution to the project, please see [CONTRIBUTING.md
 
 ## Instructions
 
-Build instructions will be included once the project has any components to build!
+To follow any of the instructions below, you must first clone this repository onto your local machine.
+
+```
+git clone https://github.com/agiledev-students-spring-2023/final-project-finishit.git
+```
+
+### Front-End
+
+To build the front end, first navigate to the `front-end` directory:
+
+```
+cd front-end
+```
+
+Then, install all the necessary dependencies by using the following command:
+
+```
+npm install
+```
+
+If a `package-lock.json` file already exists in `front-end`, instead use:
+
+```
+npm ci
+```
+
+Finally, start the program:
+
+```
+npm start
+```
+
+If you save any edits to files, the program will automatically reload with your changes.
 
 ## License
 
