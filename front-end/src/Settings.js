@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import React, { useState } from 'react';
-import './Login.css';
+import './Settings.css';
 
 const Settings = props => {
   const [currentUsername, setCurrentUsername] = useState('');

@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css'
 import Home from './Home'
 import Header from './Header'
-import Menu from './Menu'
 import Create from './Create'
 import Login from './Login'
 import Reset from './Reset'
@@ -20,10 +19,6 @@ const App = props => {
           <Routes>
             {/* a route for the home page */}
             <Route path="/" element={<Home />} />
-
-            {/* a route to see a list of all messages */}
-
-            <Route path="/menu" element={<Menu />} />
 
             {/* a route to see create account page */}
             <Route path="/create" element={<Create />} />
