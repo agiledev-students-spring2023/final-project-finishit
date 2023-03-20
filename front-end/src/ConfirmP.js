@@ -17,10 +17,8 @@ const ConfirmP = props => {
 
     const handleSubmit = event => {
         event.preventDefault();
-        // You can add your own logic to verify the new password here
         console.log(`New password: ${newPassword}`);
-        // Redirect the user to the profile page
-        window.location.href = '/profile';
+        //window.location.href = '/profile';
     };
 
   return (

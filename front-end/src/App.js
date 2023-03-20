@@ -6,9 +6,6 @@ import Menu from './Menu'
 import Create from './Create'
 import Login from './Login'
 import Reset from './Reset'
-import ResetP from './ResetP'
-import ResetU from './ResetU'
-import ConfirmU from './ConfirmU'
 import ConfirmP from './ConfirmP'
 import Settings from './Settings'
 
@@ -33,15 +30,6 @@ const App = props => {
 
             {/* a route to see reset page */}
             <Route path="/reset" element={<Reset />} />
-
-            {/* a route to see reset password page */}
-            <Route path="/resetp" element={<ResetP />} />
-
-            {/* a route to see reset username page */}
-            <Route path="/resetu" element={<ResetU />} />
-
-            {/* a route to see confirm username page */}
-            <Route path="/confirmu" element={<ConfirmU />} />
 
             {/* a route to see confirm password page */}
             <Route path="/confirmp" element={<ConfirmP />} />
