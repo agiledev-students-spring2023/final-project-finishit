@@ -1,5 +1,6 @@
 import "./Task.css"
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 const Task = props => {
     const { title, dueDate, status, badges } = props.task
@@ -10,8 +11,12 @@ const Task = props => {
     return (
         <div className={`task-container ${checkDate(dueDate)}`}>
             <div className="task-info">
-                <div className="task-title">{title}</div>
-                <div className="task-due-date">{dueDate.toLocaleString()}</div>
+                <Link to="/edittask">
+                    <div className="task-title-due-date">
+                        <div className="task-title">{title}</div>
+                        <div className="task-due-date">{dueDate.toLocaleString()}</div>
+                    </div>
+                </Link>
                 <div className="task-categories">
                     {badges.map((badge, idx) => (
                         <React.Fragment key={idx}>

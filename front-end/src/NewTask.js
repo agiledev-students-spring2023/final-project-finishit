@@ -25,7 +25,7 @@ const NewTask = (props) => {
                 </div>
 
                 <div>
-                    <Link to="/"><button>Submit Task</button></Link>
+                    <Link to="/"><button className="submitButton">Submit Task</button></Link>
                 </div>
             </form>
 

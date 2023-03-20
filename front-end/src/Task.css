@@ -10,6 +10,11 @@
     font-weight: bold;
 }
 
+.task-title-due-date {
+    color: black;
+    text-align: left;
+}
+
 .task-info {
     display: flex;
     flex-direction: column;
