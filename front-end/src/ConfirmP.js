@@ -23,11 +23,6 @@ const ConfirmP = props => {
 
   return (
     <div>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
         <h1>Change Password</h1>
         <br></br>
         <br></br>

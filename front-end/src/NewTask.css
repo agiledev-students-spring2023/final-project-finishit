@@ -1,10 +1,10 @@
-input[type=text]{
-
-    width: 90%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-
+.submitButton {
+    background-color: #2f93f7; /* set the background color of the button */
+    color: rgb(245, 248, 250); /* set the text color of the button */
+    font-size: 16px; /* set the font size of the button */
+    padding: 10px 20px; /* set the padding of the button (top/bottom left/right) */
+    border: none; /* remove the border of the button */
+    border-radius: 5px; /* round the corners of the button */
 }
 
 label{

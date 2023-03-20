@@ -31,32 +31,19 @@ const Create = props => {
 
     return (
         <div>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
             <h1>Create New Account</h1>
-            <br></br>
-            <br></br>
             <form onSubmit={handleSubmit}>
                 <label>
                     <input class="inputBox" type="text" placeholder="Username" value={username} onChange={handleUsernameChange} />
                 </label>
-                <br />
-                <br></br>
                 <br></br>
                 <label>
                     <input class="inputBox" type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
                 </label>
-                <br />
-                <br></br>
                 <br></br>
                 <label>
                     <input class="inputBox" type="text" placeholder="What is the name of your first pet?" value={petName} onChange={handlePetNameChange} />
                 </label>
-                <br />
-                <br></br>
                 <br></br>
                 <label>
                     <input class="inputBox" type="text" placeholder="What is your mother's maiden name?" value={motherMaidenName} onChange={handleMotherMaidenNameChange} />

@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import React, { useState } from 'react';
 import './Login.css';
 
-
 const Login = props => {
+    const navigate = useNavigate()
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -18,15 +19,11 @@ const Login = props => {
     const handleSubmit = event => {
          event.preventDefault();
          console.log(`Username: ${username} Password: ${password}`);
+         navigate('/')
     }
 
   return (
     <div>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
         <h1>Sign Into Your Account</h1>
         <br></br>
         <br></br>
