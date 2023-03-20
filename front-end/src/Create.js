@@ -51,7 +51,9 @@ const Create = props => {
                 <br />
                 <br></br>
                 <br></br>
-                <button CLASS="submitButton" type="submit">Create Account</button>
+                <Link to="/Login">
+                    <button CLASS="submitButton" type="submit">Create Account</button>
+                </Link>
                 <br></br>
                 <br></br>
                 <p>Already have an account? <Link class="loginText" to="/login">Log in</Link></p>
