@@ -8,6 +8,8 @@ import Login from './Login'
 import Reset from './Reset'
 import ConfirmP from './ConfirmP'
 import Settings from './Settings'
+import NewTask from './NewTask'
+import EditTask from './EditTask'
 
 const App = props => {
   return (
@@ -20,6 +22,7 @@ const App = props => {
             <Route path="/" element={<Home />} />
 
             {/* a route to see a list of all messages */}
+
             <Route path="/menu" element={<Menu />} />
 
             {/* a route to see create account page */}
@@ -36,7 +39,9 @@ const App = props => {
 
             {/* a route to see confirm password page */}
             <Route path="/settings" element={<Settings />} />
-
+            
+            <Route path="/newtask" element={<NewTask />} />
+            <Route path="/edittask" element={<EditTask />} />
 
           </Routes>
         </main>
