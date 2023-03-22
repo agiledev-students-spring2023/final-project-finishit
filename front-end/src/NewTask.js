@@ -1,8 +1,19 @@
 import './NewTask.css'
-import React from 'react'
+import React, {useRef, useState} from 'react'
 import { Link } from 'react-router-dom';
 
+
 const NewTask = (props) => {
+
+    const [date, setDate] = useState('');
+    const dateInputRef = useRef(null);
+
+  const handleChange = (e) => {
+
+        setDate(e.target.value);
+
+
+    };
 
     return (
         <>
@@ -11,12 +22,13 @@ const NewTask = (props) => {
             <form>
                 <div>
                     <label >Reminder Date:</label><br />
-                    <input type="text"></input>
+                    <input type="date" onChange={handleChange} ref={dateInputRef}/>
+                    
                 </div>
                 
                 <div>
                     <label >Name of Task:</label><br />
-                    <input type="text"></input>
+                    <input type="date" onChange={handleChange} ref={dateInputRef}/>
                 </div>
  
                 <div>
