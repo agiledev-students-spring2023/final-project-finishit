@@ -10,6 +10,7 @@ import Settings from './Settings'
 import NewTask from './NewTask'
 import EditTask from './EditTask'
 import NewBadge from './NewBadge'
+import EditBadge from './EditBadge'
 
 const App = props => {
   return (
@@ -42,6 +43,7 @@ const App = props => {
 
             {/* routes for creating and editing badges */}
             <Route path="/newbadge" element={<NewBadge />} />
+            <Route path="/editbadge" element={<EditBadge />} />
 
           </Routes>
         </main>
