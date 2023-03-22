@@ -29,13 +29,13 @@ const Login = props => {
         <br></br>
         <form onSubmit={handleSubmit}>
             <label>
-                <input class="inputBox2" type="text" placeholder="Username" value={username} onChange={handleUsernameChange} />
+                <input class="inputBox" type="text" placeholder="Username" value={username} onChange={handleUsernameChange} />
             </label>
             <br />
             <br></br>
             <br></br>
             <label>
-                <input class="inputBox2" type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
+                <input class="inputBox" type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
             </label>
             <br />
             <br></br>
