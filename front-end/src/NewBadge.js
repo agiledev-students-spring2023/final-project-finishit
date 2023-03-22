@@ -17,7 +17,7 @@ const NewBadge = props => {
 
     return (
         <div id="badgeform">
-            <form action="/">
+            <form action="/badges">
                 <label>Badge Color</label><br/>
                 <input id="badgecolor" type="color" value={badgeColor} onChange={e => setBadgeColor(e.target.value)} />
                 <br/><span>(Click the colored section to change the color.)</span><br/><br/>
