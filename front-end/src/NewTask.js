@@ -8,7 +8,7 @@ const NewTask = (props) => {
     const [date, setDate] = useState('');
     const dateInputRef = useRef(null);
 
-  const handleChange = (e) => {
+    const handleChange = (e) => {
 
         setDate(e.target.value);
 
@@ -21,14 +21,14 @@ const NewTask = (props) => {
 
             <form>
                 <div>
+                    <label>Name of Task:</label><br />
+                    <input class="inputBox" type="text"></input>
+                </div>
+
+                <div>
                     <label >Reminder Date:</label><br />
                     <input type="date" onChange={handleChange} ref={dateInputRef}/>
                     
-                </div>
-                
-                <div>
-                    <label >Name of Task:</label><br />
-                    <input type="text"></input>
                 </div>
  
                 <div>

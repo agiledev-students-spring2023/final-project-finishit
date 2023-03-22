@@ -7,6 +7,12 @@
     border-radius: 5px; /* round the corners of the button */
 }
 
+.inputBox {
+    width: 110px;
+    height: 15px;
+    font-size: 20px;
+}
+
 label{
 
     font-size: large;
@@ -18,3 +24,4 @@ button{
     background-color: lightblue;
 
 }
+
