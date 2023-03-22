@@ -14,16 +14,16 @@
 }
 
 input[type=color] {
-    height: 50px !important;
-    width: 100% !important;
+    height: 50px;
+    width: 100%;
     padding: 0;
     border: none;
     background: none;
 }
 
 .inputBox {
-    height: 50px !important;
-    width: 100% !important;
+    height: 50px;
+    width: 100%;
     box-sizing: border-box;
     font-size: 20px;
 }
