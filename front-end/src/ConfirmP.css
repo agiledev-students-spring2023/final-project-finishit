@@ -1,3 +1,9 @@
+.inputBox6 {
+    width: 330px;
+    height: 50px;
+    font-size: 20px;
+}
+
 .submitButton {
     background-color: #2f93f7; /* set the background color of the button */
     color: rgb(245, 248, 250); /* set the text color of the button */
@@ -7,20 +13,8 @@
     border-radius: 5px; /* round the corners of the button */
 }
 
-.deleteButton {
-    background-color: red; /* set the background color of the button */
-    color: rgb(245, 248, 250); /* set the text color of the button */
-}
-
-label{
-
-    font-size: large;
-    color:black;
-
-}
-
-button{
-
-    background-color: lightblue;
-
+.loginText{
+    font-size: 16px;
+    color: blue;
+    text-decoration: underline;
 }

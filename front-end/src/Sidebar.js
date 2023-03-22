@@ -12,6 +12,7 @@ const Sidebar = props => {
     <Menu className='bm-item-list' >
       <Link to="/login" className='bm-item' onClick={() => props.isOpen=false}><h4>Log In</h4></Link>
       <Link to="/" className='bm-item' onClick={() => props.isOpen=false}><h4>Main</h4></Link>
+      <Link to="/badges" className='bm-item' onClick={() => props.isOpen=false}><h4>Badges</h4></Link>
       <Link to="/settings" className='bm-item' onClick={() => props.isOpen=false}><h4>Settings</h4></Link>
     </Menu>
     
