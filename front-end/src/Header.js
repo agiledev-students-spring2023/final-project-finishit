@@ -1,6 +1,6 @@
 import './Header.css'
 import Sidebar from './Sidebar.js'
-import new_task from './new-task.png'
+//import new_task from './new-task.png'
 import { Link } from 'react-router-dom'
 
 /**
@@ -8,13 +8,14 @@ import { Link } from 'react-router-dom'
  * @param {*} param0 an object holding any props passed to this component from its parent component
  * @returns The contents of this component, in JSX form.
  */
+//        <img src={new_task} alt="New task" />
 const Header = props => {
   return (
     <header className="Header-header">
       <Sidebar className="headerElement" pageWrapId={'page-wrap'} outerContainerId={'outer-container'} />
       <h1 className="headerElement">FinishIt</h1>
       <Link to="/newtask" className="headerElement">
-        <img src={new_task} alt="New task" />
+        <button id='mk-task' type='button'>+</button>
       </Link>
     </header>
   )

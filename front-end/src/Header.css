@@ -28,3 +28,15 @@ h1.headerElement {
 Link.headerElement {
     flex: 2;
 }
+
+#mk-task {
+    border-radius: 10%;
+    border: 2px solid #4CAF50;
+    background-color: #ffffff;
+    font-size: 20px;
+    padding: 10px 20px;
+}
+
+#mk-task:active{
+    border-style: double;
+}
