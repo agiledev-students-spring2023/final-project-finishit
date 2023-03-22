@@ -63,33 +63,33 @@ const Settings = props => {
         <form>
             <h2>Change Username</h2>
             <label>
-                <input class="inputBox5" type="text" name="currentUsername" placeholder="Current Username" value={currentUsername} onChange={handleUsernameChange} />
+                <input class="inputBox" type="text" name="currentUsername" placeholder="Current Username" value={currentUsername} onChange={handleUsernameChange} />
             </label>
             <br></br>
             <br></br>
             <label>
-                <input class="inputBox5" type="text" name="newUsername" placeholder="New Username" value={newUsername} onChange={handleUsernameChange} />
+                <input class="inputBox" type="text" name="newUsername" placeholder="New Username" value={newUsername} onChange={handleUsernameChange} />
             </label>
             <br></br>
             <br></br>
             <label>
-                <input class="inputBox5" type="text" name="confirmNewUsername" placeholder="Confirm New Username" value={confirmNewUsername} onChange={handleUsernameChange} />
+                <input class="inputBox" type="text" name="confirmNewUsername" placeholder="Confirm New Username" value={confirmNewUsername} onChange={handleUsernameChange} />
             </label>
             <br></br>
             <br></br>
             <h2>Change Password</h2>
             <label>
-                <input class="inputBox5" type="password" name="currentPassword" placeholder="Current Password" value={currentPassword} onChange={handlePasswordChange} />
+                <input class="inputBox" type="password" name="currentPassword" placeholder="Current Password" value={currentPassword} onChange={handlePasswordChange} />
             </label>
             <br></br>
             <br></br>
             <label>
-                <input class="inputBox5" type="password" name="newPassword" placeholder="New Password" value={newPassword} onChange={handlePasswordChange} />
+                <input class="inputBox" type="password" name="newPassword" placeholder="New Password" value={newPassword} onChange={handlePasswordChange} />
             </label>
             <br></br>
             <br></br>
             <label>
-                <input class="inputBox5" type="password" name="confirmNewPassword" placeholder="Confirm New Password"value={confirmNewPassword} onChange={handlePasswordChange} />
+                <input class="inputBox" type="password" name="confirmNewPassword" placeholder="Confirm New Password"value={confirmNewPassword} onChange={handlePasswordChange} />
             </label>
             <br></br>
             <br></br>
