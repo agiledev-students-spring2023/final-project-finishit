@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import React, { useState } from 'react';
-import './ConfirmP.css';
+import './Reset.css';
 
 
 const ConfirmP = props => {
@@ -28,13 +28,13 @@ const ConfirmP = props => {
         <br></br>
         <form onSubmit={handleSubmit}>
             <label>
-                <input class="inputBox6" type="password" placeholder="New Password" value={newPassword} onChange={handleNewPasswordChange} />
+                <input class="inputBox" type="password" placeholder="New Password" value={newPassword} onChange={handleNewPasswordChange} />
             </label>
             <br />
             <br></br>
             <br></br>
             <label>
-                <input class="inputBox6" type="password" placeholder="Confirm New Password" value={confirmNewPassword} onChange={handleConfirmNewPasswordChange} />
+                <input class="inputBox" type="password" placeholder="Confirm New Password" value={confirmNewPassword} onChange={handleConfirmNewPasswordChange} />
             </label>
             <br />
             <br></br>
