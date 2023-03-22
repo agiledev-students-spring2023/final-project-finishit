@@ -34,22 +34,19 @@ const Create = props => {
             <h1>Create New Account</h1>
             <form onSubmit={handleSubmit}>
                 <label>
-                    <input class="inputBox3" type="text" placeholder="Username" value={username} onChange={handleUsernameChange} />
+                    <input class="inputBox" type="text" placeholder="Username" value={username} onChange={handleUsernameChange} />
                 </label>
                 <br></br>
-                <br></br>
                 <label>
-                    <input class="inputBox3" type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
+                    <input class="inputBox" type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
                 </label>
                 <br></br>
-                <br></br>
                 <label>
-                    <input class="inputBox3" type="text" placeholder="What is the name of your first pet?" value={petName} onChange={handlePetNameChange} />
+                    <input class="inputBox" type="text" placeholder="What is the name of your first pet?" value={petName} onChange={handlePetNameChange} />
                 </label>
                 <br></br>
-                <br></br>
                 <label>
-                    <input class="inputBox3" type="text" placeholder="What is your mother's maiden name?" value={motherMaidenName} onChange={handleMotherMaidenNameChange} />
+                    <input class="inputBox" type="text" placeholder="What is your mother's maiden name?" value={motherMaidenName} onChange={handleMotherMaidenNameChange} />
                 </label>
                 <br />
                 <br></br>
