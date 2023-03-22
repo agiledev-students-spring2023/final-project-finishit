@@ -22,7 +22,7 @@ const NewTask = (props) => {
             <form>
                 <div>
                     <label>Name of Task:</label><br />
-                    <input class="inputBox" type="text"></input>
+                    <input className="taskInputBox" type="text"></input>
                 </div>
 
                 <div>

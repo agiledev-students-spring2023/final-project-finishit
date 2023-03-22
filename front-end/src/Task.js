@@ -3,6 +3,16 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 
 const Task = props => {
+    const textColorFromBackground = background => {
+        const hexToRGB = hex => {
+            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? [ parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16) ] : null;
+        }
+    
+        const rgb = hexToRGB(background)
+        return (rgb[0]*0.299 + rgb[1]*0.587 + rgb[2]*0.114) > 150 ? 'black' : 'white';
+    }
+
     const { title, dueDate, status, badges } = props.task
     const today = new Date()
 
@@ -33,16 +43,6 @@ const Task = props => {
         
         </div>
     )
-}
-
-const textColorFromBackground = background => {
-    const hexToRGB = hex => {
-        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? [ parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16) ] : null;
-    }
-
-    const rgb = hexToRGB(background)
-    return (rgb[0]*0.299 + rgb[1]*0.587 + rgb[2]*0.114) > 186 ? 'black' : 'white';
 }
 
 export default Task
