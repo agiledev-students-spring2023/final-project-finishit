@@ -27,12 +27,12 @@ const EditTask = (props) => {
 
                 <div>
                     <label >Reminder Date:</label><br />
-                    <input type="date" value={"3/11/2023"}></input>
+                    <input type="date" value={"3/11/2023"} onChange={handleChange} ref={dateInputRef}></input>
                 </div>
                 
                 <div>
                     <label >Due Date:</label><br />
-                    <input type="date" value={"3/13/2023"}></input>
+                    <input type="date" value={"3/13/2023"} onChange={handleChange} ref={dateInputRef}></input>
                 </div>
 
                 <div>
