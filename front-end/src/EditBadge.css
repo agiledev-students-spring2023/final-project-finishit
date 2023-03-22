@@ -41,3 +41,8 @@ label {
     border: none; /* remove the border of the button */
     border-radius: 5px; /* round the corners of the button */
 }
+
+.deleteButton {
+    background-color: red !important; /* set the background color of the button */
+    color: rgb(245, 248, 250) !important; /* set the text color of the button */
+}

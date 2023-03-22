@@ -36,6 +36,8 @@ const EditBadge = props => {
                 <span className="badge" style={{color: textColorFromBackground(badgeColor), background: badgeColor}}>{badgeText}</span>
                 <br/><br/><br/><br/>
                 <center><button className="submitButton" type="submit">Update Badge</button></center>
+                <br/><br/>
+                <center><button className="submitButton deleteButton" type="submit">Delete Badge</button></center>
             </form>
         </div>
     )
