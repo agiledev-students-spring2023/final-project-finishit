@@ -28,12 +28,12 @@ const NewTask = (props) => {
                 
                 <div>
                     <label >Name of Task:</label><br />
-                    <input type="date" onChange={handleChange} ref={dateInputRef}/>
+                    <input type="text"></input>
                 </div>
  
                 <div>
                     <label >Due Date:</label><br />
-                    <input type="text"></input>
+                    <input type="date" onChange={handleChange} ref={dateInputRef}/>
                 </div>
 
                 <div>
