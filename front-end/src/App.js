@@ -9,6 +9,7 @@ import ConfirmP from './ConfirmP'
 import Settings from './Settings'
 import NewTask from './NewTask'
 import EditTask from './EditTask'
+import NewBadge from './NewBadge'
 
 const App = props => {
   return (
@@ -35,8 +36,12 @@ const App = props => {
             {/* a route to see confirm password page */}
             <Route path="/settings" element={<Settings />} />
             
+            {/* routes for creating and editing tasks */}
             <Route path="/newtask" element={<NewTask />} />
             <Route path="/edittask" element={<EditTask />} />
+
+            {/* routes for creating and editing badges */}
+            <Route path="/newbadge" element={<NewBadge />} />
 
           </Routes>
         </main>
