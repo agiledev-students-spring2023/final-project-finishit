@@ -19,19 +19,16 @@ const Reset = props => {
       <h1>Trouble Logging In? Verify your Identity</h1>
       <form onSubmit={handleSubmit}>
         <label>
-          <input class="inputBox4" type="text" placeholder="Current Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+          <input class="inputBox" type="text" placeholder="Current Username" value={username} onChange={(e) => setUsername(e.target.value)} />
         </label>
-        <br></br>
         <br></br>
         <label>
-          <input class="inputBox4" type="text" placeholder="What is the name of your first pet?" value={petName} onChange={(e) => setPetName(e.target.value)} />
+          <input class="inputBox" type="text" placeholder="What is the name of your first pet?" value={petName} onChange={(e) => setPetName(e.target.value)} />
         </label>
-        <br></br>
         <br></br>
         <label>
-          <input class="inputBox4" type="text" placeholder="What is your mother's maiden name?" value={motherMaidenName} onChange={(e) => setMotherMaidenName(e.target.value)} />
+          <input class="inputBox" type="text" placeholder="What is your mother's maiden name?" value={motherMaidenName} onChange={(e) => setMotherMaidenName(e.target.value)} />
         </label>
-        <br></br>
         <br></br>
         <Link to="/ConfirmP">
             <button CLASS="submitButton" type="submit">Verify Information</button>
