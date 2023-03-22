@@ -31,12 +31,18 @@ Link.headerElement {
 
 #mk-task {
     border-radius: 10%;
-    border: 2px solid #4CAF50;
-    background-color: #ffffff;
-    font-size: 20px;
-    padding: 10px 20px;
+    border: 2px solid #ffffff;
+    background-color: #2b4660;
+    font-size: 40px;
+    color: white;
+    padding: 2px 17px;
+    font-weight: bold;
 }
 
 #mk-task:active{
     border-style: double;
+}
+
+#mk-task-link:hover{
+    text-decoration: none;
 }
