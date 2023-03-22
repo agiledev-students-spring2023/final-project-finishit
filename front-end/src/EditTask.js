@@ -20,15 +20,15 @@ const EditTask = (props) => {
 
             <form>
                 <div>
+                    <label >Name of Task:</label><br />
+                    <input class="inputBox3" type="text" value={"Job applications"}></input>
+                </div>
+
+                <div>
                     <label >Reminder Date:</label><br />
                     <input type="date" onChange={handleChange} ref={dateInputRef} value={date} ></input>
                 </div>
                 
-                <div>
-                    <label >Name of Task:</label><br />
-                    <input type="text" value={"Job applications"}></input>
-                </div>
- 
                 <div>
                     <label >Due Date:</label><br />
                     <input type="date" onChange={handleChange} ref={dateInputRef} value={date}></input>
