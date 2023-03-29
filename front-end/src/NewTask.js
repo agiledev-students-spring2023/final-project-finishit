@@ -1,6 +1,7 @@
 import './NewTask.css'
 import React, {useRef, useState} from 'react'
 import { Link } from 'react-router-dom';
+import axios from 'axios'
 
 
 const NewTask = (props) => {
@@ -19,7 +20,7 @@ const NewTask = (props) => {
         <>
             <h1>New Task</h1>
 
-            <form>
+            <form action='/' method='POST'>
                 <div>
                     <label>Name of Task:</label><br />
                     <input className="taskInputBox" type="text"></input>
