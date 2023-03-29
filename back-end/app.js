@@ -1,5 +1,6 @@
 require('dotenv').config({ silent: true }) // load environmental variables from a hidden file named .env
-const express = require("express")
+import express from 'express'
+
 const morgan = require('morgan')
 const cors = require('cors') // middleware for enabling CORS (Cross-Origin Resource Sharing) requests.
 
@@ -8,8 +9,8 @@ const app = express()
 app.use(morgan('dev', { skip: (req, res) => process.env.NODE_ENV === 'test' }))
 app.use(cors())
 
-app.get("/", (req, res) => {
-    res.send("Hello!")
+app.get('/', (req, res) => {
+    res.send('Hello!')
 })
 
 const sampleBadges = [
@@ -36,4 +37,4 @@ app.get('/badges', async (req, res) => {
       }
 })
 
-module.exports = app
+export default app
