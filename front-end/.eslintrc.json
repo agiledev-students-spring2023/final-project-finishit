@@ -23,11 +23,12 @@
         "no-unused-vars": 0,
         "arrow-parens": [2, "as-needed"],
         "object-curly-newline": 0,
+        "jsx-a11y/label-has-associated-control": 0,
         "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx"] }],
         "react/function-component-definition": [2, {
             "namedComponents": "arrow-function",
             "unnamedComponents": "arrow-function"
         }],
-        "react/no-array-index-key": 1
+        "react/no-array-index-key": 0
     }
 }
