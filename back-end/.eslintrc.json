@@ -24,7 +24,7 @@
         "object-curly-newline": 0,
         "comma-dangle": [2, "never"],
         "prefer-destructuring": 0,
-        "no-param-reassign": [2, { "req": false, "res": false }]
+        "no-param-reassign": [2, { "props": false }]
     },
     "globals": {
         "__dirname": true
