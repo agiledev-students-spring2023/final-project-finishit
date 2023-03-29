@@ -8,23 +8,10 @@ app.get("/", (req, res) => {
 
 app.post("/newtask", async(req, res)=>{ 
     
-    const data={
-      new_task:{
-        new_task:req.body
-        
-        
+})
 
-
-
-
-      }
-
-
-
-    }
-
-
-
+app.post("/edittask", async(req, res)=>{ 
+    
 })
 
 module.exports = app
