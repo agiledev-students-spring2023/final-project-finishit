@@ -21,7 +21,7 @@ const BadgeHome = props => {
         { color: '#ff0000', text: 'Category 3' },
         { color: '#ccff99', text: 'Category 4' },
         { color: '#ff0000', text: 'Urgent' },
-        { color: '#f5b942', text: 'Medium Priority' },
+        { color: '#f5b942', text: 'Medium Priority' }
     ]
 
     const [badges, setBadges] = useState(sampleBadges)
