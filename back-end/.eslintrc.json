@@ -1,7 +1,8 @@
 {
     "env": {
         "browser": true,
-        "es2021": true
+        "es2021": true,
+        "es6": true
     },
     "extends": [
         "airbnb"
@@ -18,7 +19,11 @@
         "semi": [2, "never"],
         "indent": [2, 4],
         "no-unused-vars": 0,
+        "no-console": 0,
         "arrow-parens": [2, "as-needed"],
         "object-curly-newline": 0
+    },
+    "globals": {
+        "__dirname": true
     }
 }
