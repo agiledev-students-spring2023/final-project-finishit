@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import app from './app'
+import app from './app.mjs'
 
 const port = process.env.PORT || 3000 // the port to listen to for incoming requests
 
