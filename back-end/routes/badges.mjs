@@ -6,12 +6,12 @@ import express from 'express'
 const badgesRouter = express.Router()
 
 const sampleBadges = [
-    { color: '#000000', text: 'These' },
-    { color: '#ffffff', text: 'badges' },
-    { color: '#ff0000', text: 'are' },
-    { color: '#ccff99', text: 'from' },
-    { color: '#ff0000', text: 'the' },
-    { color: '#f5b942', text: 'backend' }
+    { color: '#000000', text: 'Category 1' },
+    { color: '#ffffff', text: 'Category 2' },
+    { color: '#ff0000', text: 'Category 3' },
+    { color: '#ccff99', text: 'Category 4' },
+    { color: '#ff0000', text: 'Urgent' },
+    { color: '#f5b942', text: 'Medium Priority' }
 ]
 
 badgesRouter.get('/badges', async (req, res) => {
