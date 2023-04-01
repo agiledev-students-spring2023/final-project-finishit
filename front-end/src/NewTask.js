@@ -1,7 +1,7 @@
 import './NewTask.css'
 import React, { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-// import axios from 'axios'
+import axios from 'axios'
 
 const NewTask = props => {
     const [date, setDate] = useState('')
@@ -9,6 +9,32 @@ const NewTask = props => {
     const handleChange = e => {
         setDate(e.target.value)
     }
+
+    const [name, setName] = useState('')
+    const [duedate, setduedate] = useState('')
+    const [remdate, setremdate] = useState('')
+    const [error, setError] = useState('')
+
+    const handleSubmit = e => {
+        e.preventDefault() // prevent the default browser form submission stuff
+        axios
+            .post('/main', {
+                stringname: name,
+                dateduedate: duedate,
+                dateremdate: remdate
+            })
+            .then(response => {
+                console.log(`Received server response: ${response.data}`)
+            })
+            .catch(err => {
+                // failure
+                console.log(`Received server error: ${err}`)
+                setError(
+                    'Invalid inputs, check again.'
+                )
+            })
+    }
+
     return (
         <>
             <h1>New Task</h1>
