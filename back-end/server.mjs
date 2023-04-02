@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-import app from './app'
+import app from './app.mjs'
 
-const port = 3000 // the port to listen to for incoming requests
+const port = process.env.PORT || 3000 // the port to listen to for incoming requests
 
 // call express's listen function to start listening to the port
 const listener = app.listen(port, () => {
