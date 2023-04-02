@@ -11,7 +11,8 @@ const sampleBadges = [
     { color: '#ff0000', text: 'Category 3' },
     { color: '#ccff99', text: 'Category 4' },
     { color: '#ff0000', text: 'Urgent' },
-    { color: '#f5b942', text: 'Medium Priority' }
+    { color: '#f5b942', text: 'Medium Priority' },
+    { color: '#8d32a8', text: 'Tentative' }
 ]
 
 badgesRouter.get('/badges', async (req, res) => {
