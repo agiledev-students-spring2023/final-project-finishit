@@ -1,6 +1,6 @@
 .bottombar {
     display: flex;
-    position: fixed;
+    position: sticky;
     flex-direction: column;
     bottom: 0;
     left: 0;
