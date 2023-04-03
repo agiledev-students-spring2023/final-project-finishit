@@ -1,3 +1,4 @@
+/* eslint-disable */
 import './NewTask.css'
 import React, { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -18,7 +19,7 @@ const NewTask = props => {
     const handleSubmit = e => {
         e.preventDefault() // prevent the default browser form submission stuff
         axios
-            .post('/main', {
+            .post('/', {
                 stringname: name,
                 dateduedate: duedate,
                 dateremdate: remdate
@@ -42,17 +43,17 @@ const NewTask = props => {
                 <div>
                     <label>Name of Task:</label>
                     <br />
-                    <input className="taskInputBox" type="text" />
+                    <input className="taskInputBox" type="text" onChange={e => setName(e.target.value) }/>
                 </div>
                 <div>
                     <label>Reminder Date:</label>
                     <br />
-                    <input type="date" onChange={handleChange} ref={dateInputRef} />
+                    <input type="date" onChange={e => setremdate(e.target.value)} ref={dateInputRef} />
                 </div>
                 <div>
                     <label>Due Date:</label>
                     <br />
-                    <input type="date" onChange={handleChange} ref={dateInputRef} />
+                    <input type="date" onChange={e => setduedate(e.target.value)} ref={dateInputRef} />
                 </div>
 
                 <div>
