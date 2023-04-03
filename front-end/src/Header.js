@@ -11,7 +11,9 @@ import Sidebar from './Sidebar'
 const Header = props => (
     <header className="Header-header">
         <Sidebar className="headerElement" pageWrapId="page-wrap" outerContainerId="outer-container" />
-        <h1 className="headerElement">FinishIt</h1>
+        <h1 className="headerElement">
+            <Link to="/" className="headerElement" id="main-title">FinishIt</Link>
+        </h1>
         <Link to="/newtask" className="headerElement" id="mk-task-link">
             <button id="mk-task" type="button">+</button>
         </Link>
