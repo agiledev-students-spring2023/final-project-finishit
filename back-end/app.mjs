@@ -1,10 +1,11 @@
 import express from 'express'
-import * as dotenv from 'dotenv'
+import dotenv from 'dotenv'
 import morgan from 'morgan'
 import cors from 'cors'
 
 // route imports
 import badgesRouter from './routes/badges.mjs'
+import tasksRouter from './routes/tasks.mjs'
 
 const app = express()
 dotenv.config({ silent: true })
@@ -16,6 +17,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/', badgesRouter)
+app.use('/', tasksRouter)
 
 /*
 app.post('/newtask', async(req, res) => {
