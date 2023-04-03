@@ -52,7 +52,33 @@ const Task = props => {
                 </div>
             </div>
             <div className="task-checkbox">
-                <input type="checkbox" className="task-checkbox-input" defaultChecked={status === 'COMPLETED'} />
+                {(() => {
+                    if (status === 'NOT_STARTED') {
+                        return (
+                            <button className="categoryButton" type="submit">
+                                Mark task as
+                                <br />
+                                In Progress
+                            </button>
+                        )
+                    }
+
+                    if (status === 'IN_PROGRESS') {
+                        return (
+                            <button className="categoryButton" type="submit">
+                                Mark task as
+                                <br />
+                                Completed
+                            </button>
+                        )
+                    }
+
+                    return (
+                        <button className="categoryButton completedButton" type="submit">
+                            Task already completed!
+                        </button>
+                    )
+                })()}
             </div>
 
         </div>
