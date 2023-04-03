@@ -46,3 +46,8 @@ Link.headerElement {
 #mk-task-link:hover{
     text-decoration: none;
 }
+
+#main-title{
+    color: #2b4660;
+    text-decoration: none;
+}
