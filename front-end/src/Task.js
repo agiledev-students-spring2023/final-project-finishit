@@ -32,7 +32,20 @@ const Task = props => {
                 <div className="task-categories">
                     {badges.map((badge, idx) => (
                         <React.Fragment key={idx}>
-                            <span key={idx} className="badge" style={{ color: textColorFromBackground(badge.color), background: badge.color }}>{badge.text}</span>
+                            <span
+                                key={idx}
+                                role="button"
+                                tabIndex="0"
+                                className="badge"
+                                style={{
+                                    color: textColorFromBackground(badge.color),
+                                    background: badge.color
+                                }}
+                                onClick={() => props.badgeFilterFunction(badge)}
+                                onKeyDown={() => props.badgeFilterFunction(badge)}
+                            >
+                                {badge.text}
+                            </span>
                         </React.Fragment>
 
                     ))}
