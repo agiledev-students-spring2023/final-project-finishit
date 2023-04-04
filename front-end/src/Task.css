@@ -49,6 +49,22 @@
 .task-checkbox {
     display: flex;
     align-items: center;
+    max-width: 130px;
+}
+
+.categoryButton {
+    background-color: #2f93f7;
+    color: rgb(245, 248, 250);
+    font-size: 14px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    width: 125px;
+}
+
+.completedButton {
+    background-color: #aaaaaa;
+    color: black;
 }
 
 .task-checkbox-input {
