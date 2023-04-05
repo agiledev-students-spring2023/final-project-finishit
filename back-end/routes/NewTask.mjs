@@ -17,9 +17,9 @@ const sampleTasks = [
 
 newrouter.post('/newtask', async (req, res) => {
     const task = req.body
-    console.log(sampleTasks)
-    console.log(task)
-    sampleTasks.push(task)
+    console.log(JSON.stringify(task, null, 2))
+
+    // sampleTasks.push(task)
     res.send('New task has been stored. Thank you!')
     console.log(sampleTasks)
 })

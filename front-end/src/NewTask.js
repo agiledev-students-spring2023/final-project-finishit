@@ -1,7 +1,7 @@
 /* eslint-disable */
 import './NewTask.css'
 import React, { useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 const NewTask = props => {
@@ -16,16 +16,19 @@ const NewTask = props => {
     const [remdate, setremdate] = useState('')
     const [error, setError] = useState('')
 
+    const navigate = useNavigate()
+
     const handleSubmit = e => {
         e.preventDefault() // prevent the default browser form submission stuff
         axios
-            .post('/', {
+            .post('http://localhost:5002/newtask', {
                 stringname: name,
                 dateduedate: duedate,
                 dateremdate: remdate
             })
             .then(response => {
                 console.log(`Received server response: ${response.data}`)
+                navigate('/')
             })
             .catch(err => {
                 // failure
@@ -39,7 +42,7 @@ const NewTask = props => {
     return (
         <>
             <h1>New Task</h1>
-            <form action="/" method="POST">
+            <form method="POST" onSubmit={e => handleSubmit(e)}> 
                 <div>
                     <label>Name of Task:</label>
                     <br />
@@ -57,7 +60,7 @@ const NewTask = props => {
                 </div>
 
                 <div>
-                    <Link to="/"><button className="submitButton" type="submit">Submit Task</button></Link>
+                    <button className="submitButton" type="submit" >Submit Task</button>
                 </div>
             </form>
         </>

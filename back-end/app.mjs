@@ -9,6 +9,9 @@ import tasksRouter from './routes/tasks.mjs'
 import newrouter from './routes/NewTask.mjs'
 
 const app = express()
+// use express's builtin body-parser middleware to parse any data included in a request
+app.use(express.json()) // decode JSON-formatted incoming POST data
+app.use(express.urlencoded({ extended: true })) // decode url-encoded incoming POST data
 dotenv.config({ silent: true })
 app.use(morgan('dev', { skip: (req, res) => process.env.NODE_ENV === 'test' }))
 app.use(cors())
