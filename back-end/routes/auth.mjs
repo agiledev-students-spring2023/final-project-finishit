@@ -1,14 +1,22 @@
-const express = require('express')
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
-const users = require('../data/users.json')
+import express from 'express'
+import jwt from'jsonwebtoken'
+import bcrypt from 'bcrypt'
+
+// import { users } from '../data/users.json'
 
 const authRouter = express.Router()
 const config = process.env
 
+const users = [
+    { id: 1, username: 'user1', password: 'password1', petName: 'cat', maidenName: 'maiden1' },
+    { id: 2, username: 'user2', password: 'password2', petName: 'dog', maidenName: 'maiden2' },
+    { id: 3, username: 'user3', password: 'password3', petName: 'hamster', maidenName: 'maiden3' }
+]
+
+// eslint-disable-next-line consistent-return
 authRouter.post('/login', (req, res) => {
     const { username, password } = req.body
-    const user = users.users.find(u => u.username === username)
+    const user = users.find(u => u.username === username)
     if (!user) {
         return res.status(400).json({ message: 'User not found' })
     }
@@ -24,13 +32,15 @@ authRouter.post('/login', (req, res) => {
     })
 })
 
+// eslint-disable-next-line consistent-return
 authRouter.post('/create', (req, res) => {
     const { username, password, petName, maidenName } = req.body
-    const user = users.users.find(u => u.username === username)
+    const user = users.find(u => u.username === username)
     if (user) {
         return res.status(400).json({ message: 'User already exists' })
     }
-    const id = users.users.length + 1
+    const id = users.length + 1
+    // eslint-disable-next-line consistent-return
     bcrypt.hash(password, 10, (err, hashedPassword) => {
         if (err) {
             return res.status(500).json({ message: 'Error creating user' })

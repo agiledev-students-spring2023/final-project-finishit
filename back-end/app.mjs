@@ -13,6 +13,12 @@ dotenv.config({ silent: true })
 app.use(morgan('dev', { skip: (req, res) => process.env.NODE_ENV === 'test' }))
 app.use(cors())
 
+// middleware to parse JSON bodies
+app.use(express.json())
+
+// middleware to parse URL-encoded bodies
+app.use(express.urlencoded({ extended: true }))
+
 app.get('/', (req, res) => {
     res.send('Hello!')
 })
