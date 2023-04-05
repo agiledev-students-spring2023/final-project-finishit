@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import React, { useState } from 'react'
 import './Create.css'
+import axios from 'axios'
 
 const Create = props => {
     const [username, setUsername] = useState('')
@@ -26,7 +27,15 @@ const Create = props => {
 
     const handleSubmit = event => {
         event.preventDefault()
-        console.log(`Username: ${username} Password: ${password} Pet Name: ${petName} Mother Maiden Name: ${motherMaidenName}`)
+        try {
+            const response = axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/create`, { username, password, petName, motherMaidenName })
+            const token = response.data.token
+            localStorage.setItem('token', token)
+            // redirect to protected route
+            window.location = '/protected'
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     return (

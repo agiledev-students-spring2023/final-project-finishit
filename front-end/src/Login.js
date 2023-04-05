@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 import './Login.css'
+import axios from 'axios'
 
 const Login = props => {
     const navigate = useNavigate()
@@ -18,8 +19,15 @@ const Login = props => {
 
     const handleSubmit = event => {
         event.preventDefault()
-        console.log(`Username: ${username} Password: ${password}`)
-        navigate('/')
+        try {
+            const response = axios.post('http://localhost:5002/login', { username, password })
+            const token = response.data.token
+            localStorage.setItem('token', token)
+            // redirect to protected route
+            window.location = '/protected'
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     return (
@@ -40,7 +48,9 @@ const Login = props => {
                 <br />
                 <br />
                 <br />
-                <button className="submitButton" type="submit">Log in</button>
+                <Link to="/">
+                    <button className="submitButton" type="submit">Log in</button>
+                </Link>
                 <p><Link className="loginText" to="/reset">Forgot password?</Link></p>
                 <br />
                 <br />

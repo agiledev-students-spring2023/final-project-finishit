@@ -6,6 +6,7 @@ import cors from 'cors'
 // route imports
 import badgesRouter from './routes/badges.mjs'
 import tasksRouter from './routes/tasks.mjs'
+import authRouter from './routes/auth.mjs'
 
 const app = express()
 dotenv.config({ silent: true })
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 
 app.use('/', badgesRouter)
 app.use('/', tasksRouter)
+app.use('/', authRouter)
 
 /*
 app.post('/newtask', async(req, res) => {

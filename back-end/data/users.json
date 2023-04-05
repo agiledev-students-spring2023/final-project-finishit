@@ -1,0 +1,19 @@
+{
+    "users": [
+      {
+        "id": 1,
+        "username": "john",
+        "password": "john123",
+        "petName": "Nemo",
+        "maidenName": "Smith"
+      },
+      {
+        "id": 2,
+        "username": "jane",
+        "password": "jane123",
+        "petName": "Spark",
+        "maidenName": "Johnson"
+      }
+    ]
+  }
+  
