@@ -39,7 +39,7 @@ const Create = props => {
         try {
             const response = await axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/create`, payload)
             console.log('response', response)
-            navigate('/login')
+            window.location = '/login'
         } catch (error) {
             console.error(error)
         }
