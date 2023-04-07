@@ -17,11 +17,13 @@ const Login = props => {
         setPassword(event.target.value)
     }
 
-    const handleSubmit = event => {
+    const handleSubmit = async event => {
         event.preventDefault()
         try {
-            const response = axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/login`, { username: 'user1', password: 'password1' })
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/login`, { username, password })
+            console.log('response', response)
             const token = response.data.token
+            console.log('token')
             localStorage.setItem('token', token)
             // redirect to protected route
             window.location = '/protected'
@@ -48,9 +50,7 @@ const Login = props => {
                 <br />
                 <br />
                 <br />
-                <Link to="/">
-                    <button className="submitButton" type="submit">Log in</button>
-                </Link>
+                <button className="submitButton" type="submit">Log in</button>
                 <p><Link className="loginText" to="/reset">Forgot password?</Link></p>
                 <br />
                 <br />

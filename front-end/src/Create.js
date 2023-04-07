@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, navigate, useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 import './Create.css'
 import axios from 'axios'
@@ -25,20 +25,21 @@ const Create = props => {
         setMotherMaidenName(event.target.value)
     }
 
-    const users = [
-        { id: 1, username: 'user1', password: 'password1', petName: 'cat', maidenName: 'maiden1' },
-        { id: 2, username: 'user2', password: 'password2', petName: 'dog', maidenName: 'maiden2' },
-        { id: 3, username: 'user3', password: 'password3', petName: 'hamster', maidenName: 'maiden3' }
-    ]
-
-    const handleSubmit = event => {
+    const handleSubmit = async event => {
         event.preventDefault()
+        const payload = {
+            username,
+            password,
+            petName,
+            motherName: motherMaidenName
+        }
+
+        console.log('payload', payload)
+
         try {
-            const response = axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/create`, { username, password, petName, motherMaidenName })
-            const token = response.data.token
-            localStorage.setItem('token', token)
-            // redirect to protected route
-            window.location = '/protected'
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/create`, payload)
+            console.log('response', response)
+            navigate('/login')
         } catch (error) {
             console.error(error)
         }
@@ -69,9 +70,7 @@ const Create = props => {
                 <br />
                 <br />
                 <br />
-                <Link to="/Login">
-                    <button className="submitButton" type="submit">Create Account</button>
-                </Link>
+                <button className="submitButton" type="submit">Create Account</button>
                 <br />
                 <br />
                 <p>

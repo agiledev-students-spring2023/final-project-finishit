@@ -1,12 +1,15 @@
 import express from 'express'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import dotenv from 'dotenv'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import morgan from 'morgan'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import cors from 'cors'
 
 // route imports
 import badgesRouter from './routes/badges.mjs'
 import tasksRouter from './routes/tasks.mjs'
-import authRouter from './routes/auth.mjs'
+import usersRouter from './routes/users.mjs'
 
 const app = express()
 dotenv.config({ silent: true })
@@ -25,7 +28,7 @@ app.get('/', (req, res) => {
 
 app.use('/', badgesRouter)
 app.use('/', tasksRouter)
-app.use('/', authRouter)
+app.use('/auth', usersRouter)
 
 /*
 app.post('/newtask', async(req, res) => {
