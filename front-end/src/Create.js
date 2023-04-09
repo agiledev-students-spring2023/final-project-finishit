@@ -50,22 +50,22 @@ const Create = props => {
             <h1>Create New Account</h1>
             <form onSubmit={handleSubmit}>
                 <label>
-                    <input className="inputBox3" type="text" placeholder="Username" value={username} onChange={handleUsernameChange} />
+                    <input className="inputCreate" type="text" placeholder="Username" value={username} onChange={handleUsernameChange} />
                 </label>
                 <br />
                 <br />
                 <label>
-                    <input className="inputBox3" type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
+                    <input className="inputCreate" type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
                 </label>
                 <br />
                 <br />
                 <label>
-                    <input className="inputBox3" type="text" placeholder="What is the name of your first pet?" value={petName} onChange={handlePetNameChange} />
+                    <input className="inputCreate" type="text" placeholder="What is the name of your first pet?" value={petName} onChange={handlePetNameChange} />
                 </label>
                 <br />
                 <br />
                 <label>
-                    <input className="inputBox3" type="text" placeholder="What is your mother's maiden name?" value={motherMaidenName} onChange={handleMotherMaidenNameChange} />
+                    <input className="inputCreate" type="text" placeholder="What is your mother's maiden name?" value={motherMaidenName} onChange={handleMotherMaidenNameChange} />
                 </label>
                 <br />
                 <br />
@@ -75,7 +75,7 @@ const Create = props => {
                 <br />
                 <p>
                     Already have an account?
-                    <Link className="loginText" to="/login">Log in</Link>
+                    <Link className="loginText" to="/login"> Log in</Link>
                 </p>
             </form>
         </div>

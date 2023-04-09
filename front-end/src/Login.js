@@ -26,7 +26,7 @@ const Login = props => {
             console.log('token')
             localStorage.setItem('token', token)
             // redirect to protected route
-            window.location = '/protected'
+            window.location = '/'
         } catch (error) {
             console.error(error)
         }
@@ -39,13 +39,13 @@ const Login = props => {
             <br />
             <form onSubmit={handleSubmit}>
                 <label>
-                    <input className="inputBox" type="text" placeholder="Username" value={username} onChange={handleUsernameChange} />
+                    <input className="inputLogin" type="text" placeholder="Username" value={username} onChange={handleUsernameChange} />
                 </label>
                 <br />
                 <br />
                 <br />
                 <label>
-                    <input className="inputBox" type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
+                    <input className="inputLogin" type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
                 </label>
                 <br />
                 <br />
@@ -56,7 +56,7 @@ const Login = props => {
                 <br />
                 <p>
                     Dont have an account?
-                    <Link class="loginText" to="/create">Sign up</Link>
+                    <Link class="loginText" to="/create"> Sign up</Link>
                 </p>
             </form>
         </div>
