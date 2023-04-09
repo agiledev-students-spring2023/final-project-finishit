@@ -12,6 +12,32 @@ const __filename = fileURLToPath(import.meta.url)
 // eslint-disable-next-line no-underscore-dangle
 const __dirname = dirname(__filename)
 
+async function findUserAndList(username) {
+    const filePath = path.join(__dirname, '../data/users.json')
+    const usersInJSON = await fs.readFile(filePath, 'utf-8')
+    const users = JSON.parse(usersInJSON)
+    let foundUser = null
+    foundUser = users.find(user => user.username === username)
+    return {
+        user: foundUser,
+        users
+    }
+}
+
+// filterd payload
+
+const filterPayload = payload => {
+    const dataArray = Object.entries(payload)
+    // console.log(dataArray);
+    return Object.fromEntries(dataArray.filter(([key, value]) => value !== ''))
+}
+
+const saveUsers = async users => {
+    const filePath = path.join(__dirname, '../data/users.json')
+    const response1 = await fs.writeFile(filePath, JSON.stringify(users))
+    return true
+}
+
 usersRouter.post('/login', async (req, res) => {
     // check if the user exists
 
@@ -44,7 +70,8 @@ usersRouter.post('/login', async (req, res) => {
 
         res.status(200).json({
             success: true,
-            token
+            token,
+            user: foundUser
         })
     }
 })
@@ -75,6 +102,69 @@ usersRouter.post('/create', async (req, res) => {
         success: true,
         message: 'account created successfully'
     })
+})
+
+usersRouter.put('/', async (req, res) => {
+    let token = null
+    let updatedUser = null
+
+    // check if the request has token and it's proper defined
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+        token = req.headers.authorization.split(' ')[1]
+    }
+
+    if (!token) {
+        res.status(403).json({
+            success: false,
+            message: 'Unauthorized!'
+        })
+    }
+
+    // decoding token here
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+        const loggedInUserName = decoded.username
+        console.log(loggedInUserName)
+        if (loggedInUserName !== '') {
+            // do the next stuff
+            const result = await findUserAndList(loggedInUserName)
+            if (result.user) {
+                // do the next stuff
+                const modifiedUsers = result.users.map(user => {
+                    if (user.username === loggedInUserName) {
+                        // get only those keys which has values
+                        const filteredPayload = filterPayload(req.body)
+                        // eslint-disable-next-line no-param-reassign
+                        user = { ...user, ...filteredPayload }
+                    }
+                    return user
+                })
+
+                updatedUser = modifiedUsers.find(
+                    user => user.username === loggedInUserName
+                )
+                // write filte function
+                const response = await saveUsers(modifiedUsers)
+                res.status(200).json({
+                    success: true,
+                    user: updatedUser
+                })
+            }
+        } else {
+            res.status(403).json({
+                success: false,
+                message: 'Unauthorized!'
+            })
+        }
+    } catch (err) {
+        res.status(403).json({
+            success: false,
+            message: err.message
+        })
+    }
+
+    // check if user is loggd in
 })
 
 export default usersRouter
