@@ -1,7 +1,9 @@
 {
     "all": true,
     "exclude": [
-        "test/*_test.js"
+        "test/*_test.js",
+        "old/",
+        "server.js"
     ],
     "check-coverage": true,
     "report-dir": "./coverage"

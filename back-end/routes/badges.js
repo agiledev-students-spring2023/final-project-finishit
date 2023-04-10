@@ -1,11 +1,11 @@
 /**
  * These are the routes for the /badges page on the front-end.
  */
-const express = require('express') 
+const express = require('express')
 
 const badgesRouter = express.Router()
 
-let badges = [
+const badges = [
     { color: '#000000', text: 'Category 1' },
     { color: '#ffffff', text: 'Category 2' },
     { color: '#ff0000', text: 'Category 3' },
@@ -17,20 +17,20 @@ let badges = [
 
 let devError = false
 
-function setError(err){
+function setError(err) {
     devError = err
 }
 
 badgesRouter.get('/badges', async (req, res) => {
     try {
-        if(devError){
-            throw new Error("simulated error")
+        if (devError) {
+            throw new Error('simulated error')
         }
         res.json({
             badges
         })
     } catch (err) {
-        //console.error(err)
+        // console.error(err)
         res.status(500).json({
             error: err,
             status: 'failed to retrieve badges from the database'

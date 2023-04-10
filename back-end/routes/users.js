@@ -4,20 +4,19 @@ const jwt = require('jsonwebtoken')
 const { promises } = require('fs')
 
 const fs = promises
-const { fileURLToPath } = require('url')
+const { fileURLToPath, pathToFileURL } = require('url')
 const { path, dirname } = require('path')
 
 const usersRouter = express.Router()
-
 // eslint-disable-next-line no-underscore-dangle
-const __filename = fileURLToPath(import.meta.url)
+const filename = fileURLToPath(pathToFileURL(__filename).toString())
 // eslint-disable-next-line no-underscore-dangle
-const __dirname = dirname(__filename)
+const dirName = dirname(filename)
 
 usersRouter.post('/login', async (req, res) => {
     // check if the user exists
 
-    const filePath = path.join(__dirname, '../data/users.json')
+    const filePath = path.join(dirName, '../data/users.json')
 
     const usersInJSON = await fs.readFile(filePath, 'utf-8')
 
@@ -80,5 +79,6 @@ usersRouter.post('/create', async (req, res) => {
 })
 
 module.exports = {
+    usersRouter,
     default: usersRouter
 }

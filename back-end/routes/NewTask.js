@@ -38,5 +38,6 @@ newrouter.get('/tasks', async (req, res) => {
 })
 
 module.exports = {
+    newrouter,
     default: newrouter
 }

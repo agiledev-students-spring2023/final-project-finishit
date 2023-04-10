@@ -1,11 +1,10 @@
 /* eslint-disable no-unused-expressions */
 const chai = require('chai')
-const {expect, assert} = require('chai')
+const { expect, assert } = require('chai')
 const chaiHttp = require('chai-http')
 const express = require('express')
-const { app } = require('../app.js')
-const badgesRouter = require('../routes/badges.js')
-
+const { app } = require('../app')
+const badgesRouter = require('../routes/badges')
 
 chai.use(chaiHttp)
 
@@ -24,12 +23,11 @@ describe('badgesRouter', () => {
     it('should throw an error if something goes wrong', done => {
         badgesRouter.setError(true)
         chai.request(app).get('/badges').end((err, res) => {
-            //console.log(res)
+            // console.log(res)
             expect(res.error).to.be.instanceOf(Error)
             expect(res).to.be.json
             expect(res).to.have.status(500)
             done()
         })
     })
-    
 })
