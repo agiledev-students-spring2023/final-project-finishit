@@ -25,6 +25,7 @@ const Login = props => {
             const token = response.data.token
             console.log('token')
             localStorage.setItem('token', token)
+            localStorage.setItem('user', JSON.stringify(response.data.user))
             // redirect to protected route
             window.location = '/'
         } catch (error) {

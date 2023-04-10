@@ -10,6 +10,7 @@ import cors from 'cors'
 import badgesRouter from './routes/badges.mjs'
 import tasksRouter from './routes/tasks.mjs'
 import newrouter from './routes/NewTask.mjs'
+import editrouter from './routes/EditTask.mjs'
 import usersRouter from './routes/users.mjs'
 
 const app = express()
@@ -33,6 +34,7 @@ app.get('/', (req, res) => {
 app.use('/', badgesRouter)
 app.use('/', tasksRouter)
 app.use('/', newrouter)
+app.use('/', editrouter)
 app.use('/auth', usersRouter)
 
 /*

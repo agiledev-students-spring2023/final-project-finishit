@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom'
 import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 import './Reset.css'
 
 const Reset = props => {
@@ -7,9 +8,30 @@ const Reset = props => {
     const [petName, setPetName] = useState('')
     const [motherMaidenName, setMotherMaidenName] = useState('')
 
-    const handleSubmit = e => {
+    const navigate = useNavigate()
+
+    const handleSubmit = async e => {
         e.preventDefault()
         // Perform validation and password reset logic here
+        const payload = {
+            username,
+            answers: {
+                petName,
+                motherName: motherMaidenName
+            }
+        }
+
+        try {
+            const response = await axios.post(
+                'http://localhost:5002/auth/verify-answers',
+                payload
+            )
+
+            localStorage.setItem('username', response.data.username)
+            navigate('/confirmp')
+        } catch (err) {
+            alert(err.message)
+        }
     }
 
     return (
@@ -31,9 +53,7 @@ const Reset = props => {
                 </label>
                 <br />
                 <br />
-                <Link to="/ConfirmP">
-                    <button className="submitButton" type="submit">Verify Information</button>
-                </Link>
+                <button className="submitButton" type="submit">Verify Information</button>
                 <p>OR</p>
                 <p><Link class="loginText" to="/create">Create new account</Link></p>
                 <p><Link class="loginText" to="/login">Back to login</Link></p>

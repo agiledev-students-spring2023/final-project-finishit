@@ -1,4 +1,3 @@
-/* eslint-disable */
 import './NewTask.css'
 import React, { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -42,11 +41,11 @@ const NewTask = props => {
     return (
         <>
             <h1>New Task</h1>
-            <form method="POST" onSubmit={e => handleSubmit(e)}> 
+            <form method="POST" onSubmit={e => handleSubmit(e)}>
                 <div>
                     <label>Name of Task:</label>
                     <br />
-                    <input className="taskInputBox" type="text" onChange={e => setName(e.target.value) }/>
+                    <input className="taskInputBox" type="text" onChange={e => setName(e.target.value)} />
                 </div>
                 <div>
                     <label>Reminder Date:</label>
@@ -60,7 +59,7 @@ const NewTask = props => {
                 </div>
 
                 <div>
-                    <button className="submitButton" type="submit" >Submit Task</button>
+                    <button className="submitButton" type="submit">Submit Task</button>
                 </div>
             </form>
         </>
