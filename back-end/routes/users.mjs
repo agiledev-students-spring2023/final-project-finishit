@@ -127,7 +127,6 @@ usersRouter.post('/create', async (req, res) => {
     }
 
     const newUsersList = [...users, req.body]
-
     const response1 = await fs.writeFile(filePath, JSON.stringify(newUsersList))
 
     // check of username and password both
@@ -158,7 +157,6 @@ usersRouter.put('/', async (req, res) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         const loggedInUserName = decoded.username
-        console.log(loggedInUserName)
         if (loggedInUserName !== '') {
             // do the next stuff
             const result = await findUserAndList(loggedInUserName)

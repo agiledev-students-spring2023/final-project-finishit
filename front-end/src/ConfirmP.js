@@ -19,7 +19,7 @@ const ConfirmP = props => {
 
     const handleSubmit = async event => {
         event.preventDefault()
-        if (!newPassword === confirmNewPassword) {
+        if (newPassword !== confirmNewPassword) {
             alert('Passwords must match!')
             return
         }
