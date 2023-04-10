@@ -38,14 +38,6 @@ const EditTask = props => {
                     'Invalid inputs, check again.'
                 )
             })
-        try {
-            const response2 = await axios.put(
-                navigate('/'),
-                localStorage.clear()
-            )
-        } catch (err) {
-            alert('this does not work')
-        }
     }
 
     return (

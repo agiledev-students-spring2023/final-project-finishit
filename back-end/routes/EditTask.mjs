@@ -38,35 +38,4 @@ editrouter.get('/tasks', async (req, res) => {
     }
 })
 
-/*
-editrouter.put('/tasks', (req, res) => {
-    const body = req.body
-    const task = req.params.task
-    const item = sampleTasks[task]
-    console.log(sampleTasks)
-    if (!task) {
-        return res
-            .status(404)
-            .json({ error: 'Task does not exist' })
-    }
-
-    if (body.name) {
-        item.name = body.name
-    }
-
-    if (body.duedate) {
-        item.duedate = body.duedate
-    }
-
-    if (body.remdate) {
-        item.remdate = body.remdate
-    }
-
-    console.log(sampleTasks)
-
-    return res()
-        .status(201)
-        .json(item)
-})
-*/
 export default editrouter
