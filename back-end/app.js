@@ -26,10 +26,6 @@ app.use(express.json())
 // middleware to parse URL-encoded bodies
 app.use(express.urlencoded({ extended: true }))
 
-app.get('/', (req, res) => {
-    res.send('Hello!')
-})
-
 app.use('/', badgesRouter)
 app.use('/', tasksRouter)
 app.use('/', newrouter)

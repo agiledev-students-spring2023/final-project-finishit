@@ -1,6 +1,6 @@
 .bottombar {
     display: flex;
-    position: sticky;
+    position: fixed;
     flex-direction: column;
     bottom: 0;
     left: 0;
@@ -40,4 +40,8 @@
 .task-filter-button.active {
     color: #000;
     background-color: #ddd;
+}
+
+.task-list {
+    margin-bottom: 80px;
 }

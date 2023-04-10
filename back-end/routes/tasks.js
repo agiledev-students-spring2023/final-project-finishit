@@ -24,14 +24,23 @@ const sampleTasks = [
     { id: 10, title: 'Finish project', dueDate: daysAgo(8), status: 'NOT_STARTED', badges: [{ id: 6, color: '#ffa500', text: 'Work' }, { id: 1, color: '#ff5733', text: 'School' }] }
 ]
 
+let devError = false
+
+function setError(err) {
+    devError = err
+}
+
 tasksRouter.get('/tasks', async (req, res) => {
     try {
+        if (devError) {
+            throw new Error('simulated error')
+        }
+
         res.json({
             tasks: sampleTasks
         })
     } catch (err) {
-        console.error(err)
-        res.status(400).json({
+        res.status(500).json({
             error: err,
             status: 'failed to retrieve tasks from the database'
         })
@@ -40,5 +49,6 @@ tasksRouter.get('/tasks', async (req, res) => {
 
 module.exports = {
     tasksRouter,
+    setError,
     default: tasksRouter
 }

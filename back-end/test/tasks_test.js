@@ -5,25 +5,30 @@ const { expect, assert } = require('chai')
 const chaiHttp = require('chai-http')
 const express = require('express')
 const { app } = require('../app')
-const badgesRouter = require('../routes/badges')
+
+const tasksRouter = require('../routes/tasks')
 
 chai.use(chaiHttp)
 
-// console.log(badgesRouter instanceof express.Router)
-describe('badgesRouter', () => {
+describe('/tasks route', () => {
     it('should be an instance of express Router', done => {
-        assert(Object.getPrototypeOf(badgesRouter.badgesRouter) === express.Router, 'badgesRouter should be an instance of express Router')
+        assert(Object.getPrototypeOf(tasksRouter.tasksRouter) === express.Router, 'tasksRouter should be an instance of express Router')
         done()
     })
-    it('should return a response in json format', done => {
-        chai.request(app).get('/badges').end((err, res) => {
-            expect(res).to.be.json
-            done()
-        })
+
+    it('should return an array of tasks', done => {
+        chai.request(app)
+            .get('/tasks')
+            .end((err, res) => {
+                expect(res).to.have.status(200)
+                expect(res.body.tasks).to.be.an('array')
+                done()
+            })
     })
+
     it('should throw an error if something goes wrong', done => {
-        badgesRouter.setError(true)
-        chai.request(app).get('/badges').end((err, res) => {
+        tasksRouter.setError(true)
+        chai.request(app).get('/tasks').end((err, res) => {
             // console.log(res)
             expect(res.error).to.be.instanceOf(Error)
             expect(res).to.be.json
