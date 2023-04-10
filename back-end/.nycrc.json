@@ -1,11 +1,6 @@
 {
     "all": true,
-    "include": [
-        "test/*"
-    ],
     "exclude": [
-        "server.mjs",
-        "test/*.mjs",
         "test/*_test.js"
     ],
     "check-coverage": true,

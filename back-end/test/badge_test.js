@@ -3,8 +3,8 @@ const chai = require('chai')
 const {expect, assert} = require('chai')
 const chaiHttp = require('chai-http')
 const express = require('express')
-const app = require('./app.js')
-const badgesRouter = require('./badges.js')
+const { app } = require('../app.js')
+const badgesRouter = require('../routes/badges.js')
 
 
 chai.use(chaiHttp)
@@ -16,14 +16,14 @@ describe('badgesRouter', () => {
         done()
     })
     it('should return a response in json format', done => {
-        chai.request(app.app).get('/badges').end((err, res) => {
+        chai.request(app).get('/badges').end((err, res) => {
             expect(res).to.be.json
             done()
         })
     })
     it('should throw an error if something goes wrong', done => {
         badgesRouter.setError(true)
-        chai.request(app.app).get('/badges').end((err, res) => {
+        chai.request(app).get('/badges').end((err, res) => {
             //console.log(res)
             expect(res.error).to.be.instanceOf(Error)
             expect(res).to.be.json

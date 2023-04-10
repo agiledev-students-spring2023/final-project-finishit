@@ -4,8 +4,8 @@ const morgan = require('morgan')
 const cors = require('cors')
 
 // route imports
-const badgesRouter = require('./badges.js')
-const tasksRouter = require('./tasks.js')
+const badgesRouter = require('./routes/badges.js')
+const tasksRouter = require('./routes/tasks.js')
 
 const app = express()
 dotenv.config({ silent: true })
