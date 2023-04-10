@@ -19,7 +19,7 @@ const EditTask = props => {
 
     const navigate = useNavigate()
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault() // prevent the default browser form submission stuff
         axios
             .post('http://localhost:5002/edittask', {
@@ -38,6 +38,14 @@ const EditTask = props => {
                     'Invalid inputs, check again.'
                 )
             })
+        try {
+            const response2 = await axios.put(
+                navigate('/'),
+                localStorage.clear()
+            )
+        } catch (err) {
+            alert('this does not work')
+        }
     }
 
     return (
