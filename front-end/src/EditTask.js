@@ -1,5 +1,5 @@
 import './EditTask.css'
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
@@ -10,14 +10,24 @@ const EditTask = props => {
     const [name, setName] = useState('')
     const [duedate, setduedate] = useState('')
     const [remdate, setremdate] = useState('')
-    const [error, setError] = useState('')
-    const handleChange = e => {
-        setName(e.target.value)
-        setduedate(e.target.value)
-        setremdate(e.target.value)
-    }
+    const [formData, setFormData] = useState('')
+    const [error, setError] = useState({
+        name: '',
+        duedate: '',
+        remdate: ''
+    })
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+        axios.get('/tasks/').then(res => {
+            setFormData(res.data)
+        })
+    })
+
+    const handleChange = e => {
+        setFormData({ ...formData, [e.target.name]: e.target.value })
+    }
 
     const handleSubmit = async e => {
         e.preventDefault() // prevent the default browser form submission stuff
@@ -40,10 +50,17 @@ const EditTask = props => {
             })
     }
 
+    const handleSubmit2 = e => {
+        e.preventDefault()
+        axios.put('/tasks', formData).then(() => {
+            console.log('User updated successfully')
+        })
+    }
+
     return (
         <>
             <h1>Task</h1>
-            <form method="POST" onSubmit={e => handleSubmit(e)} onChange={e => handleChange}>
+            <form method="POST" onSubmit={e => handleSubmit(e)}>
                 <div>
                     <label>Name of Task:</label>
                     <br />
