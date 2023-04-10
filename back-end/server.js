@@ -1,5 +1,5 @@
-#!/usr/bin/env node
-import app from './app.mjs'
+// #!/usr/bin/env node
+const app = require('./app').app
 
 const port = process.env.PORT || 3000 // the port to listen to for incoming requests
 
@@ -13,4 +13,7 @@ const close = () => {
     listener.close()
 }
 
-export default close
+module.exports = {
+    close,
+    default: close
+}
