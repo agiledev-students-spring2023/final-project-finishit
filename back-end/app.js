@@ -16,5 +16,6 @@ app.use('/', badgesRouter.badgesRouter)
 app.use('/', tasksRouter.tasksRouter)
 
 module.exports = {
-    app
+    app,
+    default: app
 }

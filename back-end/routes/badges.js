@@ -40,5 +40,6 @@ badgesRouter.get('/badges', async (req, res) => {
 
 module.exports = {
     badgesRouter,
-    setError
+    setError,
+    default: badgesRouter
 }

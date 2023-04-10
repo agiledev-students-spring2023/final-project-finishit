@@ -39,5 +39,6 @@ tasksRouter.get('/tasks', async (req, res) => {
 })
 
 module.exports = {
-    tasksRouter
+    tasksRouter,
+    default: tasksRouter
 }
