@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom'
+import { Link, navigate, useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 import './Create.css'
+import axios from 'axios'
 
 const Create = props => {
     const [username, setUsername] = useState('')
@@ -24,9 +25,24 @@ const Create = props => {
         setMotherMaidenName(event.target.value)
     }
 
-    const handleSubmit = event => {
+    const handleSubmit = async event => {
         event.preventDefault()
-        console.log(`Username: ${username} Password: ${password} Pet Name: ${petName} Mother Maiden Name: ${motherMaidenName}`)
+        const payload = {
+            username,
+            password,
+            petName,
+            motherName: motherMaidenName
+        }
+
+        console.log('payload', payload)
+
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/create`, payload)
+            console.log('response', response)
+            window.location = '/login'
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     return (
@@ -34,34 +50,32 @@ const Create = props => {
             <h1>Create New Account</h1>
             <form onSubmit={handleSubmit}>
                 <label>
-                    <input className="inputBox3" type="text" placeholder="Username" value={username} onChange={handleUsernameChange} />
+                    <input className="inputCreate" type="text" placeholder="Username" value={username} onChange={handleUsernameChange} />
                 </label>
                 <br />
                 <br />
                 <label>
-                    <input className="inputBox3" type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
+                    <input className="inputCreate" type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
                 </label>
                 <br />
                 <br />
                 <label>
-                    <input className="inputBox3" type="text" placeholder="What is the name of your first pet?" value={petName} onChange={handlePetNameChange} />
+                    <input className="inputCreate" type="text" placeholder="What is the name of your first pet?" value={petName} onChange={handlePetNameChange} />
                 </label>
                 <br />
                 <br />
                 <label>
-                    <input className="inputBox3" type="text" placeholder="What is your mother's maiden name?" value={motherMaidenName} onChange={handleMotherMaidenNameChange} />
+                    <input className="inputCreate" type="text" placeholder="What is your mother's maiden name?" value={motherMaidenName} onChange={handleMotherMaidenNameChange} />
                 </label>
                 <br />
                 <br />
                 <br />
-                <Link to="/Login">
-                    <button className="submitButton" type="submit">Create Account</button>
-                </Link>
+                <button className="submitButton" type="submit">Create Account</button>
                 <br />
                 <br />
                 <p>
                     Already have an account?
-                    <Link className="loginText" to="/login">Log in</Link>
+                    <Link className="loginText" to="/login"> Log in</Link>
                 </p>
             </form>
         </div>
