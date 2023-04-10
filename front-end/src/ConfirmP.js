@@ -27,13 +27,13 @@ const ConfirmP = props => {
             <br />
             <form onSubmit={handleSubmit}>
                 <label>
-                    <input className="inputBox6" type="password" placeholder="New Password" value={newPassword} onChange={handleNewPasswordChange} />
+                    <input className="inputConfirm" type="password" placeholder="New Password" value={newPassword} onChange={handleNewPasswordChange} />
                 </label>
                 <br />
                 <br />
                 <br />
                 <label>
-                    <input className="inputBox6" type="password" placeholder="Confirm New Password" value={confirmNewPassword} onChange={handleConfirmNewPasswordChange} />
+                    <input className="inputConfirm" type="password" placeholder="Confirm New Password" value={confirmNewPassword} onChange={handleConfirmNewPasswordChange} />
                 </label>
                 <br />
                 <br />
