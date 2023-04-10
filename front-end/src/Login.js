@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 import './Login.css'
+import axios from 'axios'
 
 const Login = props => {
     const navigate = useNavigate()
@@ -16,10 +17,19 @@ const Login = props => {
         setPassword(event.target.value)
     }
 
-    const handleSubmit = event => {
+    const handleSubmit = async event => {
         event.preventDefault()
-        console.log(`Username: ${username} Password: ${password}`)
-        navigate('/')
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/login`, { username, password })
+            console.log('response', response)
+            const token = response.data.token
+            console.log('token')
+            localStorage.setItem('token', token)
+            // redirect to protected route
+            window.location = '/'
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     return (
@@ -29,13 +39,13 @@ const Login = props => {
             <br />
             <form onSubmit={handleSubmit}>
                 <label>
-                    <input className="inputBox" type="text" placeholder="Username" value={username} onChange={handleUsernameChange} />
+                    <input className="inputLogin" type="text" placeholder="Username" value={username} onChange={handleUsernameChange} />
                 </label>
                 <br />
                 <br />
                 <br />
                 <label>
-                    <input className="inputBox" type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
+                    <input className="inputLogin" type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
                 </label>
                 <br />
                 <br />
@@ -46,7 +56,7 @@ const Login = props => {
                 <br />
                 <p>
                     Dont have an account?
-                    <Link class="loginText" to="/create">Sign up</Link>
+                    <Link class="loginText" to="/create"> Sign up</Link>
                 </p>
             </form>
         </div>
