@@ -6,14 +6,16 @@ import axios from 'axios'
 const EditTask = props => {
     const [date, setDate] = useState('')
     const dateInputRef = useRef(null)
-    const handleChange = e => {
-        setDate(e.target.value)
-    }
 
     const [name, setName] = useState('')
     const [duedate, setduedate] = useState('')
     const [remdate, setremdate] = useState('')
     const [error, setError] = useState('')
+    const handleChange = e => {
+        setName(e.target.value)
+        setduedate(e.target.value)
+        setremdate(e.target.value)
+    }
 
     const navigate = useNavigate()
 
@@ -41,7 +43,7 @@ const EditTask = props => {
     return (
         <>
             <h1>Task</h1>
-            <form method="POST" onSubmit={e => handleSubmit(e)}>
+            <form method="POST" onSubmit={e => handleSubmit(e)} onChange={e => handleChange}>
                 <div>
                     <label>Name of Task:</label>
                     <br />
