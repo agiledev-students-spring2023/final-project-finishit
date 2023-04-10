@@ -1,10 +1,13 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 import './ConfirmP.css'
+import axios from 'axios'
 
 const ConfirmP = props => {
     const [newPassword, setNewPassword] = useState('')
     const [confirmNewPassword, setConfirmNewPassword] = useState('')
+
+    const navigate = useNavigate()
 
     const handleNewPasswordChange = event => {
         setNewPassword(event.target.value)
@@ -14,9 +17,28 @@ const ConfirmP = props => {
         setConfirmNewPassword(event.target.value)
     }
 
-    const handleSubmit = event => {
+    const handleSubmit = async event => {
         event.preventDefault()
-        console.log(`New password: ${newPassword}`)
+        if (newPassword !== confirmNewPassword) {
+            alert('Passwords must match!')
+            return
+        }
+
+        const payload = {
+            username: localStorage.getItem('username'),
+            newPassword
+        }
+
+        try {
+            const response = await axios.patch(
+                'http://localhost:5002/auth/reset-password',
+                payload
+            )
+
+            navigate('/login')
+        } catch (err) {
+            alert(err.message)
+        }
         // window.location.href = '/profile';
     }
 
@@ -38,9 +60,7 @@ const ConfirmP = props => {
                 <br />
                 <br />
                 <br />
-                <Link to="/Login">
-                    <button className="submitButton" type="submit">Confirm Changes</button>
-                </Link>
+                <button className="submitButton" type="submit">Confirm Changes</button>
                 <br />
                 <br />
                 <p>OR</p>

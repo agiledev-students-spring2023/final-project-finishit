@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './Settings.css'
+import axios from 'axios'
 
 const Settings = props => {
     const [currentUsername, setCurrentUsername] = useState('')
@@ -31,25 +32,6 @@ const Settings = props => {
         }
     }
 
-    const handleConfirmChanges = () => {
-        // Check if new username and confirm new username match
-        if (newUsername !== confirmNewUsername) {
-            alert('New username and confirm new username do not match')
-            return
-        }
-
-        // Check if new password and confirm new password match
-        if (newPassword !== confirmNewPassword) {
-            alert('New password and confirm new password do not match')
-            return
-        }
-
-        // Make API call to update user information
-        // ...
-
-        alert('Changes have been saved')
-    }
-
     const handleDeleteAccount = () => {
         // Make API call to delete user account
         // ...
@@ -57,10 +39,37 @@ const Settings = props => {
         alert('Account has been deleted')
     }
 
+    const submitHandler = async e => {
+        e.preventDefault()
+        const paylaod = {
+            username: newUsername,
+            password: newPassword
+        }
+
+        console.log('payload in setting', paylaod)
+
+        try {
+            const response = await axios.put(
+                `${process.env.REACT_APP_SERVER_HOSTNAME}/auth/`,
+                paylaod,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                }
+            )
+
+            localStorage.clear()
+            window.location = '/login'
+        } catch (err) {
+            alert(err.message)
+        }
+    }
+
     return (
         <div>
             <h1>Settings</h1>
-            <form>
+            <form onSubmit={submitHandler}>
                 <h2>Change Username</h2>
                 <label>
                     <input className="inputBox5" type="text" name="currentUsername" placeholder="Current Username" value={currentUsername} onChange={handleUsernameChange} />
@@ -93,7 +102,7 @@ const Settings = props => {
                 </label>
                 <br />
                 <br />
-                <button type="submit" className="submitButton" onClick={handleConfirmChanges}>Confirm Changes</button>
+                <button type="submit" className="submitButton" onClick={submitHandler}>Confirm Changes</button>
                 <br />
                 <br />
                 <button type="submit" className="submitButton" onClick={handleDeleteAccount}>Delete Account</button>
