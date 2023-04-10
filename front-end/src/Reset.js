@@ -17,17 +17,17 @@ const Reset = props => {
             <h1>Trouble Logging In? Verify your Identity</h1>
             <form onSubmit={handleSubmit}>
                 <label>
-                    <input className="inputBox4" type="text" placeholder="Current Username" value={username} onChange={e => setUsername(e.target.value)} />
+                    <input className="inputReset" type="text" placeholder="Current Username" value={username} onChange={e => setUsername(e.target.value)} />
                 </label>
                 <br />
                 <br />
                 <label>
-                    <input className="inputBox4" type="text" placeholder="What is the name of your first pet?" value={petName} onChange={e => setPetName(e.target.value)} />
+                    <input className="inputReset" type="text" placeholder="What is the name of your first pet?" value={petName} onChange={e => setPetName(e.target.value)} />
                 </label>
                 <br />
                 <br />
                 <label>
-                    <input className="inputBox4" type="text" placeholder="What is your mother's maiden name?" value={motherMaidenName} onChange={e => setMotherMaidenName(e.target.value)} />
+                    <input className="inputReset" type="text" placeholder="What is your mother's maiden name?" value={motherMaidenName} onChange={e => setMotherMaidenName(e.target.value)} />
                 </label>
                 <br />
                 <br />
