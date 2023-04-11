@@ -1,8 +1,9 @@
-/*eslint-disable*/
+/*
 const express = require('express')
-const sampleTasks = require('./tasks')
+// const sampleTasks = require('./tasks')
 
 const editrouter = express.Router()
+const sampleTasks = require('./tasks').sampleTasks
 
 const daysAgo = days => {
     const d = new Date()
@@ -10,11 +11,18 @@ const daysAgo = days => {
     return d
 }
 
-editrouter.post('/edittask', async (req, res) => {
+let devError = false
+
+function setError(err) {
+    devError = err
+}
+
+editrouter.post('/newtask', async (req, res) => {
     const task = req.body
     console.log(JSON.stringify(task, null, 2))
 
-    res.send('task has been edited')
+    // sampleTasks.push(task)
+    res.send('New task has been stored. Thank you!')
     console.log(sampleTasks)
 })
 
@@ -32,24 +40,9 @@ editrouter.get('/tasks', async (req, res) => {
     }
 })
 
-editrouter.put('/users/:id', async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { name, duedate, remdate } = req.body;
-  
-      const user = await User.findByIdAndUpdate(
-        id,
-        { name, duedate, remdate },
-        { new: true }
-      );
-  
-      res.json(user);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
-    }
-  })
-
-module.exports = editrouter
-
-export default editrouter
+module.exports = {
+    editrouter,
+    setError,
+    default: editrouter
+}
+*/
