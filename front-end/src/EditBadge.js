@@ -4,8 +4,6 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios'
 
 const EditBadge = props => {
-    const { id } = useParams()
-
     const textColorFromBackground = background => {
         const hexToRGB = hex => {
             const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
@@ -25,36 +23,38 @@ const EditBadge = props => {
     const [oldColor, setOldColor] = useState(badge.color)
     const [oldText, setOldText] = useState(badge.description)
 
+    const { id } = useParams()
+
     useEffect(() => {
         const fetchBadge = () => {
             axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/badges/${id}`)
                 .then(response => {
-                    setBadge(response.data.badge)
-                    setBadgeColor(badge.color)
-                    setBadgeText(badge.text)
-                    setOldColor(badge.color)
-                    setOldText(badge.text)
+                    const dataBadge = response.data.badge
+                    setBadge(dataBadge)
+                    setBadgeColor(dataBadge.color)
+                    setBadgeText(dataBadge.text)
+                    setOldColor(dataBadge.color)
+                    setOldText(dataBadge.text)
                 }).catch(err => {
                     console.log(err)
                 })
         }
-
         fetchBadge()
-    }, [])
+    }, [id])
 
     return (
         <div id="badgeform">
             <form action="/badges">
                 <label>Badge Color</label>
                 <br />
-                <input id="badgecolor" type="color" value={badgeColor} onChange={e => setBadgeColor(e.target.value)} />
+                <input id="badgecolor" type="color" value={badgeColor ?? '#0000ff'} onChange={e => setBadgeColor(e.target.value)} />
                 <br />
                 <span>(Click the colored section to change the color.)</span>
                 <br />
                 <br />
                 <label>Badge Text</label>
                 <br />
-                <input className="inputBox" type="text" value={badgeText} onChange={e => setBadgeText(e.target.value)} />
+                <input className="inputBox" type="text" value={badgeText ?? 'Placeholder'} onChange={e => setBadgeText(e.target.value)} />
                 <br />
                 <br />
                 <label>Previous Badge Preview</label>
