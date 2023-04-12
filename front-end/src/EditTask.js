@@ -83,7 +83,7 @@ const EditTask = props => {
                 </div>
 
                 <div>
-                    <Link to="/"><button className="submitButton deleteButton" type="submit">Delete Task</button></Link>
+                    <button className="submitButton deleteButton" type="submit">Delete Task</button>
                 </div>
             </form>
         </>

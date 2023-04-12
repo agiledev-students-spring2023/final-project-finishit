@@ -1,9 +1,7 @@
-/*
 const express = require('express')
-// const sampleTasks = require('./tasks')
+const { sampleTasks } = require('./tasks')
 
 const editrouter = express.Router()
-const sampleTasks = require('./tasks').sampleTasks
 
 const daysAgo = days => {
     const d = new Date()
@@ -11,22 +9,20 @@ const daysAgo = days => {
     return d
 }
 
-let devError = false
-
-function setError(err) {
-    devError = err
-}
-
-editrouter.post('/newtask', async (req, res) => {
+editrouter.post('/edittask/:id', async (req, res) => {
     const task = req.body
+    console.log(task)
+    let sampleTasks1 = []
+    sampleTasks1 = sampleTasks1.concat(sampleTasks)
+    sampleTasks1 = sampleTasks1.concat(task)
+    sampleTasks1.splice(sampleTasks1.findIndex(':id'), 1)
+    // sampleTasks1.pop()
     console.log(JSON.stringify(task, null, 2))
-
-    // sampleTasks.push(task)
-    res.send('New task has been stored. Thank you!')
-    console.log(sampleTasks)
+    console.log(sampleTasks1)
+    res.send('task has been edited')
 })
 
-editrouter.get('/tasks', async (req, res) => {
+editrouter.get('/tasks/:id', async (req, res) => {
     try {
         res.json({
             tasks: sampleTasks
@@ -41,8 +37,7 @@ editrouter.get('/tasks', async (req, res) => {
 })
 
 module.exports = {
+    sampleTasks,
     editrouter,
-    setError,
     default: editrouter
 }
-*/

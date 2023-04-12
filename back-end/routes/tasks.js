@@ -48,6 +48,7 @@ tasksRouter.get('/tasks', async (req, res) => {
 })
 
 module.exports = {
+    sampleTasks,
     tasksRouter,
     setError,
     default: tasksRouter
