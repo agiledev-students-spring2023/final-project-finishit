@@ -1,6 +1,6 @@
 import './EditBadge.css'
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 const EditBadge = props => {
@@ -25,6 +25,19 @@ const EditBadge = props => {
 
     const { id } = useParams()
 
+    const navigate = useNavigate()
+
+    const handleSubmit = e => {
+        e.preventDefault()
+        axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/badges/${id}`, {
+            editedBadge: { id: parseInt(id, 10), color: badgeColor, text: badgeText }
+        }).then(response => {
+            if (response.data.changedSuccess) {
+                navigate('/badges')
+            }
+        })
+    }
+
     useEffect(() => {
         const fetchBadge = () => {
             axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/badges/${id}`)
@@ -44,7 +57,7 @@ const EditBadge = props => {
 
     return (
         <div id="badgeform">
-            <form action="/badges">
+            <form onSubmit={e => handleSubmit(e)}>
                 <label>Badge Color</label>
                 <br />
                 <input id="badgecolor" type="color" value={badgeColor ?? '#0000ff'} onChange={e => setBadgeColor(e.target.value)} />

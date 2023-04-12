@@ -42,21 +42,38 @@ badgesRouter.get('/badges/:id', async (req, res) => {
         if (devError) {
             throw new Error('simulated error')
         }
-        const toRet = badges.find(ele => {
-            return (ele.id === parseInt(req.params.id))
-        })
-        if(toRet===undefined){
+        const toRet = badges.find(ele => (ele.id === parseInt(req.params.id, 10)))
+        if (toRet === undefined) {
             console.log(`Couldn't find badge while searching for ${req.params.id}`)
-        }else{
+        } else {
             console.log(toRet)
         }
         res.json({
-            badge: toRet ?? {id: parseInt(req.params.id), color: '#0000ff', description: 'unfound'}
+            badge: toRet ?? { id: parseInt(req.params.id, 10), color: '#0000ff', description: 'unfound' }
         })
     } catch (err) {
         res.status(500).json({
             error: err,
             status: 'failed to retrieve specified badge from the database'
+        })
+    }
+})
+
+badgesRouter.post('/badges/:id', async (req, res) => {
+    try {
+        if (devError) {
+            throw new Error('simulated error')
+        }
+        const toChange = badges.findIndex(ele => (ele.id === parseInt(req.params.id, 10)))
+        badges[toChange] = req.body.editedBadge
+        res.json({
+            changedSuccess: true
+        })
+        console.log(badges[toChange])
+    } catch (err) {
+        res.status(500).json({
+            error: err,
+            status: 'failed to edit specified badge from the database'
         })
     }
 })
