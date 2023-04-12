@@ -47,7 +47,7 @@ const App = props => (
 
                     {/* routes for creating and editing badges */}
                     <Route path="/newbadge" element={<NewBadge />} />
-                    <Route path="/editbadge" element={<EditBadge />} />
+                    <Route path="/editbadge/:id" element={<EditBadge />} />
 
                 </Routes>
             </main>

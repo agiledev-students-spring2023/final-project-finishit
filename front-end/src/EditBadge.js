@@ -1,7 +1,11 @@
 import './EditBadge.css'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import axios from 'axios'
 
 const EditBadge = props => {
+    const { id } = useParams()
+
     const textColorFromBackground = background => {
         const hexToRGB = hex => {
             const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
@@ -14,13 +18,29 @@ const EditBadge = props => {
         return (rgb[0] * 0.299 + rgb[1] * 0.587 + rgb[2] * 0.114) > 154 ? 'black' : 'white'
     }
 
-    const [badge] = useState({ color: '#ff0000', text: 'Sample Editable Text' })
-
-    const oldColor = badge.color
-    const oldText = badge.text
-
+    const [badge, setBadge] = useState({ id: 0, color: '#0000ff', description: 'Badge not found' })
     const [badgeColor, setBadgeColor] = useState(badge.color)
-    const [badgeText, setBadgeText] = useState(badge.text)
+    const [badgeText, setBadgeText] = useState(badge.description)
+
+    const [oldColor, setOldColor] = useState(badge.color)
+    const [oldText, setOldText] = useState(badge.description)
+
+    useEffect(() => {
+        const fetchBadge = () => {
+            axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/badges/${id}`)
+                .then(response => {
+                    setBadge(response.data.badge)
+                    setBadgeColor(badge.color)
+                    setBadgeText(badge.text)
+                    setOldColor(badge.color)
+                    setOldText(badge.text)
+                }).catch(err => {
+                    console.log(err)
+                })
+        }
+
+        fetchBadge()
+    }, [])
 
     return (
         <div id="badgeform">
