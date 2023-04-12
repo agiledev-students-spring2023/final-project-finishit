@@ -37,17 +37,29 @@ badgesRouter.get('/badges', async (req, res) => {
     }
 })
 
+badgesRouter.post('/badges', async (req, res) => {
+    try {
+        if (devError) {
+            throw new Error('simulated error')
+        }
+        badges.push(req.body.newBadge)
+        res.json({
+            addSuccess: true
+        })
+    } catch (err) {
+        res.status(500).json({
+            error: err,
+            status: 'failed to add new badge from the database'
+        })
+    }
+})
+
 badgesRouter.get('/badges/:id', async (req, res) => {
     try {
         if (devError) {
             throw new Error('simulated error')
         }
         const toRet = badges.find(ele => (ele.id === parseInt(req.params.id, 10)))
-        if (toRet === undefined) {
-            console.log(`Couldn't find badge while searching for ${req.params.id}`)
-        } else {
-            console.log(toRet)
-        }
         res.json({
             badge: toRet ?? { id: parseInt(req.params.id, 10), color: '#0000ff', description: 'unfound' }
         })
@@ -69,7 +81,24 @@ badgesRouter.post('/badges/:id', async (req, res) => {
         res.json({
             changedSuccess: true
         })
-        console.log(badges[toChange])
+    } catch (err) {
+        res.status(500).json({
+            error: err,
+            status: 'failed to edit specified badge from the database'
+        })
+    }
+})
+
+badgesRouter.get('/rmBadge/:id', async (req, res) => {
+    try {
+        if (devError) {
+            throw new Error('simulated error')
+        }
+        const toRm = badges.findIndex(ele => (ele.id === parseInt(req.params.id, 10)))
+        badges.splice(toRm, 1)
+        res.json({
+            deleteSuccess: true
+        })
     } catch (err) {
         res.status(500).json({
             error: err,

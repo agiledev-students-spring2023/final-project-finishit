@@ -38,6 +38,16 @@ const EditBadge = props => {
         })
     }
 
+    const handleDelete = e => {
+        e.preventDefault()
+        axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/rmBadge/${id}`)
+            .then(response => {
+                if (response.data.deleteSuccess) {
+                    navigate('/badges')
+                }
+            })
+    }
+
     useEffect(() => {
         const fetchBadge = () => {
             axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/badges/${id}`)
@@ -87,6 +97,8 @@ const EditBadge = props => {
                 <center><button className="submitButton" type="submit">Update Badge</button></center>
                 <br />
                 <br />
+            </form>
+            <form onSubmit={e => handleDelete(e)}>
                 <center><button className="submitButton deleteButton" type="submit">Delete Badge</button></center>
             </form>
         </div>
