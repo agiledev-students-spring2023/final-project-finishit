@@ -60,7 +60,7 @@ tasksRouter.get('/tasks/:id', async (req, res) => {
         }
 
         res.json({
-            tasks: sampleTasks.get(task.id)
+            tasks: sampleTasks.filter(item => item.id === parseInt(req.params.id, 10))
         })
     } catch (err) {
         res.status(500).json({

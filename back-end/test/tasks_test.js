@@ -16,6 +16,18 @@ describe('/tasks route', () => {
         done()
     })
 
+    it('should return a single task', done => {
+        tasksRouter.setError(false)
+        chai.request(app)
+            .get('/tasks/1')
+            .end((err, res) => {
+                expect(res).to.have.status(200)
+                console.log(res.body)
+                expect(res.body.tasks[0].id).to.equal(1)
+                done()
+            })
+    })
+
     it('should return an array of tasks', done => {
         chai.request(app)
             .get('/tasks')
@@ -35,5 +47,28 @@ describe('/tasks route', () => {
             expect(res).to.have.status(500)
             done()
         })
+    })
+
+    it('should throw an error for a single task', done => {
+        tasksRouter.setError(true)
+        chai.request(app).get('/tasks/1').end((err, res) => {
+            // console.log(res)
+            expect(res.error).to.be.instanceOf(Error)
+            expect(res).to.be.json
+            expect(res).to.have.status(500)
+            done()
+        })
+    })
+
+    it('should show no tasks when tasks are wiped', done => {
+        tasksRouter.setError(false)
+        tasksRouter.setSampleTasks([])
+        chai.request(app)
+            .get('/tasks')
+            .end((err, res) => {
+                expect(res).to.have.status(200)
+                expect(res.body.tasks).to.be.an('array').that.is.empty
+                done()
+            })
     })
 })

@@ -5,10 +5,10 @@ const editrouter = express.Router()
 let sampleTasks1 = []
 sampleTasks1 = sampleTasks1.concat(sampleTasks)
 
-const daysAgo = days => {
-    const d = new Date()
-    d.setDate(d.getDate() + days)
-    return d
+let devError = false
+
+function setError(err) {
+    devError = err
 }
 
 editrouter.post('/edittask/:id', async (req, res) => {
@@ -29,26 +29,6 @@ editrouter.post('/edittask/:id', async (req, res) => {
     sampleTasks1 = sampleTasks1.concat(taskInCorrectFormat)
     setSampleTasks(sampleTasks1)
     res.send('task has been edited')
-})
-
-let devError = false
-
-function setError(err) {
-    devError = err
-}
-
-editrouter.get('/tasks/:id', async (req, res) => {
-    try {
-        res.json({
-            tasks: sampleTasks
-        })
-    } catch (err) {
-        console.error(err)
-        res.status(400).json({
-            error: err,
-            status: 'failed to retrieve tasks from the database'
-        })
-    }
 })
 
 editrouter.post('/tasks/:id', async (req, res) => {
@@ -72,5 +52,6 @@ editrouter.post('/tasks/:id', async (req, res) => {
 module.exports = {
     sampleTasks,
     editrouter,
+    setError,
     default: editrouter
 }
