@@ -41,6 +41,16 @@ const Settings = props => {
 
     const submitHandler = async e => {
         e.preventDefault()
+
+        if (newUsername !== confirmNewUsername) {
+            alert('both usernames must match')
+            return
+        }
+        if (newPassword !== confirmNewPassword) {
+            alert('both passwords must match!')
+            return
+        }
+
         const paylaod = {
             username: newUsername,
             password: newPassword
