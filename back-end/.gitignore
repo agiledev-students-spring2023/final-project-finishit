@@ -23,3 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 package-lock.json
+
+#ignoring users.json
+data/users.json
