@@ -17,6 +17,13 @@ describe('newrouter', () => {
         done()
     })
 
+    it('should return a response in json format', done => {
+        chai.request(app).get('/tasks').end((err, res) => {
+            expect(res).to.be.json
+            done()
+        })
+    })
+
     it('should throw an error if something goes wrong', done => {
         newRouter.setError(true)
         chai.request(app).get('/tasks').end((err, res) => {
@@ -27,4 +34,20 @@ describe('newrouter', () => {
             done()
         })
     })
+
+    it('should return a new task', done =>{
+        newRouter.setError(true)
+        chai.request(app.post('/newtask')).end((err, res) => {
+            // console.log(res)
+            expect(res.error).to.be.instanceOf(Error)
+            expect(res).to.be.json
+            expect(res).to.have.status(500)
+            done()
+        })
+
+
+
+
+    })
 })
+

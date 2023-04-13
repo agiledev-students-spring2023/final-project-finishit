@@ -17,6 +17,13 @@ describe('editrouter', () => {
         done()
     })
 
+    it('should return a response in json format', done => {
+        chai.request(app).get('/badges').end((err, res) => {
+            expect(res).to.be.json
+            done()
+        })
+    })
+
     it('should throw an error if something goes wrong', done => {
         editRouter.setError(true)
         chai.request(app).get('/tasks').end((err, res) => {

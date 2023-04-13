@@ -41,6 +41,7 @@ const App = props => (
                     {/* routes for creating and editing tasks */}
                     <Route path="/newtask" element={<NewTask />} />
                     <Route path="/edittask" element={<EditTask />} />
+                    <Route path="/edittask/:id" element={<EditTask />} />
 
                     {/* a route to the badge landing page */}
                     <Route path="/badges" element={<BadgeHome />} />

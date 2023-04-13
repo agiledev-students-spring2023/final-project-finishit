@@ -47,6 +47,25 @@ tasksRouter.get('/tasks', async (req, res) => {
     }
 })
 
+// make a single route for one task
+tasksRouter.get('/tasks/:id', async (req, res) => {
+    const task = req.body
+    try {
+        if (devError) {
+            throw new Error('simulated error')
+        }
+
+        res.json({
+            tasks: sampleTasks.get(task.id)
+        })
+    } catch (err) {
+        res.status(500).json({
+            error: err,
+            status: 'failed to retrieve tasks from the database'
+        })
+    }
+})
+
 module.exports = {
     sampleTasks,
     tasksRouter,
