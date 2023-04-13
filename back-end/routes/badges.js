@@ -6,13 +6,13 @@ const express = require('express')
 const badgesRouter = express.Router()
 
 const badges = [
-    { color: '#000000', text: 'Category 1' },
-    { color: '#ffffff', text: 'Category 2' },
-    { color: '#ff0000', text: 'Category 3' },
-    { color: '#ccff99', text: 'Category 4' },
-    { color: '#ff0000', text: 'Urgent' },
-    { color: '#f5b942', text: 'Medium Priority' },
-    { color: '#8d32a8', text: 'Tentative' }
+    { id: 0, color: '#000000', text: 'Category 1' },
+    { id: 1, color: '#ffffff', text: 'Category 2' },
+    { id: 2, color: '#ff0000', text: 'Category 3' },
+    { id: 3, color: '#ccff99', text: 'Category 4' },
+    { id: 4, color: '#ff0000', text: 'Urgent' },
+    { id: 5, color: '#f5b942', text: 'Medium Priority' },
+    { id: 6, color: '#8d32a8', text: 'Tentative' }
 ]
 
 let devError = false
@@ -30,10 +30,79 @@ badgesRouter.get('/badges', async (req, res) => {
             badges
         })
     } catch (err) {
-        // console.error(err)
         res.status(500).json({
             error: err,
             status: 'failed to retrieve badges from the database'
+        })
+    }
+})
+
+badgesRouter.post('/badges', async (req, res) => {
+    try {
+        if (devError) {
+            throw new Error('simulated error')
+        }
+        badges.push(req.body.newBadge)
+        res.json({
+            addSuccess: true
+        })
+    } catch (err) {
+        res.status(500).json({
+            error: err,
+            status: 'failed to add new badge from the database'
+        })
+    }
+})
+
+badgesRouter.get('/badges/:id', async (req, res) => {
+    try {
+        if (devError) {
+            throw new Error('simulated error')
+        }
+        const toRet = badges.find(ele => (ele.id === parseInt(req.params.id, 10)))
+        res.json({
+            badge: toRet ?? { id: parseInt(req.params.id, 10), color: '#0000ff', description: 'unfound' }
+        })
+    } catch (err) {
+        res.status(500).json({
+            error: err,
+            status: 'failed to retrieve specified badge from the database'
+        })
+    }
+})
+
+badgesRouter.post('/badges/:id', async (req, res) => {
+    try {
+        if (devError) {
+            throw new Error('simulated error')
+        }
+        const toChange = badges.findIndex(ele => (ele.id === parseInt(req.params.id, 10)))
+        badges[toChange] = req.body.editedBadge
+        res.json({
+            changedSuccess: true
+        })
+    } catch (err) {
+        res.status(500).json({
+            error: err,
+            status: 'failed to edit specified badge from the database'
+        })
+    }
+})
+
+badgesRouter.get('/rmBadge/:id', async (req, res) => {
+    try {
+        if (devError) {
+            throw new Error('simulated error')
+        }
+        const toRm = badges.findIndex(ele => (ele.id === parseInt(req.params.id, 10)))
+        badges.splice(toRm, 1)
+        res.json({
+            deleteSuccess: true
+        })
+    } catch (err) {
+        res.status(500).json({
+            error: err,
+            status: 'failed to edit specified badge from the database'
         })
     }
 })

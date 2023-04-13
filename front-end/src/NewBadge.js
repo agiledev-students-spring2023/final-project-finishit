@@ -1,5 +1,7 @@
 import './NewBadge.css'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 const NewBadge = props => {
     const textColorFromBackground = background => {
@@ -17,9 +19,24 @@ const NewBadge = props => {
     const [badgeColor, setBadgeColor] = useState('#000000')
     const [badgeText, setBadgeText] = useState('Sample Label Text')
 
+    const navigate = useNavigate()
+
+    const handleSubmit = e => {
+        e.preventDefault()
+        // to generate unique id
+        const curTime = Date.now()
+        axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/badges`, {
+            newBadge: { id: curTime, color: badgeColor, text: badgeText }
+        }).then(response => {
+            if (response.data.addSuccess) {
+                navigate('/badges')
+            }
+        })
+    }
+
     return (
         <div id="badgeform">
-            <form action="/badges">
+            <form onSubmit={e => handleSubmit(e)}>
                 <label>Badge Color</label>
                 <br />
                 <input id="badgecolor" type="color" value={badgeColor} onChange={e => setBadgeColor(e.target.value)} />
