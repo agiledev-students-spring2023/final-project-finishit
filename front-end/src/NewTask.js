@@ -20,7 +20,7 @@ const NewTask = props => {
     const handleSubmit = e => {
         e.preventDefault() // prevent the default browser form submission stuff
         axios
-            .post('http://localhost:5002/newtask', {
+            .post(`${process.env.REACT_APP_SERVER_HOSTNAME}/newtask`, {
                 stringname: name,
                 dateduedate: duedate,
                 dateremdate: remdate

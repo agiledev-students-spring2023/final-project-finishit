@@ -1,55 +1,69 @@
-/*eslint-disable*/
 const express = require('express')
-const sampleTasks = require('./tasks')
+const { sampleTasks, setSampleTasks } = require('./tasks')
 
 const editrouter = express.Router()
+let sampleTasks1 = []
+sampleTasks1 = sampleTasks1.concat(sampleTasks)
 
-const daysAgo = days => {
-    const d = new Date()
-    d.setDate(d.getDate() + days)
-    return d
+let devError = false
+
+function setError(err) {
+    devError = err
 }
 
-editrouter.post('/edittask', async (req, res) => {
-    const task = req.body
-    console.log(JSON.stringify(task, null, 2))
+editrouter.post('/edittask/:id', async (req, res) => {
+    const taskFromForm = req.body
+    const taskIdFromForm = parseInt(req.params.id, 10)
 
+    const taskPrevVersion = sampleTasks1.filter(item => item.id === taskIdFromForm)[0]
+
+    const taskInCorrectFormat = {
+        id: taskIdFromForm,
+        title: taskFromForm.stringname,
+        dueDate: new Date(taskFromForm.dateduedate),
+        status: taskPrevVersion.status,
+        badges: taskPrevVersion.badges
+    }
+
+    sampleTasks1 = sampleTasks1.filter(item => item.id !== taskIdFromForm)
+    sampleTasks1 = sampleTasks1.concat(taskInCorrectFormat)
+    setSampleTasks(sampleTasks1)
     res.send('task has been edited')
-    console.log(sampleTasks)
 })
 
-editrouter.get('/tasks', async (req, res) => {
+editrouter.post('/tasks/:id', async (req, res) => {
+    const taskFromForm = req.body
+    const taskIdFromForm = parseInt(req.params.id, 10)
+
+    const taskPrevVersion = sampleTasks1.filter(item => item.id === taskIdFromForm)[0]
+    const taskInCorrectFormat = {
+        id: taskIdFromForm,
+        title: taskFromForm.stringname,
+        dueDate: new Date(taskFromForm.dateduedate),
+        status: taskPrevVersion.status,
+        badges: taskPrevVersion.badges
+    }
     try {
+        if (devError) {
+            throw new Error('simulated error')
+        }
+        const toDel = parseInt(req.params.id, 10)
+        sampleTasks1 = sampleTasks1.filter(item => item.id !== toDel)
+        setSampleTasks(sampleTasks1)
         res.json({
-            tasks: sampleTasks
+            deleteSuccess: true
         })
     } catch (err) {
-        console.error(err)
-        res.status(400).json({
+        res.status(500).json({
             error: err,
-            status: 'failed to retrieve tasks from the database'
+            status: 'failed to delete'
         })
     }
 })
 
-editrouter.put('/users/:id', async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { name, duedate, remdate } = req.body;
-  
-      const user = await User.findByIdAndUpdate(
-        id,
-        { name, duedate, remdate },
-        { new: true }
-      );
-  
-      res.json(user);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
-    }
-  })
-
-module.exports = editrouter
-
-export default editrouter
+module.exports = {
+    sampleTasks,
+    editrouter,
+    setError,
+    default: editrouter
+}

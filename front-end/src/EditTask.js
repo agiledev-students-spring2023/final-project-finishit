@@ -1,9 +1,10 @@
 import './EditTask.css'
 import React, { useRef, useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
 const EditTask = props => {
+    const { id } = useParams()
     const [date, setDate] = useState('')
     const dateInputRef = useRef(null)
 
@@ -20,19 +21,25 @@ const EditTask = props => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        axios.get('/tasks/').then(res => {
+        axios.get('/tasks').then(res => {
             setFormData(res.data)
         })
     })
 
-    const handleChange = e => {
-        setFormData({ ...formData, [e.target.name]: e.target.value })
+    const handleDelete = e => {
+        e.preventDefault()
+        axios.post(`http://localhost:5002/tasks/${id}`)
+            .then(response => {
+                if (response.data.deleteSuccess) {
+                    navigate('/')
+                }
+            })
     }
 
     const handleSubmit = async e => {
         e.preventDefault() // prevent the default browser form submission stuff
         axios
-            .post('http://localhost:5002/edittask', {
+            .post(`${process.env.REACT_APP_SERVER_HOSTNAME}/edittask/${id}`, {
                 stringname: name,
                 dateduedate: duedate,
                 dateremdate: remdate
@@ -48,13 +55,6 @@ const EditTask = props => {
                     'Invalid inputs, check again.'
                 )
             })
-    }
-
-    const handleSubmit2 = e => {
-        e.preventDefault()
-        axios.put('/tasks', formData).then(() => {
-            console.log('User updated successfully')
-        })
     }
 
     return (
@@ -81,9 +81,11 @@ const EditTask = props => {
                 <div>
                     <button className="submitButton" type="submit">Edit Task</button>
                 </div>
+            </form>
 
+            <form method="POST" onSubmit={e => handleDelete(e)}>
                 <div>
-                    <Link to="/"><button className="submitButton deleteButton" type="submit">Delete Task</button></Link>
+                    <button className="submitButton deleteButton" type="submit">Delete Task</button>
                 </div>
             </form>
         </>

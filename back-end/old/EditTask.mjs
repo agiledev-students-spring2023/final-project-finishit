@@ -53,4 +53,3 @@ editrouter.put('/users/:id', async (req, res) => {
 
 module.exports = editrouter
 
-export default editrouter
