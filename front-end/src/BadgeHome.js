@@ -16,12 +16,12 @@ const BadgeHome = props => {
     }
 
     const sampleBadges = [
-        { color: '#000000', text: 'Category 1' },
-        { color: '#ffffff', text: 'Category 2' },
-        { color: '#ff0000', text: 'Category 3' },
-        { color: '#ccff99', text: 'Category 4' },
-        { color: '#ff0000', text: 'Urgent' },
-        { color: '#f5b942', text: 'Medium Priority' }
+        { id: 0, color: '#000000', text: 'Category 1' },
+        { id: 1, color: '#ffffff', text: 'Category 2' },
+        { id: 2, color: '#ff0000', text: 'Category 3' },
+        { id: 3, color: '#ccff99', text: 'Category 4' },
+        { id: 4, color: '#ff0000', text: 'Urgent' },
+        { id: 5, color: '#f5b942', text: 'Medium Priority' }
     ]
 
     const [badges, setBadges] = useState(sampleBadges)
@@ -40,7 +40,7 @@ const BadgeHome = props => {
     useEffect(() => {
         // fetch badges this once
         fetchBadges()
-
+        /*
         // set a timer to load data from server every n seconds
         const intervalHandle = setInterval(() => {
             fetchBadges()
@@ -50,7 +50,7 @@ const BadgeHome = props => {
         return e => {
             // clear the timer, so we don't still load badges when this component is not loaded
             clearInterval(intervalHandle)
-        }
+        } */
     }, [])
 
     return (
@@ -62,7 +62,7 @@ const BadgeHome = props => {
             <br />
             {badges.map((badge, idx) => (
                 <React.Fragment key={idx}>
-                    <Link to="/editbadge">
+                    <Link to={`/editbadge/${badge.id}`}>
                         <span key={idx} className="badge" style={{ color: textColorFromBackground(badge.color), background: badge.color }}>{badge.text}</span>
                     </Link>
                 </React.Fragment>
