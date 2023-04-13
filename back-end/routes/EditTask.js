@@ -1,5 +1,5 @@
 const express = require('express')
-const { sampleTasks } = require('./tasks')
+const { sampleTasks, setSampleTasks } = require('./tasks')
 
 const editrouter = express.Router()
 let sampleTasks1 = []
@@ -12,16 +12,22 @@ const daysAgo = days => {
 }
 
 editrouter.post('/edittask/:id', async (req, res) => {
-    const task = req.body
-    const taskId = parseInt(req.params.id, 10)
-    console.log(task)
-    console.log(sampleTasks1)
-    sampleTasks1 = sampleTasks1.concat(task)
+    const taskFromForm = req.body
+    const taskIdFromForm = parseInt(req.params.id, 10)
 
-    // sampleTasks1.pop()
-    console.log(JSON.stringify(task, null, 2))
-    sampleTasks1 = sampleTasks1.filter(item => item.id !== taskId)
-    console.log(sampleTasks1)
+    const taskPrevVersion = sampleTasks1.filter(item => item.id === taskIdFromForm)[0]
+
+    const taskInCorrectFormat = {
+        id: taskIdFromForm,
+        title: taskFromForm.stringname,
+        dueDate: new Date(taskFromForm.dateduedate),
+        status: taskPrevVersion.status,
+        badges: taskPrevVersion.badges
+    }
+
+    sampleTasks1 = sampleTasks1.filter(item => item.id !== taskIdFromForm)
+    sampleTasks1 = sampleTasks1.concat(taskInCorrectFormat)
+    setSampleTasks(sampleTasks1)
     res.send('task has been edited')
 })
 
@@ -50,10 +56,8 @@ editrouter.post('/tasks/:id', async (req, res) => {
         if (devError) {
             throw new Error('simulated error')
         }
-        console.log(sampleTasks1)
         const toDel = parseInt(req.params.id, 10)
         sampleTasks1 = sampleTasks1.filter(item => item.id !== toDel)
-        console.log(sampleTasks1)
         res.json({
             deleteSuccess: true
         })

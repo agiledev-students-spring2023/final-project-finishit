@@ -11,7 +11,7 @@ const daysAgo = days => {
     return d
 }
 
-const sampleTasks = [
+let sampleTasks = [
     { id: 1, title: 'Finish essay', dueDate: daysAgo(-2), status: 'NOT_STARTED', badges: [{ id: 1, color: '#ff5733', text: 'School' }, { id: 2, color: '#4f2f4f', text: 'Writing' }] },
     { id: 2, title: 'Buy groceries', dueDate: daysAgo(2), status: 'IN_PROGRESS', badges: [{ id: 3, color: '#00bfff', text: 'Shopping' }] },
     { id: 3, title: 'Clean bathroom', dueDate: daysAgo(7), status: 'COMPLETED', badges: [{ id: 4, color: '#008000', text: 'Cleaning' }, { id: 9, color: '#8b4513', text: 'Home' }] },
@@ -28,6 +28,10 @@ let devError = false
 
 function setError(err) {
     devError = err
+}
+
+function setSampleTasks(newSampleTasks) {
+    sampleTasks = newSampleTasks
 }
 
 tasksRouter.get('/tasks', async (req, res) => {
@@ -70,5 +74,6 @@ module.exports = {
     sampleTasks,
     tasksRouter,
     setError,
+    setSampleTasks,
     default: tasksRouter
 }
