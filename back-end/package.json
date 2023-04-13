@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "nd": "npx nodemon server.js",
+    "nd": "npx nodemon --ignore 'data/users.json' server.js",
     "test": "nyc mocha --timeout=3000"
   },
   "author": "",
