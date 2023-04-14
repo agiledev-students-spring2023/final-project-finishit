@@ -24,7 +24,10 @@
         "object-curly-newline": 0,
         "comma-dangle": [2, "never"],
         "prefer-destructuring": 0,
-        "no-param-reassign": [2, { "props": false }]
+        "no-param-reassign": [2, { "props": false }],
+        "import/no-extraneous-dependencies": 0,
+        "no-underscore-dangle": 0,
+        "consistent-return": 0
     },
     "globals": {
         "__dirname": true
