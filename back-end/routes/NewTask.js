@@ -1,9 +1,38 @@
 const express = require('express')
+const mongoose = require('mongoose')
+const Schema = require('mongoose')
 const { sampleTasks, setSampleTasks } = require('./tasks')
 
 const newrouter = express.Router()
 let sampleTasks1 = []
 sampleTasks1 = sampleTasks1.concat(sampleTasks)
+
+try {
+    mongoose.connect(process.env.MONGODB_URI)
+    console.log('Connected to MongoDB.')
+} catch (err) {
+    console.log(
+        `Error connecting to MongoDB user account authentication will fail: ${err}`
+    )
+}
+
+const taskSchema = new Schema({
+    task: {
+        type: String,
+        unique: false,
+        required: true
+    },
+    duedate: {
+        type: Date,
+        unique: false,
+        required: true
+    },
+    remdate: {
+        type: Date,
+        unique: false,
+        required: true
+    }
+})
 
 newrouter.post('/newtask', async (req, res) => {
     const taskFromForm = req.body
