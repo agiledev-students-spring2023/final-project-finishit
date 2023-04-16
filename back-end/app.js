@@ -23,12 +23,11 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 // Connect to MongoDB.
-try {
-    mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(process.env.MONGODB_URI).then(() => {
     console.log('Connected to MongoDB.')
-} catch (err) {
+}).catch(err => {
     console.log(`Error connecting to MongoDB: ${err}`)
-}
+})
 
 // Specify routes (imported above).
 app.use('/', badgesRouter)
