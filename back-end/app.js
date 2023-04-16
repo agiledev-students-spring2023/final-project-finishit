@@ -5,6 +5,7 @@ const dotenv = require('dotenv')
 const morgan = require('morgan')
 // eslint-disable-next-line import/no-extraneous-dependencies
 const cors = require('cors')
+const mongoose = require('mongoose')
 
 // route imports
 const badgesRouter = require('./routes/badges').badgesRouter
@@ -29,6 +30,14 @@ app.use(express.json())
 // middleware to parse URL-encoded bodies
 app.use(express.urlencoded({ extended: true }))
 
+try {
+    mongoose.connect(process.env.MONGODB_URI)
+    console.log('Connected to MongoDB.')
+} catch (err) {
+    console.log(
+        `Error connecting to MongoDB user account authentication will fail: ${err}`
+    )
+}
 app.use('/', badgesRouter)
 app.use('/', tasksRouter)
 app.use('/', newrouter)

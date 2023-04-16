@@ -1,21 +1,14 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const Schema = require('mongoose')
 const { sampleTasks, setSampleTasks } = require('./tasks')
+const Task = require('../models/Task')
 
+const userTask = mongoose.Schema
 const newrouter = express.Router()
 let sampleTasks1 = []
 sampleTasks1 = sampleTasks1.concat(sampleTasks)
 
-try {
-    mongoose.connect(process.env.MONGODB_URI)
-    console.log('Connected to MongoDB.')
-} catch (err) {
-    console.log(
-        `Error connecting to MongoDB user account authentication will fail: ${err}`
-    )
-}
-
+/*
 const taskSchema = new Schema({
     task: {
         type: String,
@@ -33,6 +26,7 @@ const taskSchema = new Schema({
         required: true
     }
 })
+*/
 
 newrouter.post('/newtask', async (req, res) => {
     const taskFromForm = req.body
@@ -41,9 +35,9 @@ newrouter.post('/newtask', async (req, res) => {
     const taskInCorrectFormat = {
         id: taskIdFromForm,
         title: taskFromForm.stringname,
-        dueDate: new Date(taskFromForm.dateduedate),
-        status: taskPrevVersion.status,
-        badges: taskPrevVersion.badges
+        dueDate: new Date(taskFromForm.dateduedate)
+        // status: taskPrevVersion.status,
+        // badges: taskPrevVersion.badges
     }
     const task = req.body
     console.log(JSON.stringify(task, null, 2))
@@ -54,6 +48,13 @@ newrouter.post('/newtask', async (req, res) => {
     sampleTasks1.push(JSON.stringify(task, null, 2))
     console.log('after: ')
     console.log(sampleTasks1)
+    const SaveTask = new Task(req.body)
+    SaveTask
+        .save()
+        .then()
+        .catch()
+
+    // Task.save(SaveTask)
 })
 
 module.exports = {
