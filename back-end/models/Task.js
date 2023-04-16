@@ -10,7 +10,8 @@ const TaskSchema = new mongoose.Schema({
     dueDate: {
         type: Date,
         required: true
-    },
+    }
+    /*
     status: {
         type: String,
         required: true,
@@ -20,6 +21,7 @@ const TaskSchema = new mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId],
         default: []
     }
+    */
 })
 
 // Create a model from this schema.

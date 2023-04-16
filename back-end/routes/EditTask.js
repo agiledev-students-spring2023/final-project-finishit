@@ -33,14 +33,12 @@ editrouter.post('/edittask/:id', async (req, res) => {
     sampleTasks1 = sampleTasks1.concat(taskInCorrectFormat)
     setSampleTasks(sampleTasks1)
     res.send('task has been edited')
-    Task.findOne({ id: taskIdFromForm }, (error, result) => {
-        if (error) {
-            console.log(error)
-        } else {
-            result.title = taskFromForm.stringname
-            result.dueDate = taskFromForm.dueDate
-        }
-    })
+    const SaveTask = new Task(req.body)
+    SaveTask
+        .updateOne({ id: taskIdFromForm,
+            title: req.body.stringname,
+            dueDate: req.body.dateduedate })
+        .then()
 })
 
 editrouter.post('/tasks/:id', async (req, res) => {
@@ -51,9 +49,9 @@ editrouter.post('/tasks/:id', async (req, res) => {
     const taskInCorrectFormat = {
         id: taskIdFromForm,
         title: taskFromForm.stringname,
-        dueDate: new Date(taskFromForm.dateduedate),
-        status: taskPrevVersion.status,
-        badges: taskPrevVersion.badges
+        dueDate: new Date(taskFromForm.dateduedate)
+        // status: taskPrevVersion.status,
+        // badges: taskPrevVersion.badges
     }
     try {
         if (devError) {

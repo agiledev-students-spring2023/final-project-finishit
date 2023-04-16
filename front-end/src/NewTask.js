@@ -13,6 +13,7 @@ const NewTask = props => {
     const [name, setName] = useState('')
     const [duedate, setduedate] = useState('')
     const [remdate, setremdate] = useState('')
+    const [status, setstatus] = useState('')
     const [error, setError] = useState('')
 
     const navigate = useNavigate()
@@ -56,6 +57,12 @@ const NewTask = props => {
                     <label>Due Date:</label>
                     <br />
                     <input type="date" onChange={e => setduedate(e.target.value)} ref={dateInputRef} />
+                </div>
+
+                <div>
+                    <label>Status:</label>
+                    <br />
+                    <input className="taskInputBox" type="text" onChange={e => setstatus(e.target.value)} />
                 </div>
 
                 <div>

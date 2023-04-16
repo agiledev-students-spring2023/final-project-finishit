@@ -48,10 +48,13 @@ newrouter.post('/newtask', async (req, res) => {
     sampleTasks1.push(JSON.stringify(task, null, 2))
     console.log('after: ')
     console.log(sampleTasks1)
-    const SaveTask = new Task(req.body)
+    const SaveTask = new Task({
+        title: req.body.stringname,
+        dueDate: req.body.dateduedate
+    })
     SaveTask
         .save()
-        .then()
+        .then(item => res.status({ item }))
         .catch()
 
     // Task.save(SaveTask)
