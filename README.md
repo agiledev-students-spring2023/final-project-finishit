@@ -30,6 +30,40 @@ To follow any of the instructions below, you must first clone this repository on
 git clone https://github.com/agiledev-students-spring-2023/final-project-finishit.git
 ```
 
+### Back-End
+
+To build the back end, first navigate to the `back-end` directory:
+
+```
+cd back-end
+```
+
+Then, install all the necessary dependencies by using the following command:
+
+```
+npm install
+```
+
+If a `package-lock.json` file already exists in `back-end`, instead use:
+
+```
+npm ci
+```
+
+Finally, start the program:
+
+```
+npm run nd
+```
+
+If you save any edits to files, the program will automatically reload with your changes.
+
+### Unit tests
+To run the unit tests for the back end:
+```
+npm run test
+```
+
 ### Front-End
 
 To build the front end, first navigate to the `front-end` directory:
