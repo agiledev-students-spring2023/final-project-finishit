@@ -60,11 +60,9 @@ UserSchema.pre('save', next => {
 })
 
 // Compare a submitted password against the user's stored password.
-UserSchema.methods.comparePassword = (candidatePassword, cb) => {
-    bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
-        if (err) return cb(err)
-        cb(null, isMatch)
-    })
+UserSchema.methods.comparePassword = async candidatePassword => {
+    const validPassword = await bcrypt.compare(candidatePassword, this.password)
+    return validPassword
 }
 
 // Return a JWT token for the user.
