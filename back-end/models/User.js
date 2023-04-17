@@ -1,4 +1,4 @@
-// DIsable func-names so functions remain in scope.
+// Disable func-names so functions remain in scope.
 /* eslint-disable func-names */
 // Represents a mongoose model of a User.
 const mongoose = require('mongoose')
