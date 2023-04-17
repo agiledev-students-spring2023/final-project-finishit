@@ -17,25 +17,14 @@ const findUserByUsername = async username => {
     return user
 }
 
-// Authenticated route!
-usersRouter.get('/userInfo', passport.authenticate('jwt', { session: false }), (req, res) => {
-    res.json(req.user)
+// Method to create a user. Replaces the previous POST /create route.
+usersRouter.post('/create', async (req, res) => {
+    // TODO: (Khalifa) Create a user in the database.
+    // Note the user should NOT be logged in automatically after creation.
+    // After the user has been created, send them to the login page.
 })
 
-// Authenticated route!
-usersRouter.get('/change/user', passport.authenticate('jwt', { session: false }), (req, res) => {
-    // Change a user's username.
-    const newUsername = 'test'
-    User.updateOne({ _id: req.user._id }, { $set: { username: newUsername } })
-})
-
-// Authenticated route!
-usersRouter.get('/change/password', passport.authenticate('jwt', { session: false }), (req, res) => {
-    // Change a user's password.
-    const newUsername = 'test'
-    User.updateOne({ _id: req.user._id }, { $set: { password: newUsername } })
-})
-
+// Method to login a user. Replaces the previous POST /login route.
 usersRouter.post('/login', async (req, res) => {
     try {
         // Check if the user exists, if not throw an error.
@@ -57,8 +46,31 @@ usersRouter.post('/login', async (req, res) => {
     }
 })
 
-usersRouter.post('/create', async (req, res) => {
-    // To be implemented.
+// Authenticated route!
+usersRouter.get('/userInfo', passport.authenticate('jwt', { session: false }), (req, res) => {
+    // For now, this route returns ALL the user information.
+    // This is insecure, but will change in the future.
+    // For now, this will allow the frontend to work without changes.
+    res.json(req.user)
+})
+
+// Authenticated route! Will replace the previous PUT / route.
+usersRouter.get('/change/username', passport.authenticate('jwt', { session: false }), (req, res) => {
+    // TODO: (Harrison) Change a user's username.
+    const newUsername = 'test'
+    User.updateOne({ _id: req.user._id }, { $set: { username: newUsername } })
+})
+
+// Authenticated route! Will replace the previous PATCH /reset-password route.
+usersRouter.get('/change/password', passport.authenticate('jwt', { session: false }), (req, res) => {
+    // TODO: (Harrison) Change a user's password.
+    const newPassword = 'test'
+    User.updateOne({ _id: req.user._id }, { $set: { password: newPassword } })
+})
+
+// Authenticated route! Will allow a user to delete their account.
+usersRouter.get('/delete', passport.authenticate('jwt', { session: false }), (req, res) => {
+    // TODO: (Khalifa) Delete user account in database.
 })
 
 module.exports = {
