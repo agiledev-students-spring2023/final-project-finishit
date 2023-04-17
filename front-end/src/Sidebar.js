@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { slide as Menu } from 'react-burger-menu'
+import axios from 'axios'
 import './Sidebar.css'
 
 /**
@@ -9,6 +10,8 @@ import './Sidebar.css'
  * @returns The contents of this component, in JSX form.
  */
 const Sidebar = props => {
+    const jwtToken = localStorage.getItem('token')
+
     const [user, setUser] = useState(null)
     const logoutHandler = e => {
         console.log('in logout handler')
@@ -18,11 +21,15 @@ const Sidebar = props => {
     }
 
     useEffect(() => {
-        if (localStorage.getItem('token') !== undefined) {
-            console.log('logged in user', localStorage.getItem('user'))
-            setUser(JSON.parse(localStorage.getItem('user')))
-        }
-    }, [])
+        axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/userInfo`, {
+            headers: { Authorization: `JWT ${jwtToken}` } // pass the token, if any, to the server
+        }).then(response => {
+            console.log('logged in user', response.data)
+            setUser(JSON.parse(response.data))
+        }).catch(err => {
+            setUser(null)
+        })
+    }, [jwtToken])
 
     return (
         <Menu className="bm-item-list">
