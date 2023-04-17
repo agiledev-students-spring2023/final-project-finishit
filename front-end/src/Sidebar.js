@@ -25,13 +25,8 @@ const Sidebar = props => {
             axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/userInfo`, {
                 headers: { Authorization: `JWT ${jwtToken}` }
             }).then(response => {
-                console.log(response.data)
                 setUser(response.data)
-            }).catch(err => {
-                setUser(null)
             })
-        } else {
-            setUser(null)
         }
     }, [jwtToken])
 
