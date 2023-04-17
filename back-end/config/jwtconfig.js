@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 const mongoose = require('mongoose')
 const passportJWT = require('passport-jwt')
 const dotenv = require('dotenv')
@@ -12,7 +13,7 @@ dotenv.config({ silent: true })
 // set up some JWT authentication options for passport
 const jwtOptions = {
     // look for the Authorization request header
-    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt'),
+    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
     // an arbitrary string used during encryption - see the .env file
     secretOrKey: process.env.JWT_SECRET
 }
@@ -33,15 +34,15 @@ const jwtVerifyToken = async (jwtPayload, next) => {
     // try to find a matching user in our database
 
     // find this user in the database
-    const userId = ObjectId(jwtPayload.id) // convert the string id to an ObjectId
+    const userId = new ObjectId(jwtPayload.id) // convert the string id to an ObjectId
     const user = await User.findOne({ _id: userId }).exec()
     if (user) {
         // we found the user... keep going
-        next(null, user)
-    } else {
-        // we didn't find the user... fail!
-        next(null, false, { message: 'User not found' })
+        return next(null, user)
     }
+    // we didn't find the user... fail!
+    return next(null, false, { message: 'User not found' })
 }
 
-module.exports = new JwtStrategy(jwtOptions, jwtVerifyToken)
+const strategy = new JwtStrategy(jwtOptions, jwtVerifyToken)
+module.exports = strategy

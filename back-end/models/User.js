@@ -4,10 +4,15 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv')
 
 // Import other models.
 const Badge = require('./Badge')
 const Task = require('./Task')
+
+dotenv.config({ silent: true })
+
+const SECRET = process.env.JWT_SECRET
 
 // Mongoose User schema.
 const UserSchema = new mongoose.Schema({
@@ -69,15 +74,13 @@ UserSchema.methods.comparePassword = async function (candidatePassword) {
 
 // Return a JWT token for the user.
 UserSchema.methods.generateJWT = function () {
-    const today = new Date()
-    const exp = new Date(today)
-    exp.setDate(today.getDate() + process.env.JWT_EXPIRE) // .env var for token expiration
-
-    return jwt.sign({
-        id: this._id,
-        username: this.username,
-        exp: parseInt(exp.getTime() / 1000, 10)
-    }, process.env.JWT_SECRET)
+    return jwt.sign(
+        { id: this._id },
+        process.env.JWT_SECRET,
+        {
+            expiresIn: process.env.JWT_EXPIRE
+        }
+    )
 }
 
 // Return the user information without sensitive data.

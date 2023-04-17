@@ -21,14 +21,18 @@ const Sidebar = props => {
     }
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/userInfo`, {
-            headers: { Authorization: `JWT ${jwtToken}` } // pass the token, if any, to the server
-        }).then(response => {
-            console.log('logged in user', response.data)
-            setUser(JSON.parse(response.data))
-        }).catch(err => {
+        if (jwtToken != null) {
+            axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/userInfo`, {
+                headers: { Authorization: `JWT ${jwtToken}` }
+            }).then(response => {
+                console.log(response.data)
+                setUser(response.data)
+            }).catch(err => {
+                setUser(null)
+            })
+        } else {
             setUser(null)
-        })
+        }
     }, [jwtToken])
 
     return (
