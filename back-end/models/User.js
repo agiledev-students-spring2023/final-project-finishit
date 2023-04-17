@@ -89,6 +89,13 @@ UserSchema.methods.toAuthJSON = function () {
     }
 }
 
+UserSchema.methods.verifyQuestions = function (answers) {
+    return (
+        this.petName === answers.petName
+        && this.motherName === answers.motherName
+    )
+}
+
 // Create a model from this schema.
 const User = mongoose.model('User', UserSchema)
 
