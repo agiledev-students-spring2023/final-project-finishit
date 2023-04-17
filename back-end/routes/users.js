@@ -37,31 +37,24 @@ usersRouter.get('/change/password', passport.authenticate('jwt', { session: fals
 })
 
 usersRouter.post('/login', async (req, res) => {
-    // check if the user exists
-    const user = findUserByUsername(req.body.username)
-    if (user == null) {
+    try {
+        // Check if the user exists, if not throw an error.
+        const user = await findUserByUsername(req.body.username)
+        if (user == null) throw Error()
+
+        // Check if the user's password is correct, if not throw an error.
+        const passwordCorrect = await user.comparePassword(req.body.password)
+        if (!passwordCorrect) throw Error()
+
+        // Everything looks good, send the user a success message and their token.
+        const token = user.generateJWT()
+        res.status(200).json({ success: true, token })
+    } catch {
         res.status(400).json({
             success: false,
             message: 'Invalid credentials!'
         })
-        return
     }
-
-    const passwordCorrect = await user.comparePassword(req.body.username)
-    if (!passwordCorrect) {
-        res.status(400).json({
-            success: false,
-            message: 'Invalid credentials!'
-        })
-        return
-    }
-
-    const token = user.generateJWT()
-
-    res.status(200).json({
-        success: true,
-        token
-    })
 })
 
 usersRouter.post('/create', async (req, res) => {

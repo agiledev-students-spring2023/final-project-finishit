@@ -1,3 +1,5 @@
+// DIsable func-names so functions remain in scope.
+/* eslint-disable func-names */
 // Represents a mongoose model of a User.
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
@@ -60,13 +62,13 @@ UserSchema.pre('save', next => {
 })
 
 // Compare a submitted password against the user's stored password.
-UserSchema.methods.comparePassword = async candidatePassword => {
+UserSchema.methods.comparePassword = async function (candidatePassword) {
     const validPassword = await bcrypt.compare(candidatePassword, this.password)
     return validPassword
 }
 
 // Return a JWT token for the user.
-UserSchema.methods.generateJWT = () => {
+UserSchema.methods.generateJWT = function () {
     const today = new Date()
     const exp = new Date(today)
     exp.setDate(today.getDate() + process.env.JWT_EXPIRE) // .env var for token expiration
@@ -79,10 +81,12 @@ UserSchema.methods.generateJWT = () => {
 }
 
 // Return the user information without sensitive data.
-UserSchema.methods.toAuthJSON = () => ({
-    username: this.username,
-    token: this.generateJWT()
-})
+UserSchema.methods.toAuthJSON = function () {
+    return {
+        username: this.username,
+        token: this.generateJWT()
+    }
+}
 
 // Create a model from this schema.
 const User = mongoose.model('User', UserSchema)

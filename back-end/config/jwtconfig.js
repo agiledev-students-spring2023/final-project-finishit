@@ -1,10 +1,13 @@
 const mongoose = require('mongoose')
 const passportJWT = require('passport-jwt')
+const dotenv = require('dotenv')
 const User = require('../models/User')
 
 const ObjectId = mongoose.Types.ObjectId
 const ExtractJwt = passportJWT.ExtractJwt
 const JwtStrategy = passportJWT.Strategy
+
+dotenv.config({ silent: true })
 
 // set up some JWT authentication options for passport
 const jwtOptions = {
