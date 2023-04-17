@@ -12,8 +12,6 @@ const Task = require('./Task')
 
 dotenv.config({ silent: true })
 
-const SECRET = process.env.JWT_SECRET
-
 // Mongoose User schema.
 const UserSchema = new mongoose.Schema({
     username: {
