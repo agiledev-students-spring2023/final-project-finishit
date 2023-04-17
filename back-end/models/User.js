@@ -18,6 +18,14 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    petName: {
+        type: String,
+        required: true
+    },
+    motherName: {
+        type: String,
+        required: true
+    },
     tasks: {
         type: [Task.schema],
         default: []
