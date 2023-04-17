@@ -55,21 +55,21 @@ usersRouter.get('/userInfo', passport.authenticate('jwt', { session: false }), (
 })
 
 // Authenticated route! Will replace the previous PUT / route.
-usersRouter.get('/change/username', passport.authenticate('jwt', { session: false }), (req, res) => {
+usersRouter.post('/change/username', passport.authenticate('jwt', { session: false }), (req, res) => {
     // TODO: (Harrison) Change a user's username.
     const newUsername = 'test'
     User.updateOne({ _id: req.user._id }, { $set: { username: newUsername } })
 })
 
 // Authenticated route! Will replace the previous PATCH /reset-password route.
-usersRouter.get('/change/password', passport.authenticate('jwt', { session: false }), (req, res) => {
+usersRouter.post('/change/password', passport.authenticate('jwt', { session: false }), (req, res) => {
     // TODO: (Harrison) Change a user's password.
     const newPassword = 'test'
     User.updateOne({ _id: req.user._id }, { $set: { password: newPassword } })
 })
 
 // Authenticated route! Will allow a user to delete their account.
-usersRouter.get('/delete', passport.authenticate('jwt', { session: false }), (req, res) => {
+usersRouter.post('/delete', passport.authenticate('jwt', { session: false }), (req, res) => {
     // TODO: (Khalifa) Delete user account in database.
 })
 
