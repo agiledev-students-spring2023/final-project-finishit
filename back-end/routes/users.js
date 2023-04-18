@@ -96,7 +96,6 @@ usersRouter.post('/delete', passport.authenticate('jwt', { session: false }), as
     // TODO: (Khalifa) Delete user account in database.
     try {
         const result = await User.findByIdAndDelete(req.user.id)
-        console.log(result)
         if (result) {
             res.status(200).json({
                 success: true

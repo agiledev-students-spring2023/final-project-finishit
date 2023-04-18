@@ -85,8 +85,6 @@ const Settings = props => {
             password: newPassword
         }
 
-        console.log('payload in setting', paylaod)
-
         try {
             const response = await axios.put(
                 `${process.env.REACT_APP_SERVER_HOSTNAME}/auth/`,
