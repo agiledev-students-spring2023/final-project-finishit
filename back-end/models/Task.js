@@ -5,10 +5,12 @@ const mongoose = require('mongoose')
 const TaskSchema = new mongoose.Schema({
     title: {
         type: String,
+        unique: false,
         required: true
     },
     dueDate: {
         type: Date,
+        unique: false,
         required: true
     }
     /*

@@ -2,6 +2,8 @@
  * These are the routes for the /tasks page on the front-end.
  */
 const express = require('express')
+const mongoose = require('mongoose')
+const Task = require('../models/Task')
 
 const tasksRouter = express.Router()
 
@@ -23,6 +25,13 @@ let sampleTasks = [
     { id: 9, title: 'Take out trash', dueDate: daysAgo(2), status: 'COMPLETED', badges: [{ id: 4, color: '#008000', text: 'Cleaning' }, { id: 9, color: '#8b4513', text: 'Home' }] },
     { id: 10, title: 'Finish project', dueDate: daysAgo(8), status: 'NOT_STARTED', badges: [{ id: 6, color: '#ffa500', text: 'Work' }, { id: 1, color: '#ff5733', text: 'School' }] }
 ]
+
+for (let i = 0; i < sampleTasks.length; i += 1) {
+    const myTask = new Task({
+        title: sampleTasks[i].title,
+        dueDate: sampleTasks[i].dueDate
+    })
+}
 
 let devError = false
 
