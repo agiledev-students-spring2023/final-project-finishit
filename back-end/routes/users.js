@@ -12,7 +12,7 @@ const usersRouter = express.Router()
 // Returns the user if found, otherwise returns null.
 // (Error checking should be done by whichever function calls this.)
 const findUserByUsername = async username => {
-    let user = await User.findOne({ username }).exec()
+    let user = await User.findOne({ username }).select('+password')
     if (!user) user = null
     return user
 }
@@ -22,6 +22,28 @@ usersRouter.post('/create', async (req, res) => {
     // TODO: (Khalifa) Create a user in the database.
     // Note the user should NOT be logged in automatically after creation.
     // After the user has been created, send them to the login page.
+
+    try {
+        const newUser = await User.create(req.body)
+        if (newUser) {
+            res.status(200).json({
+                success: true,
+                message: 'User created successfully',
+                users: newUser
+            })
+        } else {
+            res.status(403).json({
+                success: false,
+                message: 'User not created successfully',
+                user: null
+            })
+        }
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message
+        })
+    }
 })
 
 // Method to login a user. Replaces the previous POST /login route.
@@ -69,8 +91,29 @@ usersRouter.post('/change/password', passport.authenticate('jwt', { session: fal
 })
 
 // Authenticated route! Will allow a user to delete their account.
-usersRouter.post('/delete', passport.authenticate('jwt', { session: false }), (req, res) => {
+usersRouter.post('/delete', passport.authenticate('jwt', { session: false }), async (req, res) => {
     // TODO: (Khalifa) Delete user account in database.
+    try {
+        const result = await User.findByIdAndDelete(req.user.id)
+        if (result) {
+            res.status(200).json({
+                success: true
+            })
+        }
+    } catch (err) {
+        res.status(200).json({
+            success: false
+        })
+    }
+})
+
+usersRouter.get('/users', async (req, res) => {
+    const users = await User.find().select('password')
+
+    res.status(200).json({
+        success: true,
+        users
+    })
 })
 
 module.exports = {

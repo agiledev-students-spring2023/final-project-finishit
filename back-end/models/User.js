@@ -21,7 +21,8 @@ const UserSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        select: false
     },
     petName: {
         type: String,
@@ -44,7 +45,7 @@ const UserSchema = new mongoose.Schema({
 // Salt and hash a password before saving it in the database.
 const BCRYPT_SALT_WORK_FACTOR = 10
 
-UserSchema.pre('save', async next => {
+UserSchema.pre('save', async function (next) {
     // If a user has modified their password, hash it.
     if (!this.isModified('password')) return next()
 
