@@ -51,7 +51,6 @@ usersRouter.post('/login', async (req, res) => {
     try {
         // Check if the user exists, if not throw an error.
         const user = await findUserByUsername(req.body.username)
-        console.log(user)
         if (user == null) throw Error()
 
         // Check if the user's password is correct, if not throw an error.
