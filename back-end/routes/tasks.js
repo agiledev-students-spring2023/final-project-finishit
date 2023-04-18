@@ -1,8 +1,10 @@
+/*eslint-disable*/
 /**
  * These are the routes for the /tasks page on the front-end.
  */
 const express = require('express')
 const mongoose = require('mongoose')
+
 const Task = require('../models/Task')
 
 const tasksRouter = express.Router()
@@ -26,12 +28,39 @@ let sampleTasks = [
     { id: 10, title: 'Finish project', dueDate: daysAgo(8), status: 'NOT_STARTED', badges: [{ id: 6, color: '#ffa500', text: 'Work' }, { id: 1, color: '#ff5733', text: 'School' }] }
 ]
 
-for (let i = 0; i < sampleTasks.length; i += 1) {
-    const myTask = new Task({
-        title: sampleTasks[i].title,
-        dueDate: sampleTasks[i].dueDate
-    })
+/*
+async function upload(req, res) {
+    for ( let i = 0; i<sampleTasks.length; i +=1){
+
+        try{
+            const newTask = await Task.create({title: sampleTasks[i].title, dueDate: sampleTasks[i].dueDate })
+            if (newTask) {
+                res.status(200).json({
+                    success: true,
+                    message: 'User created successfully',
+                    users: newUser
+                })
+
+        } else {
+            res.status(403).json({
+                success: false,
+                message: 'User not created successfully',
+                user: null
+            })
+        } 
+
+    }catch(err){
+        res.status(500).json({
+            success: false,
+            message: err.message
+        })
+    }
+
+    }
+    upload()
 }
+*/
+
 
 let devError = false
 
