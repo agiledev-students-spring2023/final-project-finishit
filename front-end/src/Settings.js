@@ -10,6 +10,8 @@ const Settings = props => {
     const [newPassword, setNewPassword] = useState('')
     const [confirmNewPassword, setConfirmNewPassword] = useState('')
 
+    const [showConfirm, setShowConfirm] = useState(false)
+
     const handleUsernameChange = e => {
         const { name, value } = e.target
         if (name === 'currentUsername') {
@@ -32,11 +34,38 @@ const Settings = props => {
         }
     }
 
-    const handleDeleteAccount = () => {
+    const handleConformDialogue = () => {
+        if (showConfirm) {
+            setShowConfirm(false)
+        } else {
+            setShowConfirm(true)
+        }
+    }
+
+    const handleDeleteAccount = async () => {
         // Make API call to delete user account
         // ...
-
-        alert('Account has been deleted')
+        try {
+            const response = await fetch(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/delete`, {
+                method: 'POST',
+                headers: {
+                    Authorization: `JWT ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json'
+                }
+            })
+            const jsonResponse = await response.json()
+            if (jsonResponse.success) {
+                handleConformDialogue()
+                alert('Account has been deleted')
+                localStorage.clear()
+                window.location.href = '/login'
+            } else {
+                alert('ERROR deleting account')
+            }
+        } catch (e) {
+            alert(`ERROR: ${e.message}`)
+        }
     }
 
     const submitHandler = async e => {
@@ -55,8 +84,6 @@ const Settings = props => {
             username: newUsername,
             password: newPassword
         }
-
-        console.log('payload in setting', paylaod)
 
         try {
             const response = await axios.put(
@@ -115,8 +142,19 @@ const Settings = props => {
                 <button type="submit" className="submitButton" onClick={submitHandler}>Confirm Changes</button>
                 <br />
                 <br />
-                <button type="submit" className="submitButton" onClick={handleDeleteAccount}>Delete Account</button>
+                <button type="button" className="submitButton" onClick={handleConformDialogue}>Delete Account</button>
             </form>
+            {showConfirm && (
+                <div className="delete-confirm">
+                    <div className="delete-confirm__content">
+                        <h3 className="delete-confirm__title">Are you sure you want to delete your account?</h3>
+                        <div className="delete-confirm__actions">
+                            <button type="submit" className="btn btn--no" onClick={handleConformDialogue}>No</button>
+                            <button type="submit" className="btn btn--yes btn-submit" onClick={handleDeleteAccount}>Yes</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

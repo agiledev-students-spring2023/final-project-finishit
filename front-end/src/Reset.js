@@ -55,8 +55,8 @@ const Reset = props => {
                 <br />
                 <button className="submitButton" type="submit">Verify Information</button>
                 <p>OR</p>
-                <p><Link class="loginText" to="/create">Create new account</Link></p>
-                <p><Link class="loginText" to="/login">Back to login</Link></p>
+                <p><Link className="loginText" to="/create">Create new account</Link></p>
+                <p><Link className="loginText" to="/login">Back to login</Link></p>
             </form>
         </div>
     )
