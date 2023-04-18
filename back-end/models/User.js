@@ -44,24 +44,12 @@ const UserSchema = new mongoose.Schema({
 // Salt and hash a password before saving it in the database.
 const BCRYPT_SALT_WORK_FACTOR = 10
 
-UserSchema.pre('save', next => {
-    const user = this
+UserSchema.pre('save', async next => {
+    // If a user has modified their password, hash it.
+    if (!this.isModified('password')) return next()
 
-    // only hash the password if it has been modified (or is new)
-    if (!user.isModified('password')) return next()
-
-    // generate a salt
-    bcrypt.genSalt(BCRYPT_SALT_WORK_FACTOR, (err1, salt) => {
-        if (err1) return next(err1)
-
-        // hash the password using our new salt
-        bcrypt.hash(user.password, salt, (err2, hash) => {
-            if (err2) return next(err2)
-            // override the cleartext password with the hashed one
-            user.password = hash
-            next()
-        })
-    })
+    const salt = await bcrypt.genSalt(BCRYPT_SALT_WORK_FACTOR)
+    this.password = await bcrypt.hash(this.password, salt)
 })
 
 // Compare a submitted password against the user's stored password.
