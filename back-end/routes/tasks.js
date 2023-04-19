@@ -77,11 +77,20 @@ tasksRouter.get('/tasks', async (req, res) => {
         if (devError) {
             throw new Error('simulated error')
         }
+        console.log("Fetching results")
+        // Fetch from the db
+        let tasks = await Task.find({});
 
+        res.json({
+            tasks: tasks
+        })
+        /*      
         res.json({
             tasks: sampleTasks
         })
+        */
     } catch (err) {
+        console.log(err)
         res.status(500).json({
             error: err,
             status: 'failed to retrieve tasks from the database'

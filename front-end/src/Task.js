@@ -23,7 +23,7 @@ const Task = props => {
     return (
         <div className={`task-container ${checkDate(dueDate)}`}>
             <div className="task-info">
-                <Link to={`/edittask/${props.task.id}`}>
+                <Link to="/edittask">
                     <div className="task-title-due-date">
                         <div className="task-title">{title}</div>
                         <div className="task-due-date">{dueDate.toLocaleString()}</div>

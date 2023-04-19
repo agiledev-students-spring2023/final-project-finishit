@@ -1,9 +1,8 @@
 // Represents a mongoose model of a Task.
 const mongoose = require('mongoose')
-
+const { v4: uuidv4 } = require('uuid')
 // Mongoose Task schema.
 const TaskSchema = new mongoose.Schema({
-
     title: {
         type: String,
         unique: false,
@@ -13,18 +12,17 @@ const TaskSchema = new mongoose.Schema({
         type: Date,
         unique: false,
         required: true
-    }
-    /*
+    },
     status: {
         type: String,
         required: true,
         enum: ['NOT_STARTED', 'IN_PROGRESS', 'COMPLETED']
     },
+
     badges: {
         type: [mongoose.Schema.Types.ObjectId],
         default: []
     }
-    */
 })
 
 // Create a model from this schema.
