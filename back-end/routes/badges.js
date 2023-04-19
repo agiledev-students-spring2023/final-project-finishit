@@ -2,6 +2,7 @@
  * These are the routes for the /badges page on the front-end.
  */
 const express = require('express')
+const { Badge } = require('../models/Badge')
 
 const badgesRouter = express.Router()
 
