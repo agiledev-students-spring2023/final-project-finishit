@@ -1,7 +1,5 @@
 // NPM imports.
 const express = require('express')
-const jwt = require('jsonwebtoken')
-const path = require('path')
 const passport = require('passport')
 
 // Model imports.
@@ -24,7 +22,14 @@ usersRouter.post('/create', async (req, res) => {
     // After the user has been created, send them to the login page.
 
     try {
-        const newUser = await User.create(req.body)
+        const newUser = await User.create({
+            username: req.body.username,
+            password: req.body.password,
+            petName: req.body.petName,
+            motherName: req.body.motherName,
+            tasks: [],
+            badges: []
+        })
         if (newUser) {
             res.status(200).json({
                 success: true,

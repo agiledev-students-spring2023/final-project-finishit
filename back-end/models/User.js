@@ -16,7 +16,7 @@ dotenv.config({ silent: true })
 const UserSchema = new mongoose.Schema({
     username: {
         type: String,
-        unique: true,
+        // unique: true,
         required: true
     },
     password: {
@@ -46,11 +46,15 @@ const UserSchema = new mongoose.Schema({
 const BCRYPT_SALT_WORK_FACTOR = 10
 
 UserSchema.pre('save', async function (next) {
+    console.log(this)
+
     // If a user has modified their password, hash it.
     if (!this.isModified('password')) return next()
 
     const salt = await bcrypt.genSalt(BCRYPT_SALT_WORK_FACTOR)
     this.password = await bcrypt.hash(this.password, salt)
+
+    console.log(this)
 })
 
 // Compare a submitted password against the user's stored password.
@@ -83,6 +87,12 @@ UserSchema.methods.verifyQuestions = function (answers) {
         this.petName === answers.petName
         && this.motherName === answers.motherName
     )
+}
+
+UserSchema.methods.addTask = function (task) {
+    this.tasks.push(task)
+    this.tasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+    this.save()
 }
 
 // Create a model from this schema.

@@ -4,6 +4,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
 const EditTask = props => {
+    const jwtToken = localStorage.getItem('token')
+
     const { id } = useParams()
     const [date, setDate] = useState('')
     const dateInputRef = useRef(null)
@@ -20,41 +22,45 @@ const EditTask = props => {
 
     const navigate = useNavigate()
 
-    useEffect(() => {
+    /* useEffect(() => {
         axios.get('/tasks').then(res => {
             setFormData(res.data)
         })
-    })
+    }) */
 
     const handleDelete = e => {
         e.preventDefault()
-        axios.post(`http://localhost:5002/tasks/${id}`)
-            .then(response => {
-                if (response.data.deleteSuccess) {
-                    navigate('/')
-                }
-            })
+        axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/deletetask/${id}`, {}, {
+            headers: { Authorization: `JWT ${jwtToken}` }
+        }).then(response => {
+            if (response.data.deleteSuccess) {
+                navigate('/')
+            }
+        }).catch(err => {
+            // failure
+            console.log(`Received server error: ${err}`)
+        })
     }
 
     const handleSubmit = async e => {
         e.preventDefault() // prevent the default browser form submission stuff
-        axios
-            .post(`${process.env.REACT_APP_SERVER_HOSTNAME}/edittask/${id}`, {
-                stringname: name,
-                dateduedate: duedate,
-                dateremdate: remdate
-            })
-            .then(response => {
-                console.log(`Received server response: ${response.data}`)
-                navigate('/')
-            })
-            .catch(err => {
-                // failure
-                console.log(`Received server error: ${err}`)
-                setError(
-                    'Invalid inputs, check again.'
-                )
-            })
+
+        axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/edittask/${id}`, {
+            stringname: name,
+            dateduedate: duedate,
+            dateremdate: remdate
+        }, {
+            headers: { Authorization: `JWT ${jwtToken}` }
+        }).then(response => {
+            console.log(`Received server response: ${response.data}`)
+            navigate('/')
+        }).catch(err => {
+            // failure
+            console.log(`Received server error: ${err}`)
+            setError(
+                'Invalid inputs, check again.'
+            )
+        })
     }
 
     return (
