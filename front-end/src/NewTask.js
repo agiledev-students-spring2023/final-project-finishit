@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 const NewTask = props => {
+    const jwtToken = localStorage.getItem('token')
+
     const [date, setDate] = useState('')
     const dateInputRef = useRef(null)
     const handleChange = e => {
@@ -20,23 +22,22 @@ const NewTask = props => {
 
     const handleSubmit = e => {
         e.preventDefault() // prevent the default browser form submission stuff
-        axios
-            .post(`${process.env.REACT_APP_SERVER_HOSTNAME}/newtask`, {
-                stringname: name,
-                dateduedate: duedate,
-                dateremdate: remdate
-            })
-            .then(response => {
-                console.log(`Received server response: ${response.data}`)
-                navigate('/')
-            })
-            .catch(err => {
-                // failure
-                console.log(`Received server error: ${err}`)
-                setError(
-                    'Invalid inputs, check again.'
-                )
-            })
+        axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/newtask`, {
+            stringname: name,
+            dateduedate: duedate,
+            dateremdate: remdate
+        }, {
+            headers: { Authorization: `JWT ${jwtToken}` }
+        }).then(response => {
+            console.log(`Received server response: ${response.data}`)
+            navigate('/')
+        }).catch(err => {
+            // failure
+            console.log(`Received server error: ${err}`)
+            setError(
+                'Invalid inputs, check again.'
+            )
+        })
     }
 
     return (

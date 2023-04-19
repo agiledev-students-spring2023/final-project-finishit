@@ -9,9 +9,7 @@ const passport = require('passport')
 // Route imports.
 const badgesRouter = require('./routes/badges').badgesRouter
 const tasksRouter = require('./routes/tasks').tasksRouter
-const newrouter = require('./routes/NewTask').newrouter
 const usersRouter = require('./routes/users').usersRouter
-const editrouter = require('./routes/EditTask').editrouter
 
 const jwtStrategy = require('./config/jwtconfig')
 
@@ -37,8 +35,8 @@ mongoose.connect(process.env.MONGODB_URI).then(() => {
 // Specify routes (imported above).
 app.use('/', badgesRouter)
 app.use('/', tasksRouter)
-app.use('/', newrouter)
-app.use('/', editrouter)
+// app.use('/', newrouter)
+// app.use('/', editrouter)
 app.use('/auth', usersRouter)
 
 module.exports = {

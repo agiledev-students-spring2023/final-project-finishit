@@ -4,8 +4,9 @@
  */
 const express = require('express')
 const mongoose = require('mongoose')
+const passport = require('passport')
 
-const Task = require('../models/Task')
+const User = require('../models/User')
 
 const tasksRouter = express.Router()
 
@@ -28,40 +29,6 @@ let sampleTasks = [
     { id: 10, title: 'Finish project', dueDate: daysAgo(8), status: 'NOT_STARTED', badges: [{ id: 6, color: '#ffa500', text: 'Work' }, { id: 1, color: '#ff5733', text: 'School' }] }
 ]
 
-/*
-async function upload(req, res) {
-    for ( let i = 0; i<sampleTasks.length; i +=1){
-
-        try{
-            const newTask = await Task.create({title: sampleTasks[i].title, dueDate: sampleTasks[i].dueDate })
-            if (newTask) {
-                res.status(200).json({
-                    success: true,
-                    message: 'User created successfully',
-                    users: newUser
-                })
-
-        } else {
-            res.status(403).json({
-                success: false,
-                message: 'User not created successfully',
-                user: null
-            })
-        } 
-
-    }catch(err){
-        res.status(500).json({
-            success: false,
-            message: err.message
-        })
-    }
-
-    }
-    upload()
-}
-*/
-
-
 let devError = false
 
 function setError(err) {
@@ -72,53 +39,83 @@ function setSampleTasks(newSampleTasks) {
     sampleTasks = newSampleTasks
 }
 
-tasksRouter.get('/tasks', async (req, res) => {
-    try {
-        if (devError) {
-            throw new Error('simulated error')
-        }
-        console.log("Fetching results")
-        // Fetch from the db
-        let tasks = await Task.find({});
-
-        res.json({
-            tasks: tasks
-        })
-        /*      
-        res.json({
-            tasks: sampleTasks
-        })
-        */
-    } catch (err) {
-        console.log(err)
-        res.status(500).json({
-            error: err,
-            status: 'failed to retrieve tasks from the database'
-        })
-    }
+// Authenticated route. Gives user a list of their tasks from the database.
+tasksRouter.get('/tasks', passport.authenticate('jwt', { session: false }), (req, res) => {
+    res.json(req.user.tasks)
 })
 
-// make a single route for one task
-tasksRouter.get('/tasks/:id', async (req, res) => {
-    const task = req.body
-    try {
-        if (devError) {
-            throw new Error('simulated error')
-        }
+// Authenticated route. Creates a new task under the logged-in user.
+tasksRouter.post('/newtask', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const user = await User.findById(req.user._id)
+    const taskFromForm = req.body
 
-        res.json({
-            tasks: sampleTasks.filter(item => item.id === parseInt(req.params.id, 10))
-        })
-    } catch (err) {
+    const taskInCorrectFormat = {
+        title: taskFromForm.stringname,
+        dueDate: new Date(taskFromForm.dateduedate),
+        status: 'NOT_STARTED',
+        badges: []
+    }
+
+    // Add task to user object using method from User model.
+    user.addTask(taskInCorrectFormat)
+
+    // Send back a response.
+    res.send('New task has been stored. Thank you!')
+})
+
+// Authenticated route. Edits an existing task under the logged-in user.
+tasksRouter.post('/edittask/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const user = await User.findById(req.user._id)
+    const taskIndex = user.tasks.findIndex(task => task._id.toString() === req.params.id.toString())
+
+    // Throw an error if the task was not found.
+    if (taskIndex === -1) {
         res.status(500).json({
             error: err,
-            status: 'failed to retrieve tasks from the database'
+            status: 'failed to edit'
         })
+        return ''
     }
+
+    // Otherwise set task data at the found index in the user's tasks.
+    const taskFromForm = req.body
+    const taskPrevVersion = user.tasks[taskIndex]
+
+    const taskInCorrectFormat = {
+        _id: taskPrevVersion._id,
+        title: taskFromForm.stringname,
+        dueDate: new Date(taskFromForm.dateduedate),
+        status: taskPrevVersion.status,
+        badges: taskPrevVersion.badges
+    }
+
+    user.tasks[taskIndex] = taskInCorrectFormat
+    user.save()
+
+    res.send('task has been edited')
+})
+
+// Authenticated route. Deletes an existing task under the logged-in user.
+tasksRouter.post('/deletetask/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const user = await User.findById(req.user._id)
+    const taskIndex = user.tasks.findIndex(task => task._id.toString() === req.params.id.toString())
+
+    // Throw an error if the task was not found.
+    if (taskIndex === -1) {
+        res.status(500).json({
+            error: err,
+            status: 'failed to delete'
+        })
+        return ''
+    }
+
+    // Otherwise delete the task and return a success.
+    user.tasks.splice(taskIndex, 1)
+    await user.save()
+    res.json({ deleteSuccess: true })
 })
 
 module.exports = {
-    sampleTasks,
     tasksRouter,
     setError,
     setSampleTasks,

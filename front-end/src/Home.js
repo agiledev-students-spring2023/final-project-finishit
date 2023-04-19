@@ -5,12 +5,27 @@ import Task from './Task'
 import TaskFilterBar from './TaskFilterBar'
 
 const Home = props => {
+    const jwtToken = localStorage.getItem('token')
+
+    const [user, setUser] = useState(null)
     const [statusFilter, setStatusFilter] = useState(null)
     const [badgeFilter, setBadgeFilter] = useState(null)
 
     // Start with no tasks.
     const [tasks, setTasks] = useState([])
 
+    // Effect to get the current user.
+    useEffect(() => {
+        if (jwtToken != null) {
+            axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/userInfo`, {
+                headers: { Authorization: `JWT ${jwtToken}` }
+            }).then(response => {
+                setUser(response.data)
+            })
+        }
+    }, [jwtToken])
+
+    // Effect to load the user's tasks.
     useEffect(() => {
         const filterTasks = task => (
             (statusFilter === null || task.status === statusFilter)
@@ -20,13 +35,13 @@ const Home = props => {
         )
 
         const fetchTasks = () => {
-            axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/tasks`)
-                .then(response => {
-                    setTasks(response.data.tasks.filter(filterTasks))
-                })
-                .catch(err => {
-                    console.log(err)
-                })
+            axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/tasks`, {
+                headers: { Authorization: `JWT ${jwtToken}` }
+            }).then(response => {
+                setTasks(response.data.filter(filterTasks))
+            }).catch(err => {
+                console.log(err)
+            })
         }
 
         // fetch tasks this once
@@ -42,7 +57,12 @@ const Home = props => {
             // clear the timer, so we don't still load tasks when this component is not loaded
             clearInterval(intervalHandle)
         } */
-    }, [statusFilter, badgeFilter])
+    }, [jwtToken, statusFilter, badgeFilter])
+
+    /* if (!user) {
+        window.location.href = '/login'
+        return ''
+    } */
 
     return (
         <div className="task-body">
