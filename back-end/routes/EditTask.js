@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const { sampleTasks, setSampleTasks } = require('./tasks')
 const Task = require('../models/Task')
+const User = require('../models/User')
 
 const userTask = mongoose.Schema
 
@@ -33,7 +34,11 @@ editrouter.post('/edittask', async (req, res) => {
     sampleTasks1 = sampleTasks1.concat(taskInCorrectFormat)
     setSampleTasks(sampleTasks1)
     res.send('task has been edited')
+    Task.findById({ _id: req.body.id })
     Task.updateOne({ id: taskIdFromForm,
+        title: req.body.stringname,
+        dueDate: req.body.dateduedate })
+    User.task.updateOne({ id: taskIdFromForm,
         title: req.body.stringname,
         dueDate: req.body.dateduedate })
 })
@@ -50,26 +55,39 @@ editrouter.post('/tasks/:id', async (req, res) => {
         // status: taskPrevVersion.status,
         // badges: taskPrevVersion.badges
     }
+    // Deletion code attempt
     try {
+        const result = await Task.findByIdAndDelete({ _id: Task._id })
+        if (result) {
+            res.status(200).json({
+                success: true
+            })
+        }
         if (devError) {
             throw new Error('simulated error')
         }
-        /*
-        const toDel = parseInt(req.params.id, 10)
-        sampleTasks1 = sampleTasks1.filter(item => item.id !== toDel)
-        setSampleTasks(sampleTasks1)
-        */
-        Task.deleteOne(Task.id)
+
+        // here is my code for trying to delete
+        Task.deleteOne({ _id: Task._id })
         res.json({
             deleteSuccess: true
         })
+        User.findByIdAndDelete({ _id: Task._id })
     } catch (err) {
         res.status(500).json({
             error: err,
             status: 'failed to delete'
         })
     }
-    Task.deleteOne({ _id: req.body.id })
+})
+// get the tasks
+editrouter.get('/tasks', async (req, res) => {
+    const tasks = await Task.find().select('_id')
+
+    res.status(200).json({
+        success: true,
+        tasks
+    })
 })
 
 module.exports = {

@@ -4,6 +4,7 @@ const { v4: uuidv4 } = require('uuid')
 const { sampleTasks, setSampleTasks } = require('./tasks')
 
 const Task = require('../models/Task')
+const User = require('../models/User')
 
 const userTask = mongoose.Schema
 const newrouter = express.Router()
@@ -69,19 +70,21 @@ const taskSchema = new Schema({
     console.log('after: ')
     console.log(sampleTasks1)
 */
+
+// trying to add a new task
 newrouter.post('/newtask', async (req, res) => {
     // What's the use of the following lines
     const taskFromForm = req.body
     const task = req.body
     const SaveTask = new Task({
-        // _id: new mongoose.Types.ObjectId(),
+        _id: new mongoose.Types.ObjectId(),
         // new mongoose.Types.ObjectId(), // pass something unique, not null. Look up UUID
         title: taskFromForm.stringname, // title: req.body.title
         dueDate: taskFromForm.dateduedate, // dueDate: req.body.dueDate
         status: 'COMPLETED',
         badge: ''
     })
-
+    console.log(SaveTask._id)
     await SaveTask
         .save()
         .then(item => {
@@ -93,6 +96,7 @@ newrouter.post('/newtask', async (req, res) => {
         .catch(err => {
             console.error(err)
         })
+    User.findByIdAndUpdate({ tasks: SaveTask })
 })
 
 newrouter.get('/tasks', async (req, res) => {
