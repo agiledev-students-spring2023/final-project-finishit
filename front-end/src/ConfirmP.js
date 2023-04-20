@@ -64,8 +64,8 @@ const ConfirmP = props => {
                 <br />
                 <br />
                 <p>OR</p>
-                <p><Link class="loginText" to="/create">Create new account</Link></p>
-                <p><Link class="loginText" to="/login">Back to login</Link></p>
+                <p><Link className="loginText" to="/create">Create new account</Link></p>
+                <p><Link className="loginText" to="/login">Back to login</Link></p>
             </form>
         </div>
     )

@@ -1,20 +1,34 @@
+// Disable func-names so functions remain in scope.
+/* eslint-disable func-names */
 // Represents a mongoose model of a User.
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv')
 
 // Import other models.
 const Badge = require('./Badge')
 const Task = require('./Task')
 
+dotenv.config({ silent: true })
+
 // Mongoose User schema.
 const UserSchema = new mongoose.Schema({
     username: {
         type: String,
-        unique: true,
+        // unique: true,
         required: true
     },
     password: {
+        type: String,
+        required: true,
+        select: false
+    },
+    petName: {
+        type: String,
+        required: true
+    },
+    motherName: {
         type: String,
         required: true
     },
@@ -31,52 +45,55 @@ const UserSchema = new mongoose.Schema({
 // Salt and hash a password before saving it in the database.
 const BCRYPT_SALT_WORK_FACTOR = 10
 
-UserSchema.pre('save', next => {
-    const user = this
+UserSchema.pre('save', async function (next) {
+    console.log(this)
 
-    // only hash the password if it has been modified (or is new)
-    if (!user.isModified('password')) return next()
+    // If a user has modified their password, hash it.
+    if (!this.isModified('password')) return next()
 
-    // generate a salt
-    bcrypt.genSalt(BCRYPT_SALT_WORK_FACTOR, (err1, salt) => {
-        if (err1) return next(err1)
+    const salt = await bcrypt.genSalt(BCRYPT_SALT_WORK_FACTOR)
+    this.password = await bcrypt.hash(this.password, salt)
 
-        // hash the password using our new salt
-        bcrypt.hash(user.password, salt, (err2, hash) => {
-            if (err2) return next(err2)
-            // override the cleartext password with the hashed one
-            user.password = hash
-            next()
-        })
-    })
+    console.log(this)
 })
 
 // Compare a submitted password against the user's stored password.
-UserSchema.methods.comparePassword = (candidatePassword, cb) => {
-    bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
-        if (err) return cb(err)
-        cb(null, isMatch)
-    })
+UserSchema.methods.comparePassword = async function (candidatePassword) {
+    const validPassword = await bcrypt.compare(candidatePassword, this.password)
+    return validPassword
 }
 
 // Return a JWT token for the user.
-UserSchema.methods.generateJWT = () => {
-    const today = new Date()
-    const exp = new Date(today)
-    exp.setDate(today.getDate() + process.env.JWT_EXPIRE) // .env var for token expiration
-
-    return jwt.sign({
-        id: this._id,
-        username: this.username,
-        exp: parseInt(exp.getTime() / 1000, 10)
-    }, process.env.JWT_SECRET)
+UserSchema.methods.generateJWT = function () {
+    return jwt.sign(
+        { id: this._id },
+        process.env.JWT_SECRET,
+        {
+            expiresIn: process.env.JWT_EXPIRE
+        }
+    )
 }
 
 // Return the user information without sensitive data.
-UserSchema.methods.toAuthJSON = () => ({
-    username: this.username,
-    token: this.generateJWT()
-})
+UserSchema.methods.toAuthJSON = function () {
+    return {
+        username: this.username,
+        token: this.generateJWT()
+    }
+}
+
+UserSchema.methods.verifyQuestions = function (answers) {
+    return (
+        this.petName === answers.petName
+        && this.motherName === answers.motherName
+    )
+}
+
+UserSchema.methods.addTask = function (task) {
+    this.tasks.push(task)
+    this.tasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+    this.save()
+}
 
 // Create a model from this schema.
 const User = mongoose.model('User', UserSchema)

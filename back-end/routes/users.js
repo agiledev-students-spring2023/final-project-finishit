@@ -1,273 +1,124 @@
+// NPM imports.
 const express = require('express')
-const jwt = require('jsonwebtoken')
-const { promises } = require('fs')
+const passport = require('passport')
 
-const fs = promises
-const { fileURLToPath, pathToFileURL } = require('url')
-const path = require('path')
-
-const { dirname } = path
+// Model imports.
+const User = require('../models/User')
 
 const usersRouter = express.Router()
 
-const filename = fileURLToPath(pathToFileURL(__filename).toString())
-const dirName = dirname(filename)
-
-async function findUserAndList(username) {
-    const filePath = path.join(dirName, '../data/users.json')
-    const usersInJSON = await fs.readFile(filePath, 'utf-8')
-    const users = JSON.parse(usersInJSON)
-    let foundUser = null
-    foundUser = users.find(user => user.username === username)
-    return {
-        user: foundUser,
-        users
-    }
-}
-
-// filterd payload
-
-const filterPayload = payload => {
-    const dataArray = Object.entries(payload)
-    // console.log(dataArray);
-    return Object.fromEntries(dataArray.filter(([key, value]) => value !== ''))
-}
-
-const saveUsers = async users => {
-    const filePath = path.join(dirName, '../data/users.json')
-    const response1 = await fs.writeFile(filePath, JSON.stringify(users))
-    return true
-}
-
-const getUsers = async () => {
-    const filePath = path.join(dirName, '../data/users.json')
-    const usersInJSON = await fs.readFile(filePath, 'utf-8')
-    return JSON.parse(usersInJSON)
-}
-
-const verifyQuestions = async (username, answers) => {
-    const users = await getUsers()
-    let verified = false
-    try {
-        users.forEach(user => {
-            if (
-                user.petName === answers.petName
-                && user.motherName === answers.motherName
-                && user.username === username
-            ) {
-                verified = true
-                throw new Error('verified')
-            }
-        })
-    } catch (e) {
-        if (e.message !== 'verified') {
-            throw e
-        }
-    }
-    return verified
-}
+// Returns the user if found, otherwise returns null.
+// (Error checking should be done by whichever function calls this.)
 const findUserByUsername = async username => {
-    const users = await getUsers()
-    return users.find(user => user.username === username)
+    let user = await User.findOne({ username }).select('+password')
+    if (!user) user = null
+    return user
 }
 
-usersRouter.post('/login', async (req, res) => {
-    // check if the user exists
-
-    const filePath = path.join(dirName, '../data/users.json')
-
-    const usersInJSON = await fs.readFile(filePath, 'utf-8')
-
-    const users = JSON.parse(usersInJSON)
-    const found = users.find(user => user.username === req.body.username)
-    console.log(found)
-    if (!users.find(user => user.username === req.body.username)) {
-        res.status(400).json({
-            success: false,
-            message: 'Invalid credentials!'
-        })
-        return
-    }
-
-    // check of username and password both
-    const foundUser = users.find(user => user.username === req.body.username)
-    if (foundUser.password === req.body.password) {
-        // generate token
-        const token = jwt.sign(
-            { username: foundUser.username },
-            process.env.JWT_SECRET,
-            {
-                expiresIn: process.env.JWT_EXPIRE
-            }
-        )
-
-        res.status(200).json({
-            success: true,
-            token,
-            user: foundUser
-        })
-    }
-})
-
+// Method to create a user. Replaces the previous POST /create route.
 usersRouter.post('/create', async (req, res) => {
-    const filePath = path.join(dirName, '../data/users.json')
-    const newUser = JSON.stringify(req.body)
+    // TODO: (Khalifa) Create a user in the database.
+    // Note the user should NOT be logged in automatically after creation.
+    // After the user has been created, send them to the login page.
 
-    let users = []
     try {
-        const usersInJSON = await fs.readFile(filePath, 'utf-8')
-        users = JSON.parse(usersInJSON)
-    } catch (err) {
-        // if file doesn't exist, create a new file
-        if (err.code === 'ENOENT') {
-            await fs.writeFile(filePath, '[]')
-        } else {
-            res.status(500).json({
-                success: false,
-                message: 'Error reading file'
+        const newUser = await User.create({
+            username: req.body.username,
+            password: req.body.password,
+            petName: req.body.petName,
+            motherName: req.body.motherName,
+            tasks: [],
+            badges: []
+        })
+        if (newUser) {
+            res.status(200).json({
+                success: true,
+                message: 'User created successfully',
+                users: newUser
             })
-            return
-        }
-    }
-
-    const userExists = users.find(user => user.username === req.body.username)
-
-    if (userExists) {
-        res.status(400).json({
-            success: false,
-            message: 'Username already exists'
-        })
-        return
-    }
-
-    const newUsersList = [...users, req.body]
-    const response1 = await fs.writeFile(filePath, JSON.stringify(newUsersList))
-
-    // check of username and password both
-    res.status(200).json({
-        success: true,
-        message: 'Account created successfully'
-    })
-})
-
-usersRouter.put('/', async (req, res) => {
-    let token = null
-    let updatedUser = null
-
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-        token = req.headers.authorization.split(' ')[1]
-    }
-
-    if (!token) {
-        res.status(403).json({
-            success: false,
-            message: 'Unauthorized!'
-        })
-    }
-
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
-        const loggedInUserName = decoded.username
-        if (loggedInUserName !== '') {
-            const result = await findUserAndList(loggedInUserName)
-            if (result.user) {
-                const modifiedUsers = result.users.map(user => {
-                    if (user.username === loggedInUserName) {
-                        const filteredPayload = filterPayload(req.body)
-                        // eslint-disable-next-line no-param-reassign
-                        user = { ...user, ...filteredPayload }
-                        updatedUser = user // Save the updated user information
-                    }
-                    return user
-                })
-
-                if (updatedUser) {
-                    await saveUsers(modifiedUsers)
-                    res.status(200).json({
-                        success: true,
-                        user: updatedUser
-                    })
-                } else {
-                    res.status(403).json({
-                        success: false,
-                        message: 'Unauthorized!'
-                    })
-                }
-            }
         } else {
             res.status(403).json({
                 success: false,
-                message: 'Unauthorized!'
+                message: 'User not created successfully',
+                user: null
             })
         }
     } catch (err) {
-        res.status(403).json({
+        res.status(500).json({
             success: false,
             message: err.message
         })
     }
 })
 
-usersRouter.post('/verify-answers', async (req, res) => {
-    const { username, answers } = req.body
-    const found = await findUserByUsername(username)
-    if (!found) {
-        res.status(404).json({
-            success: false,
-            message: 'username not found!'
-        })
-        return
-    }
+// Method to login a user. Replaces the previous POST /login route.
+usersRouter.post('/login', async (req, res) => {
+    try {
+        // Check if the user exists, if not throw an error.
+        const user = await findUserByUsername(req.body.username)
+        if (user == null) throw Error()
 
-    const verified = await verifyQuestions(username, answers)
-    if (!verified) {
-        res.status(403).json({
+        // Check if the user's password is correct, if not throw an error.
+        const passwordCorrect = await user.comparePassword(req.body.password)
+        if (!passwordCorrect) throw Error()
+
+        // Everything looks good, send the user a success message and their token.
+        const token = user.generateJWT()
+        res.status(200).json({ success: true, token })
+    } catch {
+        res.status(400).json({
             success: false,
-            message: 'You have answered wrong!'
-        })
-    } else {
-        res.status(200).json({
-            success: true,
-            message: 'verified!',
-            username
+            message: 'Invalid credentials!'
         })
     }
 })
 
-usersRouter.patch('/reset-password', async (req, res) => {
-    const { username, newPassword } = req.body
-    const found = await findUserByUsername(username)
+// Authenticated route!
+usersRouter.get('/userInfo', passport.authenticate('jwt', { session: false }), (req, res) => {
+    // For now, this route returns ALL the user information.
+    // This is insecure, but will change in the future.
+    // For now, this will allow the frontend to work without changes.
+    res.json(req.user)
+})
 
-    if (!found) {
-        res.status(404).json({
-            success: false,
-            message: 'username not found!'
-        })
-        return
-    }
+// Authenticated route! Will replace the previous PUT / route.
+usersRouter.post('/change/username', passport.authenticate('jwt', { session: false }), (req, res) => {
+    // TODO: (Harrison) Change a user's username.
+    const newUsername = 'test'
+    User.updateOne({ _id: req.user._id }, { $set: { username: newUsername } })
+})
 
-    // reset Password
+// Authenticated route! Will replace the previous PATCH /reset-password route.
+usersRouter.post('/change/password', passport.authenticate('jwt', { session: false }), (req, res) => {
+    // TODO: (Harrison) Change a user's password.
+    const newPassword = 'test'
+    User.updateOne({ _id: req.user._id }, { $set: { password: newPassword } })
+})
 
-    const users = await getUsers()
-    users.map(user => {
-        if (user.username === username) {
-            user.password = newPassword
+// Authenticated route! Will allow a user to delete their account.
+usersRouter.post('/delete', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    // TODO: (Khalifa) Delete user account in database.
+    try {
+        const result = await User.findByIdAndDelete(req.user.id)
+        if (result) {
+            res.status(200).json({
+                success: true
+            })
         }
-        return user
-    })
-
-    const response = await saveUsers(users)
-    if (!response) {
-        res.status(400).json({
-            success: false,
-            message: 'Password reset failed'
-        })
-    } else {
+    } catch (err) {
         res.status(200).json({
-            success: true,
-            message: 'Password updated successfully'
+            success: false
         })
     }
+})
+
+usersRouter.get('/users', async (req, res) => {
+    const users = await User.find().select('password')
+
+    res.status(200).json({
+        success: true,
+        users
+    })
 })
 
 module.exports = {
