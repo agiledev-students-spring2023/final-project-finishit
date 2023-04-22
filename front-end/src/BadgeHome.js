@@ -1,6 +1,6 @@
 import './BadgeHome.css'
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 const BadgeHome = props => {
@@ -24,8 +24,10 @@ const BadgeHome = props => {
         { id: 5, color: '#f5b942', text: 'Medium Priority' }
     ]
 
-    const [badges, setBadges] = useState(sampleBadges)
+    const nav = useNavigate()
 
+    const [badges, setBadges] = useState([])
+    /*
     const fetchBadges = () => {
         //    env var in .env
         axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/badges`)// returns a promise
@@ -36,8 +38,28 @@ const BadgeHome = props => {
                 console.log(err)
             })
     }
-
+*/
     useEffect(() => {
+        async function fetchBadges() {
+            const jwtToken = localStorage.getItem('token')
+            if (!jwtToken) {
+                console.log('No token')
+                nav('/login')
+            } else {
+                try {
+                    const fetchedBadges = await axios.get(
+                        `${process.env.REACT_APP_SERVER_HOSTNAME}/auth/userInfo`,
+                        { headers: { Authorization: `JWT ${jwtToken}` } }
+                    )
+                    setBadges(fetchedBadges.data.badges)
+                } catch (err) {
+                    console.log('Something went wrong when fetching badges')
+                    console.log(err)
+                    nav('/login')
+                }
+            }
+        }
+
         // fetch badges this once
         fetchBadges()
         /*
@@ -51,7 +73,7 @@ const BadgeHome = props => {
             // clear the timer, so we don't still load badges when this component is not loaded
             clearInterval(intervalHandle)
         } */
-    }, [])
+    }, [nav])
 
     return (
         <div className="pagebody">
@@ -60,9 +82,9 @@ const BadgeHome = props => {
             or click on an existing badge to edit it.
             <br />
             <br />
-            {badges.map((badge, idx) => (
+            {badges && badges.map((badge, idx) => (
                 <React.Fragment key={idx}>
-                    <Link to={`/editbadge/${badge.id}`}>
+                    <Link to={`/editbadge/${badge._id}`}>
                         <span key={idx} className="badge" style={{ color: textColorFromBackground(badge.color), background: badge.color }}>{badge.text}</span>
                     </Link>
                 </React.Fragment>

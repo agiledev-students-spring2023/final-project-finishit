@@ -23,14 +23,20 @@ const NewBadge = props => {
 
     const handleSubmit = e => {
         e.preventDefault()
+        const jwtToken = localStorage.getItem('token')
         // to generate unique id
-        const curTime = Date.now()
-        axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/badges`, {
-            newBadge: { id: curTime, color: badgeColor, text: badgeText }
-        }).then(response => {
+        // const curTime = Date.now()
+        axios.post(
+            `${process.env.REACT_APP_SERVER_HOSTNAME}/badges`,
+            {
+                newBadge: { color: badgeColor, text: badgeText } },
+            { headers: { Authorization: `JWT ${jwtToken}` } }
+        ).then(response => {
             if (response.data.addSuccess) {
                 navigate('/badges')
             }
+        }).catch(err => {
+            console.log(err)
         })
     }
 

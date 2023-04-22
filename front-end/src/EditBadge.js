@@ -50,7 +50,11 @@ const EditBadge = props => {
 
     useEffect(() => {
         const fetchBadge = () => {
-            axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/badges/${id}`)
+            const jwtToken = localStorage.getItem('token')
+            axios.get(
+                `${process.env.REACT_APP_SERVER_HOSTNAME}/badges/${id}`,
+                { headers: { Authorization: `JWT ${jwtToken}` } }
+            )
                 .then(response => {
                     const dataBadge = response.data.badge
                     setBadge(dataBadge)

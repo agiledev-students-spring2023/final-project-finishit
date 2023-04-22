@@ -2,7 +2,9 @@
  * These are the routes for the /badges page on the front-end.
  */
 const express = require('express')
-const { Badge } = require('../models/Badge')
+const passport = require('passport')
+const Badge = require('../models/Badge')
+const User = require('../models/User')
 
 const badgesRouter = express.Router()
 
@@ -22,13 +24,13 @@ function setError(err) {
     devError = err
 }
 
-badgesRouter.get('/badges', async (req, res) => {
+badgesRouter.get('/badges', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         if (devError) {
             throw new Error('simulated error')
         }
         res.json({
-            badges
+            badges: req.user.badges
         })
     } catch (err) {
         res.status(500).json({
@@ -38,12 +40,18 @@ badgesRouter.get('/badges', async (req, res) => {
     }
 })
 
-badgesRouter.post('/badges', async (req, res) => {
+badgesRouter.post('/badges', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         if (devError) {
             throw new Error('simulated error')
         }
-        badges.push(req.body.newBadge)
+        // badges.push(req.body.newBadge)
+        const badgeToSave = new Badge({
+            text: req.body.newBadge.text,
+            color: req.body.newBadge.color
+        })
+        req.user.badges.push(badgeToSave)
+        await req.user.save()
         res.json({
             addSuccess: true
         })
@@ -55,14 +63,15 @@ badgesRouter.post('/badges', async (req, res) => {
     }
 })
 
-badgesRouter.get('/badges/:id', async (req, res) => {
+badgesRouter.get('/badges/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         if (devError) {
             throw new Error('simulated error')
         }
-        const toRet = badges.find(ele => (ele.id === parseInt(req.params.id, 10)))
+        // const curUser = await User.findById(req.user._id)
+        const toRet = req.user.badges.find(ele => ele._id === req.params.id)
         res.json({
-            badge: toRet ?? { id: parseInt(req.params.id, 10), color: '#0000ff', description: 'unfound' }
+            badge: toRet
         })
     } catch (err) {
         res.status(500).json({

@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 // Mongoose Badge schema.
 const BadgeSchema = new mongoose.Schema({
-    title: {
+    text: {
         type: String,
         required: true
     },
