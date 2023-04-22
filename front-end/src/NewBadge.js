@@ -24,8 +24,6 @@ const NewBadge = props => {
     const handleSubmit = e => {
         e.preventDefault()
         const jwtToken = localStorage.getItem('token')
-        // to generate unique id
-        // const curTime = Date.now()
         axios.post(
             `${process.env.REACT_APP_SERVER_HOSTNAME}/badges`,
             {

@@ -16,41 +16,52 @@ const EditBadge = props => {
         return (rgb[0] * 0.299 + rgb[1] * 0.587 + rgb[2] * 0.114) > 154 ? 'black' : 'white'
     }
 
-    const [badge, setBadge] = useState({ id: 0, color: '#0000ff', description: 'Badge not found' })
+    const [badge, setBadge] = useState({ id: 0, color: '#0000ff', text: 'Badge not found' })
     const [badgeColor, setBadgeColor] = useState(badge.color)
-    const [badgeText, setBadgeText] = useState(badge.description)
+    const [badgeText, setBadgeText] = useState(badge.text)
 
     const [oldColor, setOldColor] = useState(badge.color)
-    const [oldText, setOldText] = useState(badge.description)
+    const [oldText, setOldText] = useState(badge.text)
 
     const { id } = useParams()
 
     const navigate = useNavigate()
 
+    const jwtToken = localStorage.getItem('token')
+
     const handleSubmit = e => {
         e.preventDefault()
-        axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/badges/${id}`, {
-            editedBadge: { id: parseInt(id, 10), color: badgeColor, text: badgeText }
-        }).then(response => {
+        axios.post(
+            `${process.env.REACT_APP_SERVER_HOSTNAME}/badges/${id}`,
+            {
+                editedBadge: { color: badgeColor, text: badgeText } },
+            { headers: { Authorization: `JWT ${jwtToken}` } }
+        ).then(response => {
             if (response.data.changedSuccess) {
                 navigate('/badges')
             }
+        }).catch(err => {
+            console.log(err)
         })
     }
 
     const handleDelete = e => {
         e.preventDefault()
-        axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/rmBadge/${id}`)
+        axios.get(
+            `${process.env.REACT_APP_SERVER_HOSTNAME}/rmBadge/${id}`,
+            { headers: { Authorization: `JWT ${jwtToken}` } }
+        )
             .then(response => {
                 if (response.data.deleteSuccess) {
                     navigate('/badges')
                 }
+            }).catch(err => {
+                console.log(err)
             })
     }
 
     useEffect(() => {
         const fetchBadge = () => {
-            const jwtToken = localStorage.getItem('token')
             axios.get(
                 `${process.env.REACT_APP_SERVER_HOSTNAME}/badges/${id}`,
                 { headers: { Authorization: `JWT ${jwtToken}` } }
@@ -67,7 +78,7 @@ const EditBadge = props => {
                 })
         }
         fetchBadge()
-    }, [id])
+    }, [jwtToken, id])
 
     return (
         <div id="badgeform">
