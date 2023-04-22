@@ -27,18 +27,8 @@ const BadgeHome = props => {
     const nav = useNavigate()
 
     const [badges, setBadges] = useState([])
-    /*
-    const fetchBadges = () => {
-        //    env var in .env
-        axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/badges`)// returns a promise
-            .then(response => {
-                setBadges(response.data.badges)
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
-*/
+    const [error, setError] = useState('')
+
     useEffect(() => {
         async function fetchBadges() {
             const jwtToken = localStorage.getItem('token')
@@ -51,28 +41,21 @@ const BadgeHome = props => {
                         `${process.env.REACT_APP_SERVER_HOSTNAME}/auth/userInfo`,
                         { headers: { Authorization: `JWT ${jwtToken}` } }
                     )
-                    setBadges(fetchedBadges.data.badges)
+                    if (fetchedBadges.data.status) {
+                        setError(fetchedBadges.data.status)
+                    } else {
+                        setBadges(fetchedBadges.data.badges)
+                        setError('')
+                    }
                 } catch (err) {
-                    console.log('Something went wrong when fetching badges')
+                    setError('Something went wrong when fetching badges. Please try again later.')
                     console.log(err)
-                    nav('/login')
+                    // nav('/login')
                 }
             }
         }
 
-        // fetch badges this once
         fetchBadges()
-        /*
-        // set a timer to load data from server every n seconds
-        const intervalHandle = setInterval(() => {
-            fetchBadges()
-        }, 5000)
-
-        // return a function that will be called when this component unloads
-        return e => {
-            // clear the timer, so we don't still load badges when this component is not loaded
-            clearInterval(intervalHandle)
-        } */
     }, [nav])
 
     return (
@@ -82,6 +65,12 @@ const BadgeHome = props => {
             or click on an existing badge to edit it.
             <br />
             <br />
+            {error && (
+                <p>
+                    Error:
+                    {error}
+                </p>
+            )}
             {badges && badges.map((badge, idx) => (
                 <React.Fragment key={idx}>
                     <Link to={`/editbadge/${badge._id}`}>

@@ -1,5 +1,5 @@
 import './NewBadge.css'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
@@ -18,6 +18,7 @@ const NewBadge = props => {
 
     const [badgeColor, setBadgeColor] = useState('#000000')
     const [badgeText, setBadgeText] = useState('Sample Label Text')
+    const [error, setError] = useState('')
 
     const navigate = useNavigate()
 
@@ -32,14 +33,26 @@ const NewBadge = props => {
         ).then(response => {
             if (response.data.addSuccess) {
                 navigate('/badges')
+            } else if (response.data.status) {
+                setError(response.data.status)
             }
         }).catch(err => {
+            setError('Something went wrong. Please try again later.')
             console.log(err)
         })
     }
 
+    const jwtToken = localStorage.getItem('token')
+    useEffect(() => { if (!jwtToken) navigate('/login') }, [jwtToken, navigate])
+
     return (
         <div id="badgeform">
+            {error && (
+                <p>
+                    Error:
+                    {error}
+                </p>
+            )}
             <form onSubmit={e => handleSubmit(e)}>
                 <label>Badge Color</label>
                 <br />

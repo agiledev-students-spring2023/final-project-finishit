@@ -36,7 +36,7 @@ badgesRouter.get('/badges', passport.authenticate('jwt', { session: false }), as
     } catch (err) {
         res.status(500).json({
             error: err,
-            status: 'failed to retrieve badges from the database'
+            status: 'Could not retrieve badges. Please try again later.'
         })
     }
 })
@@ -60,7 +60,7 @@ badgesRouter.post('/badges', passport.authenticate('jwt', { session: false }), a
     } catch (err) {
         res.status(500).json({
             error: err,
-            status: 'failed to add new badge from the database'
+            status: 'Could not add new badge. Please try again later.'
         })
     }
 })
@@ -78,7 +78,7 @@ badgesRouter.get('/badges/:id', passport.authenticate('jwt', { session: false })
     } catch (err) {
         res.status(500).json({
             error: err,
-            status: 'failed to retrieve specified badge from the database'
+            status: 'Could not retrieve specified badge. Please try again later.'
         })
     }
 })
@@ -89,10 +89,11 @@ badgesRouter.post('/badges/:id', passport.authenticate('jwt', { session: false }
         if (devError) {
             throw new Error('simulated error')
         }
-        const toChange = req.user.badges[req.user.badges.findIndex(ele => ele._id.toString() === req.params.id)]
+        const toChange = req.user.badges[req.user.badges
+            .findIndex(ele => ele._id.toString() === req.params.id)]
         toChange.text = req.body.editedBadge.text
         toChange.color = req.body.editedBadge.color
-        //await toChange.save()
+        // await toChange.save()
         await req.user.save()
         res.json({
             changedSuccess: true
@@ -101,7 +102,7 @@ badgesRouter.post('/badges/:id', passport.authenticate('jwt', { session: false }
         console.log(err)
         res.status(500).json({
             error: err,
-            status: 'failed to edit specified badge from the database'
+            status: 'Could not edit specified badge. Please try again later.'
         })
     }
 })
@@ -121,7 +122,7 @@ badgesRouter.get('/rmBadge/:id', passport.authenticate('jwt', { session: false }
     } catch (err) {
         res.status(500).json({
             error: err,
-            status: 'failed to edit specified badge from the database'
+            status: 'Could not delete specified badge. Please try again later.'
         })
     }
 })

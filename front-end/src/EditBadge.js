@@ -23,10 +23,9 @@ const EditBadge = props => {
     const [oldColor, setOldColor] = useState(badge.color)
     const [oldText, setOldText] = useState(badge.text)
 
+    const [error, setError] = useState('')
     const { id } = useParams()
-
     const navigate = useNavigate()
-
     const jwtToken = localStorage.getItem('token')
 
     const handleSubmit = e => {
@@ -39,8 +38,11 @@ const EditBadge = props => {
         ).then(response => {
             if (response.data.changedSuccess) {
                 navigate('/badges')
+            } else if (response.data.status) {
+                setError(response.data.status)
             }
         }).catch(err => {
+            setError('Something went wrong. Please try again later.')
             console.log(err)
         })
     }
@@ -54,8 +56,11 @@ const EditBadge = props => {
             .then(response => {
                 if (response.data.deleteSuccess) {
                     navigate('/badges')
+                } else if (response.data.status) {
+                    setError(response.data.status)
                 }
             }).catch(err => {
+                setError('Something went wrong. Please try again later.')
                 console.log(err)
             })
     }
@@ -67,21 +72,37 @@ const EditBadge = props => {
                 { headers: { Authorization: `JWT ${jwtToken}` } }
             )
                 .then(response => {
+                    if (response.data.status) {
+                        setError(response.data.status)
+                        return
+                    }
                     const dataBadge = response.data.badge
                     setBadge(dataBadge)
                     setBadgeColor(dataBadge.color)
                     setBadgeText(dataBadge.text)
                     setOldColor(dataBadge.color)
                     setOldText(dataBadge.text)
+                    setError('')
                 }).catch(err => {
+                    setError('Something went wrong. Please try again later.')
                     console.log(err)
                 })
         }
-        fetchBadge()
-    }, [jwtToken, id])
+        if (!jwtToken) {
+            navigate('/login')
+        } else {
+            fetchBadge()
+        }
+    }, [jwtToken, id, navigate])
 
     return (
         <div id="badgeform">
+            {error && (
+                <p>
+                    Error:
+                    {error}
+                </p>
+            )}
             <form onSubmit={e => handleSubmit(e)}>
                 <label>Badge Color</label>
                 <br />
