@@ -15,15 +15,6 @@ const BadgeHome = props => {
         return (rgb[0] * 0.299 + rgb[1] * 0.587 + rgb[2] * 0.114) > 154 ? 'black' : 'white'
     }
 
-    const sampleBadges = [
-        { id: 0, color: '#000000', text: 'Category 1' },
-        { id: 1, color: '#ffffff', text: 'Category 2' },
-        { id: 2, color: '#ff0000', text: 'Category 3' },
-        { id: 3, color: '#ccff99', text: 'Category 4' },
-        { id: 4, color: '#ff0000', text: 'Urgent' },
-        { id: 5, color: '#f5b942', text: 'Medium Priority' }
-    ]
-
     const nav = useNavigate()
 
     const [badges, setBadges] = useState([])
@@ -50,7 +41,6 @@ const BadgeHome = props => {
                 } catch (err) {
                     setError('Something went wrong when fetching badges. Please try again later.')
                     console.log(err)
-                    // nav('/login')
                 }
             }
         }
@@ -68,7 +58,7 @@ const BadgeHome = props => {
             {error && (
                 <p>
                     Error:
-                    {error}
+                    {' ' + error}
                 </p>
             )}
             {badges && badges.map((badge, idx) => (

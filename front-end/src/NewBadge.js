@@ -22,9 +22,10 @@ const NewBadge = props => {
 
     const navigate = useNavigate()
 
+    const jwtToken = localStorage.getItem('token')
+
     const handleSubmit = e => {
         e.preventDefault()
-        const jwtToken = localStorage.getItem('token')
         axios.post(
             `${process.env.REACT_APP_SERVER_HOSTNAME}/badges`,
             {
@@ -42,15 +43,18 @@ const NewBadge = props => {
         })
     }
 
-    const jwtToken = localStorage.getItem('token')
-    useEffect(() => { if (!jwtToken) navigate('/login') }, [jwtToken, navigate])
+    useEffect(() => { 
+        if (!jwtToken) { 
+            navigate('/login') 
+        }
+    }, [jwtToken, navigate])
 
     return (
         <div id="badgeform">
             {error && (
                 <p>
                     Error:
-                    {error}
+                    {' ' + error}
                 </p>
             )}
             <form onSubmit={e => handleSubmit(e)}>

@@ -100,7 +100,7 @@ const EditBadge = props => {
             {error && (
                 <p>
                     Error:
-                    {error}
+                    {' ' + error}
                 </p>
             )}
             <form onSubmit={e => handleSubmit(e)}>
