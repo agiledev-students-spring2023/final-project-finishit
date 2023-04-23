@@ -17,10 +17,6 @@ const findUserByUsername = async username => {
 
 // Method to create a user. Replaces the previous POST /create route.
 usersRouter.post('/create', async (req, res) => {
-    // TODO: (Khalifa) Create a user in the database.
-    // Note the user should NOT be logged in automatically after creation.
-    // After the user has been created, send them to the login page.
-
     try {
         const newUser = await User.create({
             username: req.body.username,
@@ -83,21 +79,30 @@ usersRouter.get('/userInfo', passport.authenticate('jwt', { session: false }), (
 
 // Authenticated route! Will replace the previous PUT / route.
 usersRouter.post('/change/username', passport.authenticate('jwt', { session: false }), (req, res) => {
-    // TODO: (Harrison) Change a user's username.
-    const newUsername = 'test'
-    User.updateOne({ _id: req.user._id }, { $set: { username: newUsername } })
+    const newUsername = req.body.newUsername
+    User.updateOne({ _id: req.user._id }, { $set: { username: newUsername } }).then(() => {
+        res.json({ success: true })
+    }).catch(error => {
+        res.json({ error })
+    })
 })
 
 // Authenticated route! Will replace the previous PATCH /reset-password route.
-usersRouter.post('/change/password', passport.authenticate('jwt', { session: false }), (req, res) => {
-    // TODO: (Harrison) Change a user's password.
-    const newPassword = 'test'
-    User.updateOne({ _id: req.user._id }, { $set: { password: newPassword } })
+usersRouter.post('/change/password', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    // Use a different method to change password so it is hashed.
+    try {
+        const newPassword = req.body.newPassword
+        const user = await User.findById(req.user._id)
+        user.password = newPassword
+        await user.save()
+        res.json({ success: true })
+    } catch {
+        res.json({ success: false })
+    }
 })
 
 // Authenticated route! Will allow a user to delete their account.
 usersRouter.post('/delete', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    // TODO: (Khalifa) Delete user account in database.
     try {
         const result = await User.findByIdAndDelete(req.user.id)
         if (result) {
