@@ -140,12 +140,6 @@ const NewTask = props => {
                         displayValue="text"
                     />
                 </div>
-                <Multiselect 
-                    options={options} // Options to display in the dropdown
-                    onSelect={handleSelect} // Function will trigger on select event
-                    onRemove={handleRemove} // Function will trigger on remove event
-                    displayValue="text"
-                />
                 <div>
                     <button className="submitButton" type="submit">
                         Submit Task

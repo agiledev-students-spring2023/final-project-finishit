@@ -18,8 +18,10 @@ const TaskSchema = new mongoose.Schema({
         required: true,
         enum: ['NOT_STARTED', 'IN_PROGRESS', 'COMPLETED']
     },
-    badges: [{type: mongoose.Schema.Types.ObjectId, ref: 'Badge'}]
-})
+    badges: {
+        type: [String],
+        default: []
+    }})
 
 // Create a model from this schema.
 const Task = mongoose.model('Task', TaskSchema)

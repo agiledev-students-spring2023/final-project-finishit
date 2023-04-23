@@ -42,19 +42,16 @@ function setSampleTasks(newSampleTasks) {
 
 // Authenticated route. Gives user a list of their tasks from the database.
 tasksRouter.get('/tasks', passport.authenticate('jwt', { session: false }), async (req, res) => {
-   /*
-    const user = await User.findById(req.user._id)
-    const tasks = req.user.tasks
-    const toRet = tasks.slice()
-    for(let i=0; i<tasks.length; i++){
-        for(let j=0; j<tasks[i].badges.length; j++){
-            const badge = await Badge.findById(tasks[i].badges[j])
-            toRet[i].badges[j] = badge
+    const toRet = req.user.tasks.toObject()
+    for(let i=0; i<toRet.length; i++){
+        for(let j=0; j<toRet[i].badges.length; j++){
+            toRet[i].badges[j] = req.user.badges.find(ele => 
+                ele._id.toString() === req.user.tasks[i].badges[j]
+                )
         }
     }
 
-    console.log(toRet)*/
-    res.json(req.user.tasks)
+    res.json(toRet)
 })
 
 // Authenticated route. Creates a new task under the logged-in user.
@@ -68,7 +65,7 @@ tasksRouter.post('/newtask', passport.authenticate('jwt', { session: false }), a
         title: taskFromForm.stringname,
         dueDate: new Date(taskFromForm.dateduedate),
         status: 'NOT_STARTED',
-        badges: req.body.badges.map(val => new mongoose.Types.ObjectId(val._id))
+        badges: req.body.badges.map(val => val._id)
     }
 
     // Add task to user object using method from User model.
