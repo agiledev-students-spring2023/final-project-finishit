@@ -69,6 +69,31 @@ usersRouter.post('/login', async (req, res) => {
     }
 })
 
+usersRouter.post('/forgot', async (req, res) => {
+    try {
+        // Check if the user exists, if not throw an error.
+        const user = await findUserByUsername(req.body.username)
+        if (user == null) throw Error()
+
+        // Check if the user's security questions are correct.
+        const questionsCorrect = await user.compareQuestions({
+            petName: req.body.petName,
+            motherName: req.body.motherName
+        })
+        if (!questionsCorrect) throw Error()
+
+        // If user security questions are correct, change the password.
+        user.password = req.body.newPassword
+        await user.save()
+        res.status(200).json({ success: true })
+    } catch {
+        res.status(400).json({
+            success: false,
+            message: 'Unable to change password. Are your security questions right?'
+        })
+    }
+})
+
 // Authenticated route!
 usersRouter.get('/userInfo', passport.authenticate('jwt', { session: false }), (req, res) => {
     // For now, this route returns ALL the user information.
@@ -81,9 +106,9 @@ usersRouter.get('/userInfo', passport.authenticate('jwt', { session: false }), (
 usersRouter.post('/change/username', passport.authenticate('jwt', { session: false }), (req, res) => {
     const newUsername = req.body.newUsername
     User.updateOne({ _id: req.user._id }, { $set: { username: newUsername } }).then(() => {
-        res.json({ success: true })
+        res.status(200).json({ success: true })
     }).catch(error => {
-        res.json({ error })
+        res.status(400).json({ error })
     })
 })
 
@@ -91,13 +116,12 @@ usersRouter.post('/change/username', passport.authenticate('jwt', { session: fal
 usersRouter.post('/change/password', passport.authenticate('jwt', { session: false }), async (req, res) => {
     // Use a different method to change password so it is hashed.
     try {
-        const newPassword = req.body.newPassword
         const user = await User.findById(req.user._id)
-        user.password = newPassword
+        user.password = req.body.newPassword
         await user.save()
-        res.json({ success: true })
+        res.status(200).json({ success: true })
     } catch {
-        res.json({ success: false })
+        res.status(400).json({ success: false })
     }
 })
 

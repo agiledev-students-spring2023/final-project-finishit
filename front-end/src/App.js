@@ -7,7 +7,6 @@ import Create from './Create'
 import Login from './Login'
 import Logout from './Logout'
 import Reset from './Reset'
-import ConfirmP from './ConfirmP'
 import Settings from './Settings'
 import NewTask from './NewTask'
 import EditTask from './EditTask'
@@ -35,9 +34,6 @@ const App = props => (
 
                     {/* a route to see reset page */}
                     <Route path="/reset" element={<Reset />} />
-
-                    {/* a route to see confirm password page */}
-                    <Route path="/confirmp" element={<ConfirmP />} />
 
                     {/* a route to see confirm password page */}
                     <Route path="/settings" element={<Settings />} />
