@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 const passport = require('passport')
 
 const User = require('../models/User')
+const Badge = require('../models/Badge')
 
 const tasksRouter = express.Router()
 
@@ -40,7 +41,19 @@ function setSampleTasks(newSampleTasks) {
 }
 
 // Authenticated route. Gives user a list of their tasks from the database.
-tasksRouter.get('/tasks', passport.authenticate('jwt', { session: false }), (req, res) => {
+tasksRouter.get('/tasks', passport.authenticate('jwt', { session: false }), async (req, res) => {
+   /*
+    const user = await User.findById(req.user._id)
+    const tasks = req.user.tasks
+    const toRet = tasks.slice()
+    for(let i=0; i<tasks.length; i++){
+        for(let j=0; j<tasks[i].badges.length; j++){
+            const badge = await Badge.findById(tasks[i].badges[j])
+            toRet[i].badges[j] = badge
+        }
+    }
+
+    console.log(toRet)*/
     res.json(req.user.tasks)
 })
 
@@ -49,11 +62,13 @@ tasksRouter.post('/newtask', passport.authenticate('jwt', { session: false }), a
     const user = await User.findById(req.user._id)
     const taskFromForm = req.body
 
+    console.log(req.body.badges)
+
     const taskInCorrectFormat = {
         title: taskFromForm.stringname,
         dueDate: new Date(taskFromForm.dateduedate),
         status: 'NOT_STARTED',
-        badges: []
+        badges: req.body.badges.map(val => new mongoose.Types.ObjectId(val._id))
     }
 
     // Add task to user object using method from User model.
