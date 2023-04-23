@@ -25,7 +25,7 @@ const NewTask = props => {
         axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/newtask`, {
             stringname: name,
             dateduedate: duedate,
-            dateremdate: remdate
+            status1: status
         }, {
             headers: { Authorization: `JWT ${jwtToken}` }
         }).then(response => {
@@ -49,11 +49,7 @@ const NewTask = props => {
                     <br />
                     <input className="taskInputBox" type="text" onChange={e => setName(e.target.value)} />
                 </div>
-                <div>
-                    <label>Reminder Date:</label>
-                    <br />
-                    <input type="date" onChange={e => setremdate(e.target.value)} ref={dateInputRef} />
-                </div>
+
                 <div>
                     <label>Due Date:</label>
                     <br />

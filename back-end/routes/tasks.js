@@ -95,6 +95,25 @@ tasksRouter.post('/edittask/:id', passport.authenticate('jwt', { session: false 
     res.send('task has been edited')
 })
 
+tasksRouter.get('/edittask/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+
+    try {
+        if (devError) {
+            throw new Error('simulated error')
+        }
+        const toRet = req.user.tasks.toObject().find(ele => ele._id.toString() === req.params.id)
+        res.json({
+            task: toRet
+        })
+    } catch (err) {
+        res.status(500).json({
+            error: err,
+            status: 'Could not retrieve specified task. Please try again later.'
+        })
+    }
+
+})
+
 // Authenticated route. Deletes an existing task under the logged-in user.
 tasksRouter.post('/deletetask/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     const user = await User.findById(req.user._id)

@@ -14,10 +14,11 @@ const EditTask = props => {
     const [duedate, setduedate] = useState('')
     const [remdate, setremdate] = useState('')
     const [formData, setFormData] = useState('')
+    const [status, setstatus] = useState('')
     const [error, setError] = useState({
         name: '',
         duedate: '',
-        remdate: ''
+        status: ''
     })
 
     const navigate = useNavigate()
@@ -48,7 +49,7 @@ const EditTask = props => {
         axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/edittask/${id}`, {
             stringname: name,
             dateduedate: duedate,
-            dateremdate: remdate
+            status1: status
         }, {
             headers: { Authorization: `JWT ${jwtToken}` }
         }).then(response => {
@@ -70,18 +71,19 @@ const EditTask = props => {
                 <div>
                     <label>Name of Task:</label>
                     <br />
-                    <input className="inputBox3" type="text" onChange={e => setName(e.target.value)} />
+                    <input className="inputBox3" type="text" defaultValue={name} onChange={e => setName(e.target.value)} />
                 </div>
 
                 <div>
-                    <label>Reminder Date:</label>
-                    <br />
-                    <input type="date" onChange={e => setremdate(e.target.value)} ref={dateInputRef} />
-                </div>
-                <div>
                     <label>Due Date:</label>
                     <br />
-                    <input type="date" onChange={e => setduedate(e.target.value)} ref={dateInputRef} />
+                    <input type="date" defaultValue={duedate} onChange={e => setduedate(e.target.value)} ref={dateInputRef} />
+                </div>
+
+                <div>
+                    <label>Status:</label>
+                    <br />
+                    <input className="taskInputBox" type="text" defaultValue={status} onChange={e => setstatus(e.target.value)} />
                 </div>
 
                 <div>
