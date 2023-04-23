@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { slide as Menu } from 'react-burger-menu'
+import Menu from 'react-burger-menu/lib/menus/slide'
 import axios from 'axios'
 import './Sidebar.css'
 
@@ -68,7 +68,7 @@ const Sidebar = props => {
                         props.isOpen = false
                     }}
                 >
-                    <h5>My tasks</h5>
+                    <h4>My Tasks</h4>
                 </Link>
             )}
             {user && (<Link to="/badges" className="bm-item" onClick={() => { props.isOpen = false }}><h4>Badges</h4></Link>
