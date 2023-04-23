@@ -38,7 +38,7 @@ const BadgeHome = props => {
             } else {
                 try {
                     const fetchedBadges = await axios.get(
-                        `${process.env.REACT_APP_SERVER_HOSTNAME}/auth/userInfo`,
+                        `${process.env.REACT_APP_SERVER_HOSTNAME}/badges`,
                         { headers: { Authorization: `JWT ${jwtToken}` } }
                     )
                     if (fetchedBadges.data.status) {
