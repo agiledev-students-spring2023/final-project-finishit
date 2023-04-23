@@ -50,23 +50,27 @@ const NewTask = props => {
                     <input className="taskInputBox" type="text" onChange={e => setName(e.target.value)} />
                 </div>
                 <div>
+                    <br />
                     <label>Reminder Date:</label>
                     <br />
                     <input type="date" onChange={e => setremdate(e.target.value)} ref={dateInputRef} />
                 </div>
                 <div>
+                    <br />
                     <label>Due Date:</label>
                     <br />
                     <input type="date" onChange={e => setduedate(e.target.value)} ref={dateInputRef} />
                 </div>
 
                 <div>
+                    <br />
                     <label>Status:</label>
                     <br />
                     <input className="taskInputBox" type="text" onChange={e => setstatus(e.target.value)} />
                 </div>
 
                 <div>
+                    <br />
                     <button className="submitButton" type="submit">Submit Task</button>
                 </div>
             </form>
