@@ -44,6 +44,9 @@ const EditBadge = props => {
         }).catch(err => {
             setError('Something went wrong. Please try again later.')
             console.log(err)
+            if (err.response.status === 401) {
+                navigate('/login')
+            }
         })
     }
 
@@ -62,6 +65,9 @@ const EditBadge = props => {
             }).catch(err => {
                 setError('Something went wrong. Please try again later.')
                 console.log(err)
+                if (err.response.status === 401) {
+                    navigate('/login')
+                }
             })
     }
 
@@ -86,6 +92,9 @@ const EditBadge = props => {
                 }).catch(err => {
                     setError('Something went wrong. Please try again later.')
                     console.log(err)
+                    if (err.response.status === 401) {
+                        navigate('/login')
+                    }
                 })
         }
         if (!jwtToken) {

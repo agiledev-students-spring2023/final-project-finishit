@@ -21,11 +21,16 @@ const Sidebar = props => {
     }
 
     useEffect(() => {
-        if (jwtToken != null) {
+        if (jwtToken != null && window.location !== '/login') {
             axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/userInfo`, {
                 headers: { Authorization: `JWT ${jwtToken}` }
             }).then(response => {
                 setUser(response.data)
+            }).catch(err => {
+                if (err.response.status === 401) {
+                    localStorage.clear()
+                    window.location = '/login'
+                }
             })
         }
     }, [jwtToken])
@@ -45,17 +50,6 @@ const Sidebar = props => {
             )}
             {user && (
                 <Link
-                    to="/"
-                    className="bm-item"
-                    onClick={() => {
-                        props.isOpen = false
-                    }}
-                >
-                    <h5>{user.username}</h5>
-                </Link>
-            )}
-            {user && (
-                <Link
                     to="/logout"
                     className="bm-item"
                     onClick={logoutHandler}
@@ -66,9 +60,21 @@ const Sidebar = props => {
                     <h4>Logout</h4>
                 </Link>
             )}
-            <Link to="/" className="bm-item" onClick={() => { props.isOpen = false }}><h4>Main</h4></Link>
-            <Link to="/badges" className="bm-item" onClick={() => { props.isOpen = false }}><h4>Badges</h4></Link>
-            <Link to="/settings" className="bm-item" onClick={() => { props.isOpen = false }}><h4>Settings</h4></Link>
+            {user && (
+                <Link
+                    to="/"
+                    className="bm-item"
+                    onClick={() => {
+                        props.isOpen = false
+                    }}
+                >
+                    <h5>My tasks</h5>
+                </Link>
+            )}
+            {user && (<Link to="/badges" className="bm-item" onClick={() => { props.isOpen = false }}><h4>Badges</h4></Link>
+            )}
+            {user && (<Link to="/settings" className="bm-item" onClick={() => { props.isOpen = false }}><h4>Settings</h4></Link>
+            )}
         </Menu>
     )
 }
