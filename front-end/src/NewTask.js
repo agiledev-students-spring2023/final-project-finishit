@@ -32,7 +32,7 @@ const NewTask = props => {
                 {
                     stringname: name,
                     dateduedate: duedate,
-                    dateremdate: remdate,
+                    status1: status,
                     badges
                 },
                 {
@@ -101,15 +101,7 @@ const NewTask = props => {
                         onChange={e => setName(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label>Reminder Date:</label>
-                    <br />
-                    <input
-                        type="date"
-                        onChange={e => setremdate(e.target.value)}
-                        ref={dateInputRef}
-                    />
-                </div>
+                
                 <div>
                     <label>Due Date:</label>
                     <br />
