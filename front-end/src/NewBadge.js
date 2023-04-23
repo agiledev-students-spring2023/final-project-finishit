@@ -1,5 +1,5 @@
 import './NewBadge.css'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
@@ -18,24 +18,49 @@ const NewBadge = props => {
 
     const [badgeColor, setBadgeColor] = useState('#000000')
     const [badgeText, setBadgeText] = useState('Sample Label Text')
+    const [error, setError] = useState('')
 
     const navigate = useNavigate()
 
+    const jwtToken = localStorage.getItem('token')
+
     const handleSubmit = e => {
         e.preventDefault()
-        // to generate unique id
-        const curTime = Date.now()
-        axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/badges`, {
-            newBadge: { id: curTime, color: badgeColor, text: badgeText }
-        }).then(response => {
+        console.log('token: ', jwtToken)
+        axios.post(
+            `${process.env.REACT_APP_SERVER_HOSTNAME}/badges`,
+            {
+                newBadge: { color: badgeColor, text: badgeText } },
+            { headers: { Authorization: `JWT ${jwtToken}` } }
+        ).then(response => {
             if (response.data.addSuccess) {
                 navigate('/badges')
+            } else if (response.data.status) {
+                setError(response.data.status)
+            }
+        }).catch(err => {
+            setError('Something went wrong. Please try again later.')
+            console.log(err)
+            if (err.response.status === 401) {
+                navigate('/login')
             }
         })
     }
 
+    useEffect(() => {
+        if (!jwtToken) {
+            navigate('/login')
+        }
+    }, [jwtToken, navigate])
+
     return (
         <div id="badgeform">
+            {error && (
+                <p>
+                    Error:
+                    {` ${error}`}
+                </p>
+            )}
             <form onSubmit={e => handleSubmit(e)}>
                 <label>Badge Color</label>
                 <br />
