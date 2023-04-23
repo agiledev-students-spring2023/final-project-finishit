@@ -2,6 +2,9 @@
  * These are the routes for the /badges page on the front-end.
  */
 const express = require('express')
+const passport = require('passport')
+const Badge = require('../models/Badge')
+const User = require('../models/User')
 
 const badgesRouter = express.Router()
 
@@ -21,88 +24,105 @@ function setError(err) {
     devError = err
 }
 
-badgesRouter.get('/badges', async (req, res) => {
+// retrieve all a user's badges
+badgesRouter.get('/badges', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         if (devError) {
             throw new Error('simulated error')
         }
         res.json({
-            badges
+            badges: req.user.badges
         })
     } catch (err) {
         res.status(500).json({
             error: err,
-            status: 'failed to retrieve badges from the database'
+            status: 'Could not retrieve badges. Please try again later.'
         })
     }
 })
 
-badgesRouter.post('/badges', async (req, res) => {
+// add new badge
+badgesRouter.post('/badges', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         if (devError) {
             throw new Error('simulated error')
         }
-        badges.push(req.body.newBadge)
+        // badges.push(req.body.newBadge)
+        const badgeToSave = new Badge({
+            text: req.body.newBadge.text,
+            color: req.body.newBadge.color
+        })
+        req.user.badges.push(badgeToSave)
+        await req.user.save()
         res.json({
             addSuccess: true
         })
     } catch (err) {
         res.status(500).json({
             error: err,
-            status: 'failed to add new badge from the database'
+            status: 'Could not add new badge. Please try again later.'
         })
     }
 })
 
-badgesRouter.get('/badges/:id', async (req, res) => {
+// retrieve individual badge data during editing
+badgesRouter.get('/badges/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         if (devError) {
             throw new Error('simulated error')
         }
-        const toRet = badges.find(ele => (ele.id === parseInt(req.params.id, 10)))
+        const toRet = req.user.badges.find(ele => ele._id.toString() === req.params.id)
         res.json({
-            badge: toRet ?? { id: parseInt(req.params.id, 10), color: '#0000ff', description: 'unfound' }
+            badge: toRet
         })
     } catch (err) {
         res.status(500).json({
             error: err,
-            status: 'failed to retrieve specified badge from the database'
+            status: 'Could not retrieve specified badge. Please try again later.'
         })
     }
 })
 
-badgesRouter.post('/badges/:id', async (req, res) => {
+// edit individual badge
+badgesRouter.post('/badges/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         if (devError) {
             throw new Error('simulated error')
         }
-        const toChange = badges.findIndex(ele => (ele.id === parseInt(req.params.id, 10)))
-        badges[toChange] = req.body.editedBadge
+        const toChange = req.user.badges[req.user.badges
+            .findIndex(ele => ele._id.toString() === req.params.id)]
+        toChange.text = req.body.editedBadge.text
+        toChange.color = req.body.editedBadge.color
+        // await toChange.save()
+        await req.user.save()
         res.json({
             changedSuccess: true
         })
     } catch (err) {
+        console.log(err)
         res.status(500).json({
             error: err,
-            status: 'failed to edit specified badge from the database'
+            status: 'Could not edit specified badge. Please try again later.'
         })
     }
 })
 
-badgesRouter.get('/rmBadge/:id', async (req, res) => {
+// delete a badge
+badgesRouter.get('/rmBadge/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         if (devError) {
             throw new Error('simulated error')
         }
-        const toRm = badges.findIndex(ele => (ele.id === parseInt(req.params.id, 10)))
-        badges.splice(toRm, 1)
+        const toRm = req.user.badges.findIndex(ele => ele._id.toString() === req.params.id)
+        req.user.badges.splice(toRm, 1)
+        await req.user.save()
         res.json({
             deleteSuccess: true
         })
     } catch (err) {
         res.status(500).json({
             error: err,
-            status: 'failed to edit specified badge from the database'
+            status: 'Could not delete specified badge. Please try again later.'
         })
     }
 })
