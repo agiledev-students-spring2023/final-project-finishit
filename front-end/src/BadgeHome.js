@@ -58,7 +58,7 @@ const BadgeHome = props => {
             {error && (
                 <p>
                     Error:
-                    {' ' + error}
+                    {` ${error}`}
                 </p>
             )}
             {badges && badges.map((badge, idx) => (

@@ -26,6 +26,7 @@ const NewBadge = props => {
 
     const handleSubmit = e => {
         e.preventDefault()
+        console.log('token: ', jwtToken)
         axios.post(
             `${process.env.REACT_APP_SERVER_HOSTNAME}/badges`,
             {
@@ -43,9 +44,9 @@ const NewBadge = props => {
         })
     }
 
-    useEffect(() => { 
-        if (!jwtToken) { 
-            navigate('/login') 
+    useEffect(() => {
+        if (!jwtToken) {
+            navigate('/login')
         }
     }, [jwtToken, navigate])
 
@@ -54,7 +55,7 @@ const NewBadge = props => {
             {error && (
                 <p>
                     Error:
-                    {' ' + error}
+                    {` ${error}`}
                 </p>
             )}
             <form onSubmit={e => handleSubmit(e)}>
