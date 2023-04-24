@@ -102,7 +102,6 @@ const NewTask = props => {
                     />
                 </div>
 
-
                 <div>
                     <label>Due Date:</label>
                     <br />

@@ -102,7 +102,7 @@ tasksRouter.post('/tasks/:id', passport.authenticate('jwt', { session: false }),
     }
 
     user.tasks[taskIndex] = taskInCorrectFormat
-    user.save()
+    await user.save()
 
     res.send('task has been edited')
 })
@@ -115,14 +115,22 @@ tasksRouter.get('/tasks/:id', passport.authenticate('jwt', { session: false }), 
             throw new Error('simulated error')
         }
         const toRet = req.user.tasks.toObject().find(ele => ele._id.toString() === req.params.id)
+        //get badges in proper object format
+        for(let j=0; j<toRet.badges.length; j++){
+            toRet.badges[j] = req.user.badges.find(ele =>
+                ele._id.toString() === toRet.badges[j]
+            )
+        }
         res.json({
-            task: toRet
+            task: toRet,
+            allBadges: req.user.badges
         })
     } catch (err) {
         res.status(500).json({
             error: err,
             status: 'Could not retrieve specified task. Please try again later.'
         })
+        console.log(err)
     }
 
 })
