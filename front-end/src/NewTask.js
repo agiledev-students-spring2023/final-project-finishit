@@ -103,6 +103,7 @@ const NewTask = props => {
                 </div>
 
                 <div>
+                    <br />
                     <label>Due Date:</label>
                     <br />
                     <input
@@ -113,16 +114,22 @@ const NewTask = props => {
                 </div>
 
                 <div>
+                    <br />
                     <label>Status:</label>
                     <br />
-                    <select onChange={e => setstatus(e.target.value)}>
+                    <select
+                        defaultValue={status}
+                        onChange={e => setstatus(e.target.value)}
+                    >
+                        <option value="" disabled hidden>Select an option</option>
                         <option value="NOT_STARTED">Not Started</option>
                         <option value="IN_PROGRESS">In Progress</option>
-                        <option value="COMPLETED">Comleted</option>
+                        <option value="COMPLETED">Completed</option>
                     </select>
                 </div>
 
                 <div>
+                    <br />
                     <label>Badges:</label>
                     <br />
                     <Multiselect
@@ -133,6 +140,7 @@ const NewTask = props => {
                     />
                 </div>
                 <div>
+                    <br />
                     <button className="submitButton" type="submit">
                         Submit Task
                     </button>

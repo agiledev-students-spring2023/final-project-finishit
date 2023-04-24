@@ -120,18 +120,21 @@ const EditTask = props => {
                 </div>
 
                 <div>
+                    <br />
                     <label>Due Date:</label>
                     <br />
                     <input type="date" defaultValue={duedate} onChange={e => setduedate(e.target.value)} ref={dateInputRef} />
                 </div>
 
                 <div>
+                    <br />
                     <label>Status:</label>
                     <br />
                     <select
                         defaultValue={status}
                         onChange={e => setstatus(e.target.value)}
                     >
+                        <option value="" disabled hidden>Select an option</option>
                         <option value="NOT_STARTED">Not Started</option>
                         <option value="IN_PROGRESS">In Progress</option>
                         <option value="COMPLETED">Completed</option>
@@ -139,6 +142,7 @@ const EditTask = props => {
                 </div>
 
                 <div>
+                    <br />
                     <label>Badges:</label>
                     <br />
                     <Multiselect
@@ -151,12 +155,14 @@ const EditTask = props => {
                 </div>
 
                 <div>
+                    <br />
                     <button className="submitButton" type="submit">Edit Task</button>
                 </div>
             </form>
 
             <form method="POST" onSubmit={e => handleDelete(e)}>
                 <div>
+                    <br />
                     <button className="submitButton deleteButton" type="submit">Delete Task</button>
                 </div>
             </form>
