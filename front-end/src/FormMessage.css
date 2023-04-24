@@ -1,0 +1,33 @@
+.formMessage {
+    display: inline-block;
+    width: 330px;
+    border: 1px solid;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.success {
+    background-color: #d4edda;
+    color: #28a745;
+    border-color: #28a745;
+}
+
+.info {
+    background-color: #e7f3ff;
+    color: #007bff;
+    border-color: #007bff;
+}
+  
+.warning {
+    background-color: #fffbe6;
+    color: #ffc107;
+    border-color: #ffc107;
+}
+
+.error {
+    background-color: #ffdddd;
+    color: #cc0000;
+    border-color: #cc0000;
+}

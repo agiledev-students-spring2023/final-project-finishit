@@ -25,7 +25,7 @@ const NewTask = props => {
         axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/newtask`, {
             stringname: name,
             dateduedate: duedate,
-            dateremdate: remdate
+            status1: status
         }, {
             headers: { Authorization: `JWT ${jwtToken}` }
         }).then(response => {
@@ -49,12 +49,7 @@ const NewTask = props => {
                     <br />
                     <input className="taskInputBox" type="text" onChange={e => setName(e.target.value)} />
                 </div>
-                <div>
-                    <br />
-                    <label>Reminder Date:</label>
-                    <br />
-                    <input type="date" onChange={e => setremdate(e.target.value)} ref={dateInputRef} />
-                </div>
+
                 <div>
                     <br />
                     <label>Due Date:</label>
@@ -66,7 +61,11 @@ const NewTask = props => {
                     <br />
                     <label>Status:</label>
                     <br />
-                    <input className="taskInputBox" type="text" onChange={e => setstatus(e.target.value)} />
+                    <select onChange={e => setstatus(e.target.value)}>
+                        <option value="NOT_STARTED">Not Started</option>
+                        <option value="IN_PROGRESS">In Progress</option>
+                        <option value="COMPLETED">Comleted</option>
+                    </select>
                 </div>
 
                 <div>
