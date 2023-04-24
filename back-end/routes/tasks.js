@@ -52,7 +52,7 @@ tasksRouter.post('/newtask', passport.authenticate('jwt', { session: false }), a
     const taskInCorrectFormat = {
         title: taskFromForm.stringname,
         dueDate: new Date(taskFromForm.dateduedate),
-        status: taskFromForm.status,
+        status: taskFromForm.status1,
         badges: []
     }
 
