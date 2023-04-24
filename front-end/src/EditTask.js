@@ -2,6 +2,7 @@ import './EditTask.css'
 import React, { useRef, useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
+// eslint-disable-next-line import/no-unresolved
 import Multiselect from 'multiselect-react-dropdown'
 
 const EditTask = props => {
@@ -49,7 +50,7 @@ const EditTask = props => {
             stringname: name,
             dateduedate: duedate,
             status1: status,
-            badges: badges.map(val => val._id.toString())
+            badges: badges.map(val => val.id.toString())
         }, {
             headers: { Authorization: `JWT ${jwtToken}` }
         }).then(response => {
@@ -141,6 +142,7 @@ const EditTask = props => {
                 </div>
 
                 <div>
+                    <br />
                     <label>Badges:</label>
                     <br />
                     <Multiselect

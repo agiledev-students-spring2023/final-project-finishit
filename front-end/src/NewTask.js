@@ -2,6 +2,7 @@ import './NewTask.css'
 import React, { useRef, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+// eslint-disable-next-line import/no-unresolved
 import Multiselect from 'multiselect-react-dropdown'
 
 const NewTask = props => {
@@ -125,6 +126,7 @@ const NewTask = props => {
                 </div>
 
                 <div>
+                    <br />
                     <label>Badges:</label>
                     <br />
                     <Multiselect
@@ -135,6 +137,7 @@ const NewTask = props => {
                     />
                 </div>
                 <div>
+                    <br />
                     <button className="submitButton" type="submit">
                         Submit Task
                     </button>
