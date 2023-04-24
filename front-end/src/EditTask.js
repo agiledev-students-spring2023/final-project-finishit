@@ -103,7 +103,7 @@ const EditTask = props => {
 
     return (
         <>
-            <h1>Task</h1>
+            <h1>Edit Task</h1>
             <form method="POST" onSubmit={e => handleSubmit(e)}>
                 <div>
                     <label>Name of Task:</label>
@@ -112,12 +112,14 @@ const EditTask = props => {
                 </div>
 
                 <div>
+                    <br />
                     <label>Due Date:</label>
                     <br />
                     <input type="date" defaultValue={duedate} onChange={e => setduedate(e.target.value)} ref={dateInputRef} />
                 </div>
 
                 <div>
+                    <br />
                     <label>Status:</label>
                     <br />
                     <select
@@ -131,12 +133,14 @@ const EditTask = props => {
                 </div>
 
                 <div>
+                    <br />
                     <button className="submitButton" type="submit">Edit Task</button>
                 </div>
             </form>
 
             <form method="POST" onSubmit={e => handleDelete(e)}>
                 <div>
+                    <br />
                     <button className="submitButton deleteButton" type="submit">Delete Task</button>
                 </div>
             </form>
