@@ -45,7 +45,6 @@ const EditTask = props => {
 
     const handleSubmit = async e => {
         e.preventDefault() // prevent the default browser form submission stuff
-
         axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/tasks/${id}`, {
             stringname: name,
             dateduedate: duedate,
