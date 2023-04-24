@@ -103,6 +103,7 @@ const NewTask = props => {
                 </div>
 
                 <div>
+                    <br />
                     <label>Due Date:</label>
                     <br />
                     <input
@@ -113,6 +114,7 @@ const NewTask = props => {
                 </div>
 
                 <div>
+                    <br />
                     <label>Status:</label>
                     <br />
                     <select
@@ -127,6 +129,7 @@ const NewTask = props => {
                 </div>
 
                 <div>
+                    <br />
                     <label>Badges:</label>
                     <br />
                     <Multiselect
@@ -137,6 +140,7 @@ const NewTask = props => {
                     />
                 </div>
                 <div>
+                    <br />
                     <button className="submitButton" type="submit">
                         Submit Task
                     </button>
