@@ -66,7 +66,7 @@ const BadgeHome = props => {
             )}
             {badges && badges.map((badge, idx) => (
                 <React.Fragment key={idx}>
-                    <Link to={`/editbadge/${badge._id}`}>
+                    <Link to={`/editbadge/${badge.id}`}>
                         <span key={idx} className="badge" style={{ color: textColorFromBackground(badge.color), background: badge.color }}>{badge.text}</span>
                     </Link>
                 </React.Fragment>
