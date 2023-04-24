@@ -93,8 +93,6 @@ tasksRouter.post('/tasks/:id', passport.authenticate('jwt', { session: false }),
     const taskFromForm = req.body
     const taskPrevVersion = user.tasks[taskIndex]
 
-    console.log('Received:', taskFromForm.badges)
-
     const taskInCorrectFormat = {
         _id: taskPrevVersion._id,
         title: taskFromForm.stringname,
