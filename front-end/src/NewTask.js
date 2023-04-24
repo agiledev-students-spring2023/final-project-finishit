@@ -101,7 +101,7 @@ const NewTask = props => {
                         onChange={e => setName(e.target.value)}
                     />
                 </div>
-                
+
                 <div>
                     <label>Due Date:</label>
                     <br />
