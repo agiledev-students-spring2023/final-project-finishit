@@ -52,7 +52,7 @@ tasksRouter.post('/newtask', passport.authenticate('jwt', { session: false }), a
     const taskInCorrectFormat = {
         title: taskFromForm.stringname,
         dueDate: new Date(taskFromForm.dateduedate),
-        status: 'NOT_STARTED',
+        status: taskFromForm.status,
         badges: []
     }
 
@@ -95,6 +95,7 @@ tasksRouter.post('/tasks/:id', passport.authenticate('jwt', { session: false }),
     res.send('task has been edited')
 })
 
+//for editing getting a task
 tasksRouter.get('/tasks/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
 
     try {

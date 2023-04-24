@@ -81,7 +81,7 @@ const EditTask = props => {
                     console.log(dataTask)
                     setName(dataTask.title)
                     setduedate(dataTask.dueDate.toString().substring(0, 10))
-                    setstatus(dataTask.status)
+                    setstatus(dataTask.status.toString())
                     setError('')
                 }).catch(err => {
                     setError('Something went wrong. Please try again later.')
@@ -118,9 +118,9 @@ const EditTask = props => {
                     <label>Status:</label>
                     <br />
                     <select name="cars">
-                        <option value="NOT_STARTED">NOT_STARTED</option>
-                        <option value="COMPLETED">COMPLETED</option>
-                        <option value="IN_PROGRESS">IN_PROGRESS</option>
+                        <option value="NOT_STARTED">Not Started</option>
+                        <option value="IN_PROGRESS">In Progress</option>
+                        <option value="COMPLETED">Completed</option>
                     </select>
                 </div>
 

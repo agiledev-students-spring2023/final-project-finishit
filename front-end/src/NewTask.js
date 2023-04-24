@@ -59,7 +59,11 @@ const NewTask = props => {
                 <div>
                     <label>Status:</label>
                     <br />
-                    <input className="taskInputBox" type="text" onChange={e => setstatus(e.target.value)} />
+                    <select onChange={e => setstatus(e.target.value)}>
+                        <option value="NOT_STARTED">Not Started</option>
+                        <option value="IN_PROGRESS">In Progress</option>
+                        <option value="COMPLETED">Comleted</option>
+                    </select>
                 </div>
 
                 <div>
