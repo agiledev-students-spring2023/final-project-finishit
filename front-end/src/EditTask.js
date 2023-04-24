@@ -132,6 +132,7 @@ const EditTask = props => {
                         defaultValue={status}
                         onChange={e => setstatus(e.target.value)}
                     >
+                        <option value="" disabled hidden>Select an option</option>
                         <option value="NOT_STARTED">Not Started</option>
                         <option value="IN_PROGRESS">In Progress</option>
                         <option value="COMPLETED">Completed</option>
