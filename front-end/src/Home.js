@@ -69,13 +69,16 @@ const Home = props => {
             <div className="task-list">
                 {tasks.length === 0 ? (
                     <div className="no-tasks">
-                        No tasks match the current filters.
-                        <br />
-                        <br />
-                        Add tasks or remove filters to view tasks.
+                        You have no tasks at the moment.
                         <br />
                         <br />
                         Click the &quot;+&quot; on the top right to add tasks.
+                        <br />
+                        <br />
+                        You can filter your tasks based on the filter options at the bottom.
+                        <br />
+                        <br />
+                        No tasks match the current filters.
                     </div>
                 ) : tasks.map((task, idx) => (
                     <React.Fragment key={idx}>
