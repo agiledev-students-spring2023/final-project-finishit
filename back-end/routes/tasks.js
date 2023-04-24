@@ -64,7 +64,7 @@ tasksRouter.post('/newtask', passport.authenticate('jwt', { session: false }), a
     const taskInCorrectFormat = {
         title: taskFromForm.stringname,
         dueDate: new Date(taskFromForm.dateduedate),
-        status: 'NOT_STARTED',
+        status: taskFromForm.status1,
         badges: req.body.badges.map(val => val._id)
     }
 
@@ -76,7 +76,7 @@ tasksRouter.post('/newtask', passport.authenticate('jwt', { session: false }), a
 })
 
 // Authenticated route. Edits an existing task under the logged-in user.
-tasksRouter.post('/edittask/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+tasksRouter.post('/tasks/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     const user = await User.findById(req.user._id)
     const taskIndex = user.tasks.findIndex(task => task._id.toString() === req.params.id.toString())
 
@@ -105,6 +105,26 @@ tasksRouter.post('/edittask/:id', passport.authenticate('jwt', { session: false 
     user.save()
 
     res.send('task has been edited')
+})
+
+//for editing getting a task
+tasksRouter.get('/tasks/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+
+    try {
+        if (devError) {
+            throw new Error('simulated error')
+        }
+        const toRet = req.user.tasks.toObject().find(ele => ele._id.toString() === req.params.id)
+        res.json({
+            task: toRet
+        })
+    } catch (err) {
+        res.status(500).json({
+            error: err,
+            status: 'Could not retrieve specified task. Please try again later.'
+        })
+    }
+
 })
 
 // Authenticated route. Deletes an existing task under the logged-in user.
