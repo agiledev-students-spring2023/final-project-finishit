@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 const passport = require('passport')
 
 const User = require('../models/User')
+const Badge = require('../models/Badge')
 
 const tasksRouter = express.Router()
 
@@ -40,8 +41,17 @@ function setSampleTasks(newSampleTasks) {
 }
 
 // Authenticated route. Gives user a list of their tasks from the database.
-tasksRouter.get('/tasks', passport.authenticate('jwt', { session: false }), (req, res) => {
-    res.json(req.user.tasks)
+tasksRouter.get('/tasks', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const toRet = req.user.tasks.toObject()
+    for(let i=0; i<toRet.length; i++){
+        for(let j=0; j<toRet[i].badges.length; j++){
+            toRet[i].badges[j] = req.user.badges.find(ele => 
+                ele._id.toString() === req.user.tasks[i].badges[j]
+                )
+        }
+    }
+
+    res.json(toRet)
 })
 
 // Authenticated route. Creates a new task under the logged-in user.
@@ -49,11 +59,13 @@ tasksRouter.post('/newtask', passport.authenticate('jwt', { session: false }), a
     const user = await User.findById(req.user._id)
     const taskFromForm = req.body
 
+    console.log(req.body.badges)
+
     const taskInCorrectFormat = {
         title: taskFromForm.stringname,
         dueDate: new Date(taskFromForm.dateduedate),
         status: taskFromForm.status1,
-        badges: []
+        badges: req.body.badges.map(val => val._id)
     }
 
     // Add task to user object using method from User model.
@@ -81,16 +93,18 @@ tasksRouter.post('/tasks/:id', passport.authenticate('jwt', { session: false }),
     const taskFromForm = req.body
     const taskPrevVersion = user.tasks[taskIndex]
 
+    console.log('Received:', taskFromForm.badges)
+
     const taskInCorrectFormat = {
         _id: taskPrevVersion._id,
         title: taskFromForm.stringname,
         dueDate: new Date(taskFromForm.dateduedate),
-        status: taskPrevVersion.status,
-        badges: taskPrevVersion.badges
+        status: taskFromForm.status1,
+        badges: taskFromForm.badges
     }
 
     user.tasks[taskIndex] = taskInCorrectFormat
-    user.save()
+    await user.save()
 
     res.send('task has been edited')
 })
@@ -103,14 +117,22 @@ tasksRouter.get('/tasks/:id', passport.authenticate('jwt', { session: false }), 
             throw new Error('simulated error')
         }
         const toRet = req.user.tasks.toObject().find(ele => ele._id.toString() === req.params.id)
+        //get badges in proper object format
+        for(let j=0; j<toRet.badges.length; j++){
+            toRet.badges[j] = req.user.badges.find(ele =>
+                ele._id.toString() === toRet.badges[j]
+            )
+        }
         res.json({
-            task: toRet
+            task: toRet,
+            allBadges: req.user.badges
         })
     } catch (err) {
         res.status(500).json({
             error: err,
             status: 'Could not retrieve specified task. Please try again later.'
         })
+        console.log(err)
     }
 
 })
