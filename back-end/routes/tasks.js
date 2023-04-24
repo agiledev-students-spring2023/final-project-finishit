@@ -64,7 +64,7 @@ tasksRouter.post('/newtask', passport.authenticate('jwt', { session: false }), a
 })
 
 // Authenticated route. Edits an existing task under the logged-in user.
-tasksRouter.post('/edittask/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+tasksRouter.post('/tasks/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     const user = await User.findById(req.user._id)
     const taskIndex = user.tasks.findIndex(task => task._id.toString() === req.params.id.toString())
 
@@ -95,7 +95,7 @@ tasksRouter.post('/edittask/:id', passport.authenticate('jwt', { session: false 
     res.send('task has been edited')
 })
 
-tasksRouter.get('/edittask/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+tasksRouter.get('/tasks/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
 
     try {
         if (devError) {
