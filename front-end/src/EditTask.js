@@ -14,10 +14,13 @@ const EditTask = props => {
     const [duedate, setduedate] = useState('')
     const [remdate, setremdate] = useState('')
     const [formData, setFormData] = useState('')
+    const [status, setstatus] = useState('')
     const [error, setError] = useState({
+        /*
         name: '',
         duedate: '',
-        remdate: ''
+        status: ''
+        */
     })
 
     const navigate = useNavigate()
@@ -27,6 +30,8 @@ const EditTask = props => {
             setFormData(res.data)
         })
     }) */
+    // <input className="taskInputBox"
+    // type="text" defaultValue={status} onChange={e => setstatus(e.target.value)} />
 
     const handleDelete = e => {
         e.preventDefault()
@@ -45,10 +50,10 @@ const EditTask = props => {
     const handleSubmit = async e => {
         e.preventDefault() // prevent the default browser form submission stuff
 
-        axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/edittask/${id}`, {
+        axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/tasks/${id}`, {
             stringname: name,
             dateduedate: duedate,
-            dateremdate: remdate
+            status1: status
         }, {
             headers: { Authorization: `JWT ${jwtToken}` }
         }).then(response => {
@@ -63,6 +68,39 @@ const EditTask = props => {
         })
     }
 
+    useEffect(() => {
+        const fetchTask = () => {
+            axios.get(
+                `${process.env.REACT_APP_SERVER_HOSTNAME}/tasks/${id}`,
+                { headers: { Authorization: `JWT ${jwtToken}` } }
+            )
+                .then(response => {
+                    if (response.data.status) {
+                        setError(response.data.status)
+                        return
+                    }
+                    const dataTask = response.data.task
+                    console.log(dataTask)
+                    setName(dataTask.title)
+                    setduedate(dataTask.dueDate.toString().substring(0, 10))
+                    setstatus(dataTask.status)
+                    // console.log(dataTask.status)
+                    setError('')
+                }).catch(err => {
+                    setError('Something went wrong. Please try again later.')
+                    console.log(err)
+                    if (err.response.status === 401) {
+                        navigate('/')
+                    }
+                })
+        }
+        if (!jwtToken) {
+            navigate('/')
+        } else {
+            fetchTask()
+        }
+    }, [jwtToken, id, navigate])
+
     return (
         <>
             <h1>Task</h1>
@@ -70,18 +108,26 @@ const EditTask = props => {
                 <div>
                     <label>Name of Task:</label>
                     <br />
-                    <input className="inputBox3" type="text" onChange={e => setName(e.target.value)} />
+                    <input className="inputBox3" type="text" defaultValue={name} onChange={e => setName(e.target.value)} />
                 </div>
 
                 <div>
-                    <label>Reminder Date:</label>
-                    <br />
-                    <input type="date" onChange={e => setremdate(e.target.value)} ref={dateInputRef} />
-                </div>
-                <div>
                     <label>Due Date:</label>
                     <br />
-                    <input type="date" onChange={e => setduedate(e.target.value)} ref={dateInputRef} />
+                    <input type="date" defaultValue={duedate} onChange={e => setduedate(e.target.value)} ref={dateInputRef} />
+                </div>
+
+                <div>
+                    <label>Status:</label>
+                    <br />
+                    <select
+                        defaultValue={status}
+                        onChange={e => setstatus(e.target.value)}
+                    >
+                        <option value="NOT_STARTED">Not Started</option>
+                        <option value="IN_PROGRESS">In Progress</option>
+                        <option value="COMPLETED">Completed</option>
+                    </select>
                 </div>
 
                 <div>
