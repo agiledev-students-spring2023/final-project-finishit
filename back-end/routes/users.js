@@ -17,10 +17,6 @@ const findUserByUsername = async username => {
 
 // Method to create a user. Replaces the previous POST /create route.
 usersRouter.post('/create', async (req, res) => {
-    // TODO: (Khalifa) Create a user in the database.
-    // Note the user should NOT be logged in automatically after creation.
-    // After the user has been created, send them to the login page.
-
     try {
         const newUser = await User.create({
             username: req.body.username,
@@ -73,6 +69,31 @@ usersRouter.post('/login', async (req, res) => {
     }
 })
 
+usersRouter.post('/forgot', async (req, res) => {
+    try {
+        // Check if the user exists, if not throw an error.
+        const user = await findUserByUsername(req.body.username)
+        if (user == null) throw Error()
+
+        // Check if the user's security questions are correct.
+        const questionsCorrect = await user.compareQuestions({
+            petName: req.body.petName,
+            motherName: req.body.motherName
+        })
+        if (!questionsCorrect) throw Error()
+
+        // If user security questions are correct, change the password.
+        user.password = req.body.newPassword
+        await user.save()
+        res.status(200).json({ success: true })
+    } catch {
+        res.status(400).json({
+            success: false,
+            message: 'Unable to change password. Are your security questions right?'
+        })
+    }
+})
+
 // Authenticated route!
 usersRouter.get('/userInfo', passport.authenticate('jwt', { session: false }), (req, res) => {
     // For now, this route returns ALL the user information.
@@ -83,21 +104,29 @@ usersRouter.get('/userInfo', passport.authenticate('jwt', { session: false }), (
 
 // Authenticated route! Will replace the previous PUT / route.
 usersRouter.post('/change/username', passport.authenticate('jwt', { session: false }), (req, res) => {
-    // TODO: (Harrison) Change a user's username.
-    const newUsername = 'test'
-    User.updateOne({ _id: req.user._id }, { $set: { username: newUsername } })
+    const newUsername = req.body.newUsername
+    User.updateOne({ _id: req.user._id }, { $set: { username: newUsername } }).then(() => {
+        res.status(200).json({ success: true })
+    }).catch(error => {
+        res.status(400).json({ error })
+    })
 })
 
 // Authenticated route! Will replace the previous PATCH /reset-password route.
-usersRouter.post('/change/password', passport.authenticate('jwt', { session: false }), (req, res) => {
-    // TODO: (Harrison) Change a user's password.
-    const newPassword = 'test'
-    User.updateOne({ _id: req.user._id }, { $set: { password: newPassword } })
+usersRouter.post('/change/password', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    // Use a different method to change password so it is hashed.
+    try {
+        const user = await User.findById(req.user._id)
+        user.password = req.body.newPassword
+        await user.save()
+        res.status(200).json({ success: true })
+    } catch {
+        res.status(400).json({ success: false })
+    }
 })
 
 // Authenticated route! Will allow a user to delete their account.
 usersRouter.post('/delete', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    // TODO: (Khalifa) Delete user account in database.
     try {
         const result = await User.findByIdAndDelete(req.user.id)
         if (result) {

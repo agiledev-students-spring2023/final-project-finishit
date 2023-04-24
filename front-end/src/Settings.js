@@ -1,14 +1,19 @@
-import React, { useState } from 'react'
-import './Settings.css'
+import React, { useState, navigate } from 'react'
 import axios from 'axios'
+import FormMessage from './FormMessage'
+import './Settings.css'
 
 const Settings = props => {
+    const jwtToken = localStorage.getItem('token')
+
     const [currentUsername, setCurrentUsername] = useState('')
     const [newUsername, setNewUsername] = useState('')
     const [confirmNewUsername, setConfirmNewUsername] = useState('')
     const [currentPassword, setCurrentPassword] = useState('')
     const [newPassword, setNewPassword] = useState('')
     const [confirmNewPassword, setConfirmNewPassword] = useState('')
+
+    const [formMessage, setFormMessage] = useState(null)
 
     const [showConfirm, setShowConfirm] = useState(false)
 
@@ -34,7 +39,7 @@ const Settings = props => {
         }
     }
 
-    const handleConformDialogue = () => {
+    const handleConfirmDialogue = () => {
         if (showConfirm) {
             setShowConfirm(false)
         } else {
@@ -43,69 +48,84 @@ const Settings = props => {
     }
 
     const handleDeleteAccount = async () => {
-        // Make API call to delete user account
-        // ...
-        try {
-            const response = await fetch(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/delete`, {
-                method: 'POST',
-                headers: {
-                    Authorization: `JWT ${localStorage.getItem('token')}`,
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json'
-                }
-            })
-            const jsonResponse = await response.json()
-            if (jsonResponse.success) {
-                handleConformDialogue()
-                alert('Account has been deleted')
-                localStorage.clear()
-                window.location.href = '/login'
-            } else {
-                alert('ERROR deleting account')
-            }
-        } catch (e) {
-            alert(`ERROR: ${e.message}`)
-        }
+        axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/delete`, {
+            headers: { Authorization: `JWT ${jwtToken}` }
+        }).then(response => {
+            handleConfirmDialogue()
+            setFormMessage({ class: 'success', text: 'Successfully deleted account!' })
+            localStorage.clear()
+            navigate('/login')
+        }).catch(err => {
+            // failure
+            console.log(`Received server error: ${err}`)
+            setFormMessage({ class: 'error', text: 'Unable to delete your account.' })
+        })
     }
 
     const submitHandler = async e => {
         e.preventDefault()
 
-        if (newUsername !== confirmNewUsername) {
-            alert('both usernames must match')
-            return
-        }
-        if (newPassword !== confirmNewPassword) {
-            alert('both passwords must match!')
-            return
+        let actionTaken = false
+
+        if (newUsername !== '') {
+            // Handle username change.
+            if (newUsername !== confirmNewUsername) {
+                setFormMessage({ class: 'error', text: 'Usernames do not match!' })
+                return
+            }
+
+            console.log(`Attempting to change username to: ${newUsername}`)
+
+            // Attempt to change the username in the database.
+            axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/change/username`, {
+                newUsername
+            }, {
+                headers: { Authorization: `JWT ${jwtToken}` }
+            }).then(response => {
+                setFormMessage({ class: 'success', text: 'Successfully changed username!' })
+            }).catch(err => {
+                // failure
+                console.log(`Received server error: ${err}`)
+                setFormMessage({ class: 'error', text: 'Unable to change your username.' })
+            })
+
+            actionTaken = true
         }
 
-        const paylaod = {
-            username: newUsername,
-            password: newPassword
+        if (newPassword !== '') {
+            // Handle password change.
+            if (newPassword !== confirmNewPassword) {
+                setFormMessage({ class: 'error', text: 'Passwords do not match!' })
+                return
+            }
+
+            console.log(`Attempting to change password to: ${newPassword}`)
+
+            // Attempt to change the password in the database.
+            axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/change/password`, {
+                newPassword
+            }, {
+                headers: { Authorization: `JWT ${jwtToken}` }
+            }).then(response => {
+                setFormMessage({ class: 'success', text: 'Successfully changed password!' })
+            }).catch(err => {
+                // failure
+                console.log(`Received server error: ${err}`)
+                setFormMessage({ class: 'error', text: 'Unable to change your password.' })
+            })
+
+            actionTaken = true
         }
 
-        try {
-            const response = await axios.put(
-                `${process.env.REACT_APP_SERVER_HOSTNAME}/auth/`,
-                paylaod,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
-                    }
-                }
-            )
-
-            localStorage.clear()
-            window.location = '/login'
-        } catch (err) {
-            alert(err.message)
+        if (!actionTaken) {
+            setFormMessage({ class: 'error', text: 'New username and/or password required.' })
         }
     }
 
     return (
         <div>
             <h1>Settings</h1>
+            {formMessage && <FormMessage text={formMessage.text} class={formMessage.class} /> }
             <form onSubmit={submitHandler}>
                 <h2>Change Username</h2>
                 <label>
@@ -142,14 +162,14 @@ const Settings = props => {
                 <button type="submit" className="submitButton" onClick={submitHandler}>Confirm Changes</button>
                 <br />
                 <br />
-                <button type="button" className="submitButton" onClick={handleConformDialogue}>Delete Account</button>
+                <button type="button" className="submitButton" onClick={handleConfirmDialogue}>Delete Account</button>
             </form>
             {showConfirm && (
                 <div className="delete-confirm">
                     <div className="delete-confirm__content">
                         <h3 className="delete-confirm__title">Are you sure you want to delete your account?</h3>
                         <div className="delete-confirm__actions">
-                            <button type="submit" className="btn btn--no" onClick={handleConformDialogue}>No</button>
+                            <button type="submit" className="btn btn--no" onClick={handleConfirmDialogue}>No</button>
                             <button type="submit" className="btn btn--yes btn-submit" onClick={handleDeleteAccount}>Yes</button>
                         </div>
                     </div>
