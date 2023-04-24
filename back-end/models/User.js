@@ -63,6 +63,13 @@ UserSchema.methods.comparePassword = async function (candidatePassword) {
     return validPassword
 }
 
+// Compare submitted security questions against the user's actual questions.
+UserSchema.methods.compareQuestions = async function (candidateQuestions) {
+    const pet = candidateQuestions.petName === this.petName
+    const mother = candidateQuestions.motherName === this.motherName
+    return pet && mother
+}
+
 // Return a JWT token for the user.
 UserSchema.methods.generateJWT = function () {
     return jwt.sign(
