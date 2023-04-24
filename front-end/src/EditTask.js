@@ -16,9 +16,11 @@ const EditTask = props => {
     const [formData, setFormData] = useState('')
     const [status, setstatus] = useState('')
     const [error, setError] = useState({
+        /*
         name: '',
         duedate: '',
         status: ''
+        */
     })
 
     const navigate = useNavigate()
@@ -81,7 +83,8 @@ const EditTask = props => {
                     console.log(dataTask)
                     setName(dataTask.title)
                     setduedate(dataTask.dueDate.toString().substring(0, 10))
-                    setstatus(dataTask.status.toString())
+                    setstatus(dataTask.status)
+                    // console.log(dataTask.status)
                     setError('')
                 }).catch(err => {
                     setError('Something went wrong. Please try again later.')
@@ -117,7 +120,10 @@ const EditTask = props => {
                 <div>
                     <label>Status:</label>
                     <br />
-                    <select name="cars">
+                    <select
+                        defaultValue={status}
+                        onChange={e => setstatus(e.target.value)}
+                    >
                         <option value="NOT_STARTED">Not Started</option>
                         <option value="IN_PROGRESS">In Progress</option>
                         <option value="COMPLETED">Completed</option>
