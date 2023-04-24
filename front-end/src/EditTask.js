@@ -28,6 +28,8 @@ const EditTask = props => {
             setFormData(res.data)
         })
     }) */
+    // <input className="taskInputBox"
+    // type="text" defaultValue={status} onChange={e => setstatus(e.target.value)} />
 
     const handleDelete = e => {
         e.preventDefault()
@@ -75,10 +77,10 @@ const EditTask = props => {
                         setError(response.data.status)
                         return
                     }
-                    const dataTask = response.data.tasks
+                    const dataTask = response.data.task
                     console.log(dataTask)
                     setName(dataTask.title)
-                    setduedate(dataTask.duedate)
+                    setduedate(dataTask.dueDate.toString().substring(0, 10))
                     setstatus(dataTask.status)
                     setError('')
                 }).catch(err => {
@@ -115,7 +117,11 @@ const EditTask = props => {
                 <div>
                     <label>Status:</label>
                     <br />
-                    <input className="taskInputBox" type="text" defaultValue={status} onChange={e => setstatus(e.target.value)} />
+                    <select name="cars">
+                        <option value="NOT_STARTED">NOT_STARTED</option>
+                        <option value="COMPLETED">COMPLETED</option>
+                        <option value="IN_PROGRESS">IN_PROGRESS</option>
+                    </select>
                 </div>
 
                 <div>
