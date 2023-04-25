@@ -30,7 +30,8 @@ const Home = props => {
         const filterTasks = task => (
             (statusFilter === null || task.status === statusFilter)
             && (badgeFilter === null
-                || task.badges.filter(badge => badge.id === badgeFilter.id).length > 0
+                || task.badges
+                    .filter(badge => badge._id.toString() === badgeFilter._id.toString()).length > 0
             )
         )
 
