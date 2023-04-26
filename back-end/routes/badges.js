@@ -39,13 +39,13 @@ badgesRouter.post('/badges', passport.authenticate('jwt', { session: false }), a
         if (devError) {
             throw new Error('simulated error')
         }
-        if(!req.body.newBadge.text || req.body.newBadge.text.length===0){
+        if (!req.body.newBadge.text || req.body.newBadge.text.length === 0) {
             res.json({
                 status: 'Please specify a name for your badge.'
             })
             return
         }
-        if(!req.body.newBadge.color || !req.body.newBadge.color.match(badgePattern)){
+        if (!req.body.newBadge.color || !req.body.newBadge.color.match(badgePattern)) {
             res.json({
                 status: 'Please select a valid color.'
             })
@@ -93,13 +93,13 @@ badgesRouter.post('/badges/:id', passport.authenticate('jwt', { session: false }
         if (devError) {
             throw new Error('simulated error')
         }
-        if(!req.body.editedBadge.text || req.body.editedBadge.text.length===0){
+        if (!req.body.editedBadge.text || req.body.editedBadge.text.length === 0) {
             res.json({
                 status: 'Please specify a name for your badge.'
             })
             return
         }
-        if(!req.body.editedBadge.color || !req.body.editedBadge.color.match(badgePattern)){
+        if (!req.body.editedBadge.color || !req.body.editedBadge.color.match(badgePattern)) {
             res.json({
                 status: 'Please select a valid color.'
             })
