@@ -40,10 +40,10 @@ const EditBadge = props => {
             if (response.data.changedSuccess) {
                 navigate('/badges')
             } else if (response.data.status) {
-                setError({class: 'error', text: response.data.status})
+                setError({ class: 'error', text: response.data.status })
             }
         }).catch(err => {
-            setError({class: 'error', text: 'Something went wrong. Please try again later.'})
+            setError({ class: 'error', text: 'Something went wrong. Please try again later.' })
             console.log(err)
             if (err.response.status === 401) {
                 navigate('/login')
@@ -61,10 +61,10 @@ const EditBadge = props => {
                 if (response.data.deleteSuccess) {
                     navigate('/badges')
                 } else if (response.data.status) {
-                    setError({class: 'error',text: response.data.status})
+                    setError({ class: 'error', text: response.data.status })
                 }
             }).catch(err => {
-                setError({class: 'error', text: 'Something went wrong. Please try again later.'})
+                setError({ class: 'error', text: 'Something went wrong. Please try again later.' })
                 console.log(err)
                 if (err.response.status === 401) {
                     navigate('/login')
@@ -80,7 +80,7 @@ const EditBadge = props => {
             )
                 .then(response => {
                     if (response.data.status) {
-                        setError({class: 'error', text: response.data.status})
+                        setError({ class: 'error', text: response.data.status })
                         return
                     }
                     const dataBadge = response.data.badge
@@ -91,7 +91,7 @@ const EditBadge = props => {
                     setOldText(dataBadge.text)
                     setError({})
                 }).catch(err => {
-                    setError({class: 'error', text: 'Something went wrong. Please try again later.'})
+                    setError({ class: 'error', text: 'Something went wrong. Please try again later.' })
                     console.log(err)
                     if (err.response.status === 401) {
                         navigate('/login')
@@ -108,7 +108,7 @@ const EditBadge = props => {
     return (
         <div id="badgeform">
             {error && (
-                <FormMessage text={error.text} class={error.class}/>
+                <FormMessage text={error.text} class={error.class} />
             )}
             <form onSubmit={e => handleSubmit(e)}>
                 <label>Badge Color</label>

@@ -3,20 +3,11 @@
  */
 const express = require('express')
 const passport = require('passport')
+const sanitize = require('mongo-sanitize')
 const Badge = require('../models/Badge')
 const User = require('../models/User')
 
 const badgesRouter = express.Router()
-
-const badges = [
-    { id: 0, color: '#000000', text: 'Category 1' },
-    { id: 1, color: '#ffffff', text: 'Category 2' },
-    { id: 2, color: '#ff0000', text: 'Category 3' },
-    { id: 3, color: '#ccff99', text: 'Category 4' },
-    { id: 4, color: '#ff0000', text: 'Urgent' },
-    { id: 5, color: '#f5b942', text: 'Medium Priority' },
-    { id: 6, color: '#8d32a8', text: 'Tentative' }
-]
 
 let devError = false
 
@@ -49,8 +40,8 @@ badgesRouter.post('/badges', passport.authenticate('jwt', { session: false }), a
         }
         // badges.push(req.body.newBadge)
         const badgeToSave = new Badge({
-            text: req.body.newBadge.text,
-            color: req.body.newBadge.color
+            text: sanitize(req.body.newBadge.text),
+            color: sanitize(req.body.newBadge.color)
         })
         req.user.badges.push(badgeToSave)
         await req.user.save()
@@ -71,7 +62,7 @@ badgesRouter.get('/badges/:id', passport.authenticate('jwt', { session: false })
         if (devError) {
             throw new Error('simulated error')
         }
-        const toRet = req.user.badges.find(ele => ele._id.toString() === req.params.id)
+        const toRet = req.user.badges.find(ele => ele._id.toString() === sanitize(req.params.id))
         res.json({
             badge: toRet
         })
@@ -90,9 +81,9 @@ badgesRouter.post('/badges/:id', passport.authenticate('jwt', { session: false }
             throw new Error('simulated error')
         }
         const toChange = req.user.badges[req.user.badges
-            .findIndex(ele => ele._id.toString() === req.params.id)]
-        toChange.text = req.body.editedBadge.text
-        toChange.color = req.body.editedBadge.color
+            .findIndex(ele => ele._id.toString() === sanitize(req.params.id))]
+        toChange.text = sanitize(req.body.editedBadge.text)
+        toChange.color = sanitize(req.body.editedBadge.color)
         // await toChange.save()
         await req.user.save()
         res.json({
@@ -113,7 +104,9 @@ badgesRouter.get('/rmBadge/:id', passport.authenticate('jwt', { session: false }
         if (devError) {
             throw new Error('simulated error')
         }
-        const toRm = req.user.badges.findIndex(ele => ele._id.toString() === req.params.id)
+        const toRm = req.user.badges.findIndex(
+            ele => ele._id.toString() === sanitize(req.params.id)
+        )
         req.user.badges.splice(toRm, 1)
         await req.user.save()
         res.json({
