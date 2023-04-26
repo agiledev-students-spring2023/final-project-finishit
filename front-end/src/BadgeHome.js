@@ -2,6 +2,7 @@ import './BadgeHome.css'
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import FormMessage from './FormMessage'
 
 const BadgeHome = props => {
     const textColorFromBackground = background => {
@@ -18,7 +19,7 @@ const BadgeHome = props => {
     const nav = useNavigate()
 
     const [badges, setBadges] = useState([])
-    const [error, setError] = useState('')
+    const [error, setError] = useState(undefined)
 
     useEffect(() => {
         async function fetchBadges() {
@@ -33,13 +34,13 @@ const BadgeHome = props => {
                         { headers: { Authorization: `JWT ${jwtToken}` } }
                     )
                     if (fetchedBadges.data.status) {
-                        setError(fetchedBadges.data.status)
+                        setError({ class: 'error', text: fetchedBadges.data.status })
                     } else {
                         setBadges(fetchedBadges.data.badges)
-                        setError('')
+                        setError(undefined)
                     }
                 } catch (err) {
-                    setError('Something went wrong when fetching badges. Please try again later.')
+                    setError({ class: 'error', text: 'Something went wrong when fetching badges. Please try again later.' })
                     console.log(err)
                     if (err.response.status === 401) {
                         nav('/login')
@@ -59,10 +60,7 @@ const BadgeHome = props => {
             <br />
             <br />
             {error && (
-                <p>
-                    Error:
-                    {` ${error}`}
-                </p>
+                <FormMessage class={error.class} text={error.text} />
             )}
             {badges && badges.map((badge, idx) => (
                 <React.Fragment key={idx}>
