@@ -19,7 +19,7 @@ const NewBadge = props => {
 
     const [badgeColor, setBadgeColor] = useState('#000000')
     const [badgeText, setBadgeText] = useState('Sample Label Text')
-    const [error, setError] = useState('')
+    const [error, setError] = useState({})
 
     const navigate = useNavigate()
 

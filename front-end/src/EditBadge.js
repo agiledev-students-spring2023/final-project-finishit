@@ -24,7 +24,7 @@ const EditBadge = props => {
     const [oldColor, setOldColor] = useState(badge.color)
     const [oldText, setOldText] = useState(badge.text)
 
-    const [error, setError] = useState('')
+    const [error, setError] = useState({})
     const { id } = useParams()
     const navigate = useNavigate()
     const jwtToken = localStorage.getItem('token')
