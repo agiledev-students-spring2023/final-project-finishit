@@ -8,6 +8,7 @@ const Badge = require('../models/Badge')
 const User = require('../models/User')
 
 const badgesRouter = express.Router()
+const badgePattern = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/
 
 let devError = false
 
@@ -38,7 +39,18 @@ badgesRouter.post('/badges', passport.authenticate('jwt', { session: false }), a
         if (devError) {
             throw new Error('simulated error')
         }
-        // badges.push(req.body.newBadge)
+        if(!req.body.newBadge.text || req.body.newBadge.text.length===0){
+            res.json({
+                status: 'Please specify a name for your badge.'
+            })
+            return
+        }
+        if(!req.body.newBadge.color || !req.body.newBadge.color.match(badgePattern)){
+            res.json({
+                status: 'Please select a valid color.'
+            })
+            return
+        }
         const badgeToSave = new Badge({
             text: sanitize(req.body.newBadge.text),
             color: sanitize(req.body.newBadge.color)
@@ -49,6 +61,7 @@ badgesRouter.post('/badges', passport.authenticate('jwt', { session: false }), a
             addSuccess: true
         })
     } catch (err) {
+        console.log(err)
         res.status(500).json({
             error: err,
             status: 'Could not add new badge. Please try again later.'
@@ -80,11 +93,22 @@ badgesRouter.post('/badges/:id', passport.authenticate('jwt', { session: false }
         if (devError) {
             throw new Error('simulated error')
         }
+        if(!req.body.editedBadge.text || req.body.editedBadge.text.length===0){
+            res.json({
+                status: 'Please specify a name for your badge.'
+            })
+            return
+        }
+        if(!req.body.editedBadge.color || !req.body.editedBadge.color.match(badgePattern)){
+            res.json({
+                status: 'Please select a valid color.'
+            })
+            return
+        }
         const toChange = req.user.badges[req.user.badges
             .findIndex(ele => ele._id.toString() === sanitize(req.params.id))]
         toChange.text = sanitize(req.body.editedBadge.text)
         toChange.color = sanitize(req.body.editedBadge.color)
-        // await toChange.save()
         await req.user.save()
         res.json({
             changedSuccess: true

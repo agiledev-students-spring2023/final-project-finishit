@@ -19,7 +19,7 @@ const NewBadge = props => {
 
     const [badgeColor, setBadgeColor] = useState('#000000')
     const [badgeText, setBadgeText] = useState('Sample Label Text')
-    const [error, setError] = useState({})
+    const [error, setError] = useState(undefined)
 
     const navigate = useNavigate()
 
@@ -27,7 +27,6 @@ const NewBadge = props => {
 
     const handleSubmit = e => {
         e.preventDefault()
-        console.log('token: ', jwtToken)
         axios.post(
             `${process.env.REACT_APP_SERVER_HOSTNAME}/badges`,
             {

@@ -19,7 +19,7 @@ const BadgeHome = props => {
     const nav = useNavigate()
 
     const [badges, setBadges] = useState([])
-    const [error, setError] = useState({})
+    const [error, setError] = useState(undefined)
 
     useEffect(() => {
         async function fetchBadges() {
@@ -37,7 +37,7 @@ const BadgeHome = props => {
                         setError({ class: 'error', text: fetchedBadges.data.status })
                     } else {
                         setBadges(fetchedBadges.data.badges)
-                        setError({})
+                        setError(undefined)
                     }
                 } catch (err) {
                     setError({ class: 'error', text: 'Something went wrong when fetching badges. Please try again later.' })

@@ -24,7 +24,7 @@ const EditBadge = props => {
     const [oldColor, setOldColor] = useState(badge.color)
     const [oldText, setOldText] = useState(badge.text)
 
-    const [error, setError] = useState({})
+    const [error, setError] = useState(undefined)
     const { id } = useParams()
     const navigate = useNavigate()
     const jwtToken = localStorage.getItem('token')
@@ -89,7 +89,7 @@ const EditBadge = props => {
                     setBadgeText(dataBadge.text)
                     setOldColor(dataBadge.color)
                     setOldText(dataBadge.text)
-                    setError({})
+                    setError(undefined)
                 }).catch(err => {
                     setError({ class: 'error', text: 'Something went wrong. Please try again later.' })
                     console.log(err)
