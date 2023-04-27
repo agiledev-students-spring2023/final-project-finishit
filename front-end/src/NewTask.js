@@ -42,12 +42,19 @@ const NewTask = props => {
             )
             .then(response => {
                 console.log(`Received server response: ${response.data}`)
-                navigate('/')
+                if (response.data.addSuccess) {
+                    navigate('/')
+                } else if (response.data.status) {
+                    setError({ class: 'error', text: response.data.status })
+                }
             })
             .catch(err => {
                 // failure
                 console.log(`Received server error: ${err}`)
-                setError('Invalid inputs, check again.')
+                setError({ class: 'error', text: 'Something went wrong. Please try again later.' })
+                if (err.response && err.response.status === 401) {
+                    navigate('/')
+                }
             })
     }
 
