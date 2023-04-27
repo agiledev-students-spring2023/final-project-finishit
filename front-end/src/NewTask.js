@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Multiselect from 'multiselect-react-dropdown'
+import FormMessage from './FormMessage'
 
 const NewTask = props => {
     const jwtToken = localStorage.getItem('token')
@@ -91,6 +92,9 @@ const NewTask = props => {
     return (
         <>
             <h1>New Task</h1>
+            {error && (
+                <FormMessage text={error.text} class={error.class} />
+            )}
             <form method="POST" onSubmit={e => handleSubmit(e)}>
                 <div>
                     <label>Name of Task:</label>
