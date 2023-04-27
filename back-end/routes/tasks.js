@@ -4,6 +4,7 @@
  */
 const express = require('express')
 const mongoose = require('mongoose')
+const sanitize = require('mongo-sanitize')
 const passport = require('passport')
 
 const User = require('../models/User')
@@ -62,10 +63,10 @@ tasksRouter.post('/newtask', passport.authenticate('jwt', { session: false }), a
     console.log(req.body.badges)
 
     const taskInCorrectFormat = {
-        title: taskFromForm.stringname,
-        dueDate: new Date(taskFromForm.dateduedate),
-        status: taskFromForm.status1,
-        badges: req.body.badges.map(val => val._id)
+        title: sanitize(taskFromForm.stringname),
+        dueDate: sanitize(new Date(taskFromForm.dateduedate)),
+        status: sanitize(taskFromForm.status1),
+        badges: sanitize(req.body.badges.map(val => val._id))
     }
 
     // Add task to user object using method from User model.
@@ -78,7 +79,7 @@ tasksRouter.post('/newtask', passport.authenticate('jwt', { session: false }), a
 // Authenticated route. Edits an existing task under the logged-in user.
 tasksRouter.post('/tasks/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     const user = await User.findById(req.user._id)
-    const taskIndex = user.tasks.findIndex(task => task._id.toString() === req.params.id.toString())
+    const taskIndex = user.tasks.findIndex(task => task._id.toString() === sanitize(req.params.id).toString())
 
     // Throw an error if the task was not found.
     if (taskIndex === -1) {
@@ -94,11 +95,11 @@ tasksRouter.post('/tasks/:id', passport.authenticate('jwt', { session: false }),
     const taskPrevVersion = user.tasks[taskIndex]
 
     const taskInCorrectFormat = {
-        _id: taskPrevVersion._id,
-        title: taskFromForm.stringname,
-        dueDate: new Date(taskFromForm.dateduedate),
-        status: taskFromForm.status1,
-        badges: taskFromForm.badges
+        _id: sanitize(taskPrevVersion._id),
+        title: sanitize(taskFromForm.stringname),
+        dueDate: sanitize(new Date(taskFromForm.dateduedate)),
+        status: sanitize(taskFromForm.status1),
+        badges: sanitize(taskFromForm.badges)
     }
 
     user.tasks[taskIndex] = taskInCorrectFormat
@@ -114,7 +115,7 @@ tasksRouter.get('/tasks/:id', passport.authenticate('jwt', { session: false }), 
         if (devError) {
             throw new Error('simulated error')
         }
-        const toRet = req.user.tasks.toObject().find(ele => ele._id.toString() === req.params.id)
+        const toRet = req.user.tasks.toObject().find(ele => ele._id.toString() === sanitize(req.params.id))
         //get badges in proper object format
         for(let j=0; j<toRet.badges.length; j++){
             toRet.badges[j] = req.user.badges.find(ele =>
