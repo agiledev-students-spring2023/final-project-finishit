@@ -57,12 +57,11 @@ tasksRouter.get('/tasks', passport.authenticate('jwt', { session: false }), asyn
 })
 
 // Authenticated route. Creates a new task under the logged-in user.
-tasksRouter.post('/newtask', [passport.authenticate('jwt', { session: false }),
-body('stringname', 'Please specify a valid name for your task').not().isEmpty()?.escape(),
-body('dateduedate', 'Please select a valid duedate').not().isEmpty()?.escape()
-, body('status1', 'Please select a valid duedate').not().isEmpty()?.escape()], 
-async (req, res) => {
-
+tasksRouter.post('/newtask', [passport.authenticate('jwt', { session: false })
+,body('stringname', 'Please specify a valid name for your task').not().isEmpty()?.escape(),
+body('dateduedate', 'Please specify a valid date for your task').not().isEmpty()?.escape(),
+body('status1', 'Please specify a valid status for your task').not().isEmpty()?.escape()
+], async (req, res) => {
     try{
         if (devError) {
             throw new Error('simulated error')
@@ -72,26 +71,20 @@ async (req, res) => {
             res.json({ status: valErrors })
             return
         }
-
         const user = await User.findById(req.user._id)
         const taskFromForm = req.body
-
-        console.log(req.body.badges)
-
+        // console.log(req.body.badges)
         const taskInCorrectFormat = {
             title: sanitize(taskFromForm.stringname),
             dueDate: new Date(taskFromForm.dateduedate),
             status: sanitize(taskFromForm.status1),
-        //    badges: req.body.badges.map(val => val._id)
+            badges: req.body.badges.map(val => val._id)
         }
-
         // Add task to user object using method from User model.
         user.addTask(taskInCorrectFormat)
-
         // Send back a response.
         res.send('New task has been stored. Thank you!')
-
-    } catch (err) {
+    } catch (err){
         console.log(err)
         res.status(500).json({
             error: err,
@@ -99,7 +92,6 @@ async (req, res) => {
         })
     }
 
-    
 })
 
 // Authenticated route. Edits an existing task under the logged-in user.
@@ -119,6 +111,10 @@ body('status1', 'Please select a valid duedate').not().isEmpty()?.escape()
         }
         const user = await User.findById(req.user._id)
         const taskIndex = user.tasks.findIndex(task => task._id.toString() === sanitize(req.params.id).toString())
+        if (!taskIndex) {
+            res.json({ invalidID: true })
+            return
+        }
 
         // Throw an error if the task was not found.
         if (taskIndex === -1) {
@@ -166,7 +162,12 @@ tasksRouter.get('/tasks/:id', passport.authenticate('jwt', { session: false }), 
         if (devError) {
             throw new Error('simulated error')
         }
+        
         const toRet = req.user.tasks.toObject().find(ele => ele._id.toString() === sanitize(req.params.id))
+        if (toRet === undefined) {
+            res.json({ invalidID: true })
+            return
+        }
         //get badges in proper object format
         for(let j=0; j<toRet.badges.length; j++){
             toRet.badges[j] = req.user.badges.find(ele =>
