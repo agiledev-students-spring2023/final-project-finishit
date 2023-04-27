@@ -41,7 +41,7 @@ const NewBadge = props => {
         }).catch(err => {
             setError({ class: 'error', text: 'Something went wrong. Please try again later.' })
             console.log(err)
-            if (err.response.status === 401) {
+            if (err.response && err.response.status === 401) {
                 navigate('/login')
             }
         })

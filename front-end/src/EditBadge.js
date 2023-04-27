@@ -37,7 +37,7 @@ const EditBadge = props => {
                 editedBadge: { color: badgeColor, text: badgeText } },
             { headers: { Authorization: `JWT ${jwtToken}` } }
         ).then(response => {
-            if (response.data.changedSuccess) {
+            if (response.data.changedSuccess || response.data.invalidID) {
                 navigate('/badges')
             } else if (response.data.status) {
                 setError({ class: 'error', text: response.data.status })
@@ -58,7 +58,7 @@ const EditBadge = props => {
             { headers: { Authorization: `JWT ${jwtToken}` } }
         )
             .then(response => {
-                if (response.data.deleteSuccess) {
+                if (response.data.deleteSuccess || response.data.invalidID) {
                     navigate('/badges')
                 } else if (response.data.status) {
                     setError({ class: 'error', text: response.data.status })
@@ -83,6 +83,9 @@ const EditBadge = props => {
                         setError({ class: 'error', text: response.data.status })
                         return
                     }
+                    if (response.data.invalidID) {
+                        navigate('/badges')
+                    }
                     const dataBadge = response.data.badge
                     setBadge(dataBadge)
                     setBadgeColor(dataBadge.color)
@@ -93,7 +96,7 @@ const EditBadge = props => {
                 }).catch(err => {
                     setError({ class: 'error', text: 'Something went wrong. Please try again later.' })
                     console.log(err)
-                    if (err.response.status === 401) {
+                    if (err.response && err.response.status === 401) {
                         navigate('/login')
                     }
                 })
