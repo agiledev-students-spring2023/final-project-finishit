@@ -4,9 +4,9 @@
  */
 const express = require('express')
 const mongoose = require('mongoose')
+const passport = require('passport')
 const sanitize = require('mongo-sanitize')
 const { body, validationResult } = require('express-validator')
-const passport = require('passport')
 
 const User = require('../models/User')
 const Badge = require('../models/Badge')
@@ -57,10 +57,56 @@ tasksRouter.get('/tasks', passport.authenticate('jwt', { session: false }), asyn
 })
 
 // Authenticated route. Creates a new task under the logged-in user.
-tasksRouter.post('/newtask', [passport.authenticate('jwt', { session: false })
-,body('title', 'Please specify a valid name for your task').not().isEmpty()?.escape(),
-body('dueDate', 'Please specify a valid date for your task').not().isEmpty()?.escape(),
-body('status', 'Please specify a valid status for your task').not().isEmpty()?.escape()
+tasksRouter.post('/newtask', [passport.authenticate('jwt', { session: false }),
+body('stringname', 'Please specify a valid name for your task').not().isEmpty()?.escape(),
+body('dateduedate', 'Please select a valid duedate').not().isEmpty()?.escape()
+, body('status1', 'Please select a valid duedate').not().isEmpty()?.escape()], 
+async (req, res) => {
+
+    try{
+        if (devError) {
+            throw new Error('simulated error')
+        }
+        const valErrors = validationResult(req).array().map(val => val.msg)
+        if (valErrors.length) {
+            res.json({ status: valErrors })
+            return
+        }
+
+        const user = await User.findById(req.user._id)
+        const taskFromForm = req.body
+
+        console.log(req.body.badges)
+
+        const taskInCorrectFormat = {
+            title: sanitize(taskFromForm.stringname),
+            dueDate: new Date(taskFromForm.dateduedate),
+            status: sanitize(taskFromForm.status1),
+        //    badges: req.body.badges.map(val => val._id)
+        }
+
+        // Add task to user object using method from User model.
+        user.addTask(taskInCorrectFormat)
+
+        // Send back a response.
+        res.send('New task has been stored. Thank you!')
+
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({
+            error: err,
+            status: 'Could not add new badge. Please try again later.'
+        })
+    }
+
+    
+})
+
+// Authenticated route. Edits an existing task under the logged-in user.
+tasksRouter.post('/tasks/:id', [passport.authenticate('jwt', { session: false }),
+body('stringname', 'Please specify a valid name for your task').not().isEmpty()?.escape(),
+body('dateduedate', 'Please specify a valid date for your task').not().isEmpty()?.escape(),
+body('status1', 'Please select a valid duedate').not().isEmpty()?.escape()
 ], async (req, res) => {
     try{
         if (devError) {
@@ -72,74 +118,45 @@ body('status', 'Please specify a valid status for your task').not().isEmpty()?.e
             return
         }
         const user = await User.findById(req.user._id)
-        const taskFromForm = req.body
-        // console.log(req.body.badges)
-        const taskInCorrectFormat = {
-            title: sanitize(taskFromForm.stringname),
-            dueDate: sanitize(new Date(taskFromForm.dateduedate)),
-            status: sanitize(taskFromForm.status1),
-            badges: sanitize(req.body.badges.map(val => val._id))
+        const taskIndex = user.tasks.findIndex(task => task._id.toString() === sanitize(req.params.id).toString())
+
+        // Throw an error if the task was not found.
+        if (taskIndex === -1) {
+            res.status(500).json({
+                error: err,
+                status: 'failed to edit'
+            })
+            return ''
         }
-        // Add task to user object using method from User model.
-        user.addTask(taskInCorrectFormat)
-        // Send back a response.
-        res.send('New task has been stored. Thank you!')
+        if (!taskIndex) {
+            res.json({ invalidID: true })
+            return
+        }
+
+        // Otherwise set task data at the found index in the user's tasks.
+        const taskFromForm = req.body
+        const taskPrevVersion = user.tasks[taskIndex]
+
+        const taskInCorrectFormat = {
+            _id: taskPrevVersion._id,
+            title: sanitize(taskFromForm.stringname),
+            dueDate: new Date(taskFromForm.dateduedate),
+            status: sanitize(taskFromForm.status1),
+            badges: taskFromForm.badges
+        }
+
+        user.tasks[taskIndex] = taskInCorrectFormat
+        await user.save()
+
+    res.send('task has been edited')
+    res.json({ changedSuccess: true })
     } catch (err){
         console.log(err)
         res.status(500).json({
             error: err,
-            status: 'Could not add new badge. Please try again later.'
+            status: 'Could not edit specified badge. Please try again later.'
         })
     }
-})
-
-// Authenticated route. Edits an existing task under the logged-in user.
-tasksRouter.post('/tasks/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    if (devError) {
-        throw new Error('simulated error')
-    }
-
-    const valErrors = validationResult(req).array().map(val => val.msg)
-        if (valErrors.length) {
-            res.json({ status: valErrors })
-            return
-        }
-
-    const user = await User.findById(req.user._id)
-    const taskIndex = user.tasks.findIndex(task => task._id.toString() === sanitize(req.params.id).toString())
-    if (!taskIndex) {
-        res.json({ invalidID: true })
-        return
-    }
-    // taskIndex.title= sanitize(taskFromForm.stringname)
-    // taskIndex.dueDate = sanitize(new Date(taskFromForm.dateduedate))
-    // taskIndex.status=sanitize(taskFromForm.status1)
-    // taskIndex.badges=sanitize(taskFromForm.badges)
-    // Throw an error if the task was not found.
-    if (taskIndex === -1) {
-        res.status(500).json({
-            error: err,
-            status: 'failed to edit'
-        })
-        return ''
-    }
-
-    // Otherwise set task data at the found index in the user's tasks.
-    const taskFromForm = req.body
-    const taskPrevVersion = user.tasks[taskIndex]
-
-    const taskInCorrectFormat = {
-        _id: sanitize(taskPrevVersion._id),
-        title: sanitize(taskFromForm.stringname),
-        dueDate: sanitize(new Date(taskFromForm.dateduedate)),
-        status: sanitize(taskFromForm.status1),
-        badges: sanitize(taskFromForm.badges)
-    }
-
-    user.tasks[taskIndex] = taskInCorrectFormat
-    await user.save()
-    res.json({ changedSuccess: true })
-    res.send('task has been edited')
 })
 
 //for editing getting a task
@@ -150,10 +167,6 @@ tasksRouter.get('/tasks/:id', passport.authenticate('jwt', { session: false }), 
             throw new Error('simulated error')
         }
         const toRet = req.user.tasks.toObject().find(ele => ele._id.toString() === sanitize(req.params.id))
-        if (toRet === undefined) {
-            res.json({ invalidID: true })
-            return
-        }
         //get badges in proper object format
         for(let j=0; j<toRet.badges.length; j++){
             toRet.badges[j] = req.user.badges.find(ele =>
@@ -176,22 +189,37 @@ tasksRouter.get('/tasks/:id', passport.authenticate('jwt', { session: false }), 
 
 // Authenticated route. Deletes an existing task under the logged-in user.
 tasksRouter.post('/deletetask/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    const user = await User.findById(req.user._id)
-    const taskIndex = user.tasks.findIndex(task => task._id.toString() === req.params.id.toString())
+    try{
+        if (devError) {
+            throw new Error('simulated error')
+        }
 
-    // Throw an error if the task was not found.
-    if (taskIndex === -1) {
+        const user = await User.findById(req.user._id)
+        const taskIndex = user.tasks.findIndex(task => task._id.toString() === sanitize(req.params.id).toString())
+
+        // Throw an error if the task was not found.
+        if (taskIndex === -1) {
+            res.status(500).json({
+                error: err,
+                status: 'failed to delete'
+            })
+            return ''
+        }
+        if (!taskIndex) {
+            res.json({ invalidID: true })
+            return
+        }
+
+        // Otherwise delete the task and return a success.
+        user.tasks.splice(taskIndex, 1)
+        await user.save()
+    res.json({ deleteSuccess: true })
+    } catch (err){
         res.status(500).json({
             error: err,
-            status: 'failed to delete'
+            status: 'Could not delete specified badge. Please try again later.'
         })
-        return ''
     }
-
-    // Otherwise delete the task and return a success.
-    user.tasks.splice(taskIndex, 1)
-    await user.save()
-    res.json({ deleteSuccess: true })
 })
 
 module.exports = {
