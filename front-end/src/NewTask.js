@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Multiselect from 'multiselect-react-dropdown'
+import FormMessage from './FormMessage'
 
 const NewTask = props => {
     const jwtToken = localStorage.getItem('token')
@@ -17,7 +18,7 @@ const NewTask = props => {
     const [duedate, setduedate] = useState('')
     const [remdate, setremdate] = useState('')
     const [status, setstatus] = useState('')
-    const [error, setError] = useState('')
+    const [error, setError] = useState(undefined)
 
     const [options, setOptions] = useState([])
     const [badges, setBadges] = useState([])
@@ -41,12 +42,20 @@ const NewTask = props => {
             )
             .then(response => {
                 console.log(`Received server response: ${response.data}`)
-                navigate('/')
+                if (response.data.addSuccess) {
+                    navigate('/')
+                } else if (response.data.status) {
+                    setError({ class: 'error', text: response.data.status })
+                }
+                // navigate('/')
             })
             .catch(err => {
                 // failure
+                setError({ class: 'error', text: 'Something went wrong. Please try again later.' })
                 console.log(`Received server error: ${err}`)
-                setError('Invalid inputs, check again.')
+                if (err.response && err.response.status === 401) {
+                    navigate('/')
+                }
             })
     }
 
@@ -90,6 +99,9 @@ const NewTask = props => {
 
     return (
         <>
+            {error && (
+                <FormMessage text={error.text} class={error.class} />
+            )}
             <h1>New Task</h1>
             <form method="POST" onSubmit={e => handleSubmit(e)}>
                 <div>
