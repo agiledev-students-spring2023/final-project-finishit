@@ -48,7 +48,7 @@ const Settings = props => {
         }
     }
 
-    const navigate = useNavigate
+    const navigate = useNavigate()
 
     const handleDeleteAccount = async () => {
         axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/delete`, {
