@@ -41,3 +41,9 @@ label {
     border: none; /* remove the border of the button */
     border-radius: 5px; /* round the corners of the button */
 }
+
+.cancelNewBadge {
+    margin-left: 20px;
+    background-color: rgb(147, 60, 57) !important;
+    color: rgb(245, 248, 250) !important; /* set the text color of the button */
+}
