@@ -70,7 +70,7 @@ tasksRouter.get('/tasks', passport.authenticate('jwt', { session: false }), asyn
 })
 
 // Authenticated route. Creates a new task under the logged-in user.
-tasksRouter.post('/newtask', [passport.authenticate('jwt', { session: false }),passport.authenticate('jwt', { session: false }),
+tasksRouter.post('/newtask', [passport.authenticate('jwt', { session: false }),
 body('stringname', 'Please specify a valid name for your task').not().isEmpty()?.escape(),
 body('dateduedate', 'Please select a valid date').not().isEmpty()?.escape(),
 body('status1', 'Please select a valid status').not().isEmpty()?.escape()], async (req, res) => {
@@ -102,7 +102,9 @@ body('status1', 'Please select a valid status').not().isEmpty()?.escape()], asyn
         user.addTask(taskInCorrectFormat)
 
         // Send back a response.
-        res.send('New task has been stored. Thank you!')
+        res.json({
+            addSuccess: true
+        })
     } catch (err){
         console.log(err)
         res.status(500).json({
