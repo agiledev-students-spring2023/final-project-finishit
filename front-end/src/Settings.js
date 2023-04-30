@@ -1,4 +1,5 @@
-import React, { useState, navigate } from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import FormMessage from './FormMessage'
 import './Settings.css'
@@ -46,6 +47,8 @@ const Settings = props => {
             setShowConfirm(true)
         }
     }
+
+    const navigate = useNavigate()
 
     const handleDeleteAccount = async () => {
         axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/delete`, {
