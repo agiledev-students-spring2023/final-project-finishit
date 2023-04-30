@@ -44,37 +44,74 @@ function setSampleTasks(newSampleTasks) {
 
 // Authenticated route. Gives user a list of their tasks from the database.
 tasksRouter.get('/tasks', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    const toRet = req.user.tasks.toObject()
-    for(let i=0; i<toRet.length; i++){
-        for(let j=0; j<toRet[i].badges.length; j++){
-            toRet[i].badges[j] = req.user.badges.find(ele => 
-                ele._id.toString() === req.user.tasks[i].badges[j]
-                )
-        }
-    }
+    try{
 
-    res.json(toRet)
+        if (devError) {
+            throw new Error('simulated error')
+        }
+
+        const toRet = req.user.tasks.toObject()
+        for(let i=0; i<toRet.length; i++){
+            for(let j=0; j<toRet[i].badges.length; j++){
+                toRet[i].badges[j] = req.user.badges.find(ele => 
+                    ele._id.toString() === req.user.tasks[i].badges[j]
+                    )
+            }
+        }
+
+        res.json(toRet)
+    } catch (err){
+
+        res.status(500).json({
+            error: err,
+            status: 'Could not retrieve badges. Please try again later.'
+            })
+    }
 })
 
 // Authenticated route. Creates a new task under the logged-in user.
-tasksRouter.post('/newtask', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    const user = await User.findById(req.user._id)
-    const taskFromForm = req.body
+tasksRouter.post('/newtask', [passport.authenticate('jwt', { session: false }),
+body('stringname', 'Please specify a valid name for your task').not().isEmpty()?.escape(),
+body('dateduedate', 'Please select a valid date').not().isEmpty()?.escape(),
+body('status1', 'Please select a valid status').not().isEmpty()?.escape()], async (req, res) => {
+    try{
 
-    console.log(req.body.badges)
+        if (devError) {
+            throw new Error('simulated error')
+        }
 
-    const taskInCorrectFormat = {
-        title: sanitize(taskFromForm.stringname),
-        dueDate: new Date(taskFromForm.dateduedate),
-        status: sanitize(taskFromForm.status1),
-        badges: req.body.badges.map(val => val._id)
+        const valErrors = validationResult(req).array().map(val => val.msg)
+        if (valErrors.length) {
+            res.json({ status: valErrors })
+            return
+        }
+
+        const user = await User.findById(req.user._id)
+        const taskFromForm = req.body
+
+        console.log(req.body.badges)
+
+        const taskInCorrectFormat = {
+            title: sanitize(taskFromForm.stringname),
+            dueDate: new Date(taskFromForm.dateduedate),
+            status: sanitize(taskFromForm.status1),
+            badges: req.body.badges.map(val => val._id)
+        }
+
+        // Add task to user object using method from User model.
+        user.addTask(taskInCorrectFormat)
+
+        // Send back a response.
+        res.json({
+            addSuccess: true
+        })
+    } catch (err){
+        console.log(err)
+        res.status(500).json({
+            error: err,
+            status: 'Could not add new task. Please try again later.'
+        })
     }
-
-    // Add task to user object using method from User model.
-    user.addTask(taskInCorrectFormat)
-
-    // Send back a response.
-    res.send('New task has been stored. Thank you!')
 })
 
 // Authenticated route. Edits an existing task under the logged-in user.
