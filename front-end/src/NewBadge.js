@@ -79,7 +79,10 @@ const NewBadge = props => {
                 <br />
                 <br />
                 <br />
-                <center><button className="submitButton" type="submit">Create New Badge</button></center>
+                <center>
+                    <button className="submitButton" type="submit">Create New Badge</button>
+                    <button className="submitButton cancelNewBadge" type="button" onClick={e => { navigate('/badges') }}>Cancel</button>
+                </center>
             </form>
         </div>
     )

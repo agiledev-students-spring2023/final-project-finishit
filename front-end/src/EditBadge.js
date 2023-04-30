@@ -140,7 +140,10 @@ const EditBadge = props => {
                 <br />
                 <br />
                 <br />
-                <center><button className="submitButton" type="submit">Update Badge</button></center>
+                <center>
+                    <button className="submitButton" type="submit">Update Badge</button>
+                    <button className="submitButton cancelButton" type="button" onClick={e => { navigate('/badges') }}>Discard Changes</button>
+                </center>
                 <br />
                 <br />
             </form>
