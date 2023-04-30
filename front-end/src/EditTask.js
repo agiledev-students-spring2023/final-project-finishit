@@ -61,7 +61,7 @@ const EditTask = props => {
             headers: { Authorization: `JWT ${jwtToken}` }
         }).then(response => {
             if (response.data.changedSuccess || response.data.invalidID) {
-                navigate('/badges')
+                navigate('/')
             } else if (response.data.status) {
                 setError({ class: 'error', text: response.data.status })
             }

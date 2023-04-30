@@ -116,13 +116,15 @@ async (req, res) => {
             title: sanitize(taskFromForm.stringname),
             dueDate: new Date(taskFromForm.dateduedate),
             status: sanitize(taskFromForm.status1),
-            badges: taskFromForm.badges
+            badges: sanitize(taskFromForm.badges)
         }
 
         user.tasks[taskIndex] = taskInCorrectFormat
         await user.save()
 
-        res.send('task has been edited')
+        res.json({
+            changedSuccess: true
+        })
 
     } catch (err){
 
@@ -184,7 +186,7 @@ tasksRouter.post('/deletetask/:id', passport.authenticate('jwt', { session: fals
                 error: err,
                 status: 'failed to delete'
             })
-            return ''
+            return 
         }
 
         // Otherwise delete the task and return a success.
