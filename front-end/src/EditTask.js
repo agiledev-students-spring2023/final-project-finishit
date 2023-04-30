@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import Multiselect from 'multiselect-react-dropdown'
+import FormMessage from './FormMessage'
 
 const EditTask = props => {
     const jwtToken = localStorage.getItem('token')
@@ -34,12 +35,18 @@ const EditTask = props => {
         axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/deletetask/${id}`, {}, {
             headers: { Authorization: `JWT ${jwtToken}` }
         }).then(response => {
-            if (response.data.deleteSuccess) {
+            if (response.data.deleteSuccess || response.data.invalidID) {
                 navigate('/')
+            } else if (response.data.status) {
+                setError({ class: 'error', text: response.data.status })
             }
         }).catch(err => {
             // failure
+            setError({ class: 'error', text: 'Something went wrong. Please try again later.' })
             console.log(`Received server error: ${err}`)
+            if (err.response.status === 401) {
+                navigate('/')
+            }
         })
     }
 
@@ -53,8 +60,13 @@ const EditTask = props => {
         }, {
             headers: { Authorization: `JWT ${jwtToken}` }
         }).then(response => {
+            if (response.data.changedSuccess || response.data.invalidID) {
+                navigate('/')
+            } else if (response.data.status) {
+                setError({ class: 'error', text: response.data.status })
+            }
             console.log(`Received server response: ${response.data}`)
-            navigate('/')
+            // navigate('/')
         }).catch(err => {
             // failure
             console.log(`Received server error: ${err}`)
@@ -111,6 +123,9 @@ const EditTask = props => {
 
     return (
         <>
+            {error && (
+                <FormMessage text={error.text} class={error.class} />
+            )}
             <h1>Task</h1>
             <form method="POST" onSubmit={e => handleSubmit(e)}>
                 <div>
