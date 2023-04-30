@@ -146,7 +146,7 @@ const EditTask = props => {
                     <label>Status:</label>
                     <br />
                     <select
-                        defaultValue={status}
+                        value={status}
                         onChange={e => setstatus(e.target.value)}
                     >
                         <option value="" disabled hidden>Select an option</option>
