@@ -3,7 +3,8 @@
     "exclude": [
         "test/*_test.js",
         "old/",
-        "server.js"
+        "server.js",
+        "config/"
     ],
     "check-coverage": true,
     "report-dir": "./coverage"
