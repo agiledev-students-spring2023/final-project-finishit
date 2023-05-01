@@ -85,7 +85,11 @@ const Settings = props => {
             }, {
                 headers: { Authorization: `JWT ${jwtToken}` }
             }).then(response => {
-                setFormMessage({ class: 'success', text: 'Successfully changed username!' })
+                if (response.data.success) {
+                    setFormMessage({ class: 'success', text: 'Successfully changed username!' })
+                } else if (response.data.status) {
+                    setFormMessage({ class: 'error', text: response.data.status })
+                }
             }).catch(err => {
                 // failure
                 console.log(`Received server error: ${err}`)
@@ -110,7 +114,11 @@ const Settings = props => {
             }, {
                 headers: { Authorization: `JWT ${jwtToken}` }
             }).then(response => {
-                setFormMessage({ class: 'success', text: 'Successfully changed password!' })
+                if (response.data.success) {
+                    setFormMessage({ class: 'success', text: 'Successfully changed password!' })
+                } else if (response.data.status) {
+                    setFormMessage({ class: 'error', text: response.data.status })
+                }
             }).catch(err => {
                 // failure
                 console.log(`Received server error: ${err}`)

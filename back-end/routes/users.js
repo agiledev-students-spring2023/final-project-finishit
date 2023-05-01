@@ -23,7 +23,10 @@ usersRouter.post('/create', [
         .isLength({ min: 4, max: 12 })
         .withMessage('Username must be between 4 to 12 characters')
         .escape(),
-    body('password').notEmpty().withMessage('Password is required').escape(),
+    body('password').notEmpty().withMessage('Password is required')
+        .isLength({ min: 6, max: 12 })
+        .withMessage('Password must be between 4 to 12 characters')
+        .escape(),
     body('petName').notEmpty().withMessage('Pet name is required').trim()
         .escape(),
     body('motherName').notEmpty().withMessage('Mother name is required').trim()
@@ -145,6 +148,8 @@ usersRouter.get('/userInfo', passport.authenticate('jwt', { session: false }), (
 // Authenticated route! Will replace the previous PUT / route.
 usersRouter.post('/change/username', passport.authenticate('jwt', { session: false }), [
     body('newUsername').notEmpty().withMessage('New Username is required').trim()
+        .isLength({ min: 4, max: 12 })
+        .withMessage('Username must be between 4 to 12 characters')
         .escape()
 ], (req, res) => {
     const valErrors = validationResult(req).array().map(val => val.msg)
@@ -162,7 +167,10 @@ usersRouter.post('/change/username', passport.authenticate('jwt', { session: fal
 
 // Authenticated route! Will replace the previous PATCH /reset-password route.
 usersRouter.post('/change/password', passport.authenticate('jwt', { session: false }), [
-    body('newPassword').notEmpty().withMessage('New password is required').escape()
+    body('newPassword').notEmpty().withMessage('New password is required').trim()
+        .isLength({ min: 6, max: 12 })
+        .withMessage('Password must be between 4 to 12 characters')
+        .escape()
 ], async (req, res) => {
     // Use a different method to change password so it is hashed.
     try {
