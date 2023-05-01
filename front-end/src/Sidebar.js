@@ -14,7 +14,6 @@ const Sidebar = props => {
 
     const [user, setUser] = useState(null)
     const logoutHandler = e => {
-        console.log('in logout handler')
         e.preventDefault()
         localStorage.clear()
         window.location = '/login'
