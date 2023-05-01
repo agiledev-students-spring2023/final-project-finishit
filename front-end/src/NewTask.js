@@ -147,12 +147,6 @@ const NewTask = props => {
                     />
                 </div>
                 <div>
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
                     <center>
                         <button className="submitButton" type="submit">
                             Submit Task
