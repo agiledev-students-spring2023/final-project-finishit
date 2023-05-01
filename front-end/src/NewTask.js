@@ -153,9 +153,12 @@ const NewTask = props => {
                 </div>
                 <div>
                     <br />
-                    <button className="submitButton" type="submit">
-                        Submit Task
-                    </button>
+                    <center>
+                        <button className="submitButton" type="submit">
+                            Submit Task
+                        </button>
+                        <button className="submitButton cancelNewBadge" type="button" onClick={e => { navigate('/') }}>Cancel</button>
+                    </center>
                 </div>
             </form>
         </>
