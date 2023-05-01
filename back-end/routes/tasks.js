@@ -73,6 +73,10 @@ tasksRouter.get('/tasks', passport.authenticate('jwt', { session: false }), asyn
 tasksRouter.post('/newtask', [passport.authenticate('jwt', { session: false }),
 body('stringname', 'Please specify a valid name for your task').not().isEmpty()?.escape(),
 body('dateduedate', 'Please select a valid date').not().isEmpty()?.escape(),
+body('dateduedate', 'Please select a current date').custom((date, {req}) => {
+    date=new Date()
+    return (date.getDate<=new Date(req.body.dateduedate))
+})?.escape(),
 body('status1', 'Please select a valid status').not().isEmpty()?.escape()], async (req, res) => {
     try{
 
@@ -118,6 +122,10 @@ body('status1', 'Please select a valid status').not().isEmpty()?.escape()], asyn
 tasksRouter.post('/tasks/:id', [passport.authenticate('jwt', { session: false }),
 body('stringname', 'Please specify a valid name for your task').not().isEmpty()?.escape(),
 body('dateduedate', 'Please select a due date').not().isEmpty()?.escape(),
+body('dateduedate', 'Please select a current date').custom((date, {req}) => {
+    date=new Date()
+    return (date.getDate<=new Date(req.body.dateduedate))
+})?.escape(),
 body('status1', 'Please select a valid status').not().isEmpty()?.escape()], 
 async (req, res) => {
 
