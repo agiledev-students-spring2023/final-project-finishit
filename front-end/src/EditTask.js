@@ -178,7 +178,10 @@ const EditTask = props => {
             <form method="POST" onSubmit={e => handleDelete(e)}>
                 <div>
                     <br />
-                    <button className="submitButton deleteButton" type="submit">Delete Task</button>
+                    <center>
+                        <button className="submitButton deleteButton" type="submit">Delete Task</button>
+                        <button className="submitButton cancelButton" type="button" onClick={e => { navigate('/') }}>Discard Changes</button>
+                    </center>
                 </div>
             </form>
         </>
