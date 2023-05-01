@@ -132,11 +132,6 @@ const Settings = props => {
             <form onSubmit={submitHandler}>
                 <h2>Change Username</h2>
                 <label>
-                    <input className="inputBox5" type="text" name="currentUsername" placeholder="Current Username" value={currentUsername} onChange={handleUsernameChange} />
-                </label>
-                <br />
-                <br />
-                <label>
                     <input className="inputBox5" type="text" name="newUsername" placeholder="New Username" value={newUsername} onChange={handleUsernameChange} />
                 </label>
                 <br />
@@ -147,11 +142,6 @@ const Settings = props => {
                 <br />
                 <br />
                 <h2>Change Password</h2>
-                <label>
-                    <input className="inputBox5" type="password" name="currentPassword" placeholder="Current Password" value={currentPassword} onChange={handlePasswordChange} />
-                </label>
-                <br />
-                <br />
                 <label>
                     <input className="inputBox5" type="password" name="newPassword" placeholder="New Password" value={newPassword} onChange={handlePasswordChange} />
                 </label>
