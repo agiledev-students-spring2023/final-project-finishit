@@ -59,7 +59,6 @@ badgesRouter.post('/badges', [
             addSuccess: true
         })
     } catch (err) {
-        console.log(err)
         res.status(500).json({
             error: err,
             status: 'Could not add new badge. Please try again later.'
@@ -115,7 +114,6 @@ badgesRouter.post('/badges/:id', [
         await req.user.save()
         res.json({ changedSuccess: true })
     } catch (err) {
-        console.log(err)
         res.status(500).json({
             error: err,
             status: 'Could not edit specified badge. Please try again later.'
