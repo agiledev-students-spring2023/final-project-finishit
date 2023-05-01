@@ -9,21 +9,12 @@ const EditTask = props => {
     const jwtToken = localStorage.getItem('token')
 
     const { id } = useParams()
-    const [date, setDate] = useState('')
     const dateInputRef = useRef(null)
 
     const [name, setName] = useState('')
     const [duedate, setduedate] = useState('')
-    const [remdate, setremdate] = useState('')
-    const [formData, setFormData] = useState('')
     const [status, setstatus] = useState('')
-    const [error, setError] = useState({
-        /*
-        name: '',
-        duedate: '',
-        status: ''
-        */
-    })
+    const [error, setError] = useState({})
 
     const [badges, setBadges] = useState([])
     const [options, setOpts] = useState([])
@@ -43,7 +34,6 @@ const EditTask = props => {
         }).catch(err => {
             // failure
             setError({ class: 'error', text: 'Something went wrong. Please try again later.' })
-            console.log(`Received server error: ${err}`)
             if (err.response.status === 401) {
                 navigate('/')
             }
@@ -65,11 +55,9 @@ const EditTask = props => {
             } else if (response.data.status) {
                 setError({ class: 'error', text: response.data.status })
             }
-            console.log(`Received server response: ${response.data}`)
             // navigate('/')
         }).catch(err => {
             // failure
-            console.log(`Received server error: ${err}`)
             setError(
                 'Invalid inputs, check again.'
             )
@@ -98,17 +86,14 @@ const EditTask = props => {
                         return
                     }
                     const dataTask = response.data.task
-                    console.log(dataTask)
                     setName(dataTask.title)
                     setduedate(dataTask.dueDate.toString().substring(0, 10))
                     setstatus(dataTask.status)
-                    // console.log(dataTask.status)
                     setBadges(dataTask.badges)
                     setOpts(response.data.allBadges)
                     setError('')
                 }).catch(err => {
                     setError('Something went wrong. Please try again later.')
-                    console.log(err)
                     if (err.response.status === 401) {
                         navigate('/')
                     }
