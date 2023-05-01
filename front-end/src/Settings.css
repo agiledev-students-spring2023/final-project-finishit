@@ -13,6 +13,15 @@
     border-radius: 5px; /* round the corners of the button */
 }
 
+.deleteButton {
+    background-color: red; /* set the background color of the button */
+    color: rgb(245, 248, 250); /* set the text color of the button */
+    font-size: 16px; /* set the font size of the button */
+    padding: 10px 20px; /* set the padding of the button (top/bottom left/right) */
+    border: none; /* remove the border of the button */
+    border-radius: 5px; /* round the corners of the button */
+}
+
 .loginText{
     font-size: 16px;
     color: blue;
@@ -20,17 +29,10 @@
 }
 
 .delete-confirm{
-
     position: fixed;
     width: 100%;
     height: 100vh;
-
     background-color: rgba(0,0,0,0.3);
-    /* display: flex;
-
-    align-items: center;
-    justify-self: center; */
-
     top:0;
     left: 0;
     right: 0;

@@ -155,7 +155,7 @@ const Settings = props => {
                 <button type="submit" className="submitButton" onClick={submitHandler}>Confirm Changes</button>
                 <br />
                 <br />
-                <button type="button" className="submitButton" onClick={handleConfirmDialogue}>Delete Account</button>
+                <button type="button" className="deleteButton" onClick={handleConfirmDialogue}>Delete Account</button>
             </form>
             {showConfirm && (
                 <div className="delete-confirm">
