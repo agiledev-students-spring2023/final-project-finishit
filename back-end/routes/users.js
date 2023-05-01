@@ -20,6 +20,8 @@ const findUserByUsername = async username => {
 // Method to create a user. Replaces the previous POST /create route.
 usersRouter.post('/create', [
     body('username').notEmpty().withMessage('Username is required').trim()
+        .isLength({ min: 4, max: 12 })
+        .withMessage('Username must be between 4 to 12 characters')
         .escape(),
     body('password').notEmpty().withMessage('Password is required').escape(),
     body('petName').notEmpty().withMessage('Pet name is required').trim()
