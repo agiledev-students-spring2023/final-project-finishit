@@ -15,12 +15,9 @@ describe('badgesRouter', () => {
         assert(Object.getPrototypeOf(badgesRouter.badgesRouter) === express.Router, 'badgesRouter should be an instance of express Router')
         done()
     })
-    it('should return a response in json format', done => {
-        chai.request(app).get('/badges').end((err, res) => {
-            expect(res).to.be.json
-            done()
-        })
-    })
+})
+
+describe('badgesRouter /get', () => {
     it('should throw an error if something goes wrong', done => {
         badgesRouter.setError(true)
         chai.request(app).get('/badges').end((err, res) => {
@@ -31,4 +28,12 @@ describe('badgesRouter', () => {
             done()
         })
     })
+    it('should return a response in json format', done => {
+        chai.request(app).get('/badges').end((err, res) => {
+            expect(res).to.be.json
+            done()
+        })
+    })
+
+
 })
