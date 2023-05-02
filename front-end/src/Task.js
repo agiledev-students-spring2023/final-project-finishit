@@ -18,7 +18,6 @@ const Task = props => {
 
     const { title, dueDate, status, badges } = props.task
     const dueDateFmt = new Date(dueDate)
-    dueDateFmt.setDate(dueDateFmt.getDate() + 1)
     const today = new Date()
 
     const checkDate = date => (date < today ? 'overdue' : '')
