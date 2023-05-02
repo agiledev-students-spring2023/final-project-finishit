@@ -96,10 +96,11 @@ const NewTask = props => {
             <h1>New Task</h1>
             <form method="POST" onSubmit={e => handleSubmit(e)}>
                 <div>
+                    <br />
                     <label>Name of Task:</label>
                     <br />
                     <input
-                        className="taskInputBox"
+                        className="inputLogin"
                         type="text"
                         onChange={e => setName(e.target.value)}
                     />
@@ -107,10 +108,12 @@ const NewTask = props => {
 
                 <div>
                     <br />
-                    <label>Due Date:</label>
+                    <label>Due Date</label>
                     <br />
                     <input
+                        className="inputLogin"
                         type="date"
+                        placeholder="Due Date"
                         onChange={e => setduedate(e.target.value)}
                         ref={dateInputRef}
                     />
@@ -121,6 +124,7 @@ const NewTask = props => {
                     <label>Status:</label>
                     <br />
                     <select
+                        className="inputLogin"
                         defaultValue={status}
                         onChange={e => setstatus(e.target.value)}
                     >

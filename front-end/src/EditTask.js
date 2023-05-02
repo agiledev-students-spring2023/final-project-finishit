@@ -116,14 +116,14 @@ const EditTask = props => {
                 <div>
                     <label>Name of Task:</label>
                     <br />
-                    <input className="inputBox3" type="text" defaultValue={name} onChange={e => setName(e.target.value)} />
+                    <input className="inputLogin" type="text" defaultValue={name} onChange={e => setName(e.target.value)} />
                 </div>
 
                 <div>
                     <br />
                     <label>Due Date:</label>
                     <br />
-                    <input type="date" defaultValue={duedate} onChange={e => setduedate(e.target.value)} ref={dateInputRef} />
+                    <input className="inputLogin" type="date" defaultValue={duedate} onChange={e => setduedate(e.target.value)} ref={dateInputRef} />
                 </div>
 
                 <div>
@@ -131,6 +131,7 @@ const EditTask = props => {
                     <label>Status:</label>
                     <br />
                     <select
+                        className="inputLogin"
                         value={status}
                         onChange={e => setstatus(e.target.value)}
                     >
