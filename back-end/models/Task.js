@@ -21,7 +21,8 @@ const TaskSchema = new mongoose.Schema({
     badges: {
         type: [String],
         default: []
-    }})
+    }
+})
 
 // Create a model from this schema.
 const Task = mongoose.model('Task', TaskSchema)

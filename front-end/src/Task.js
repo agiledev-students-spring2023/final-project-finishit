@@ -1,9 +1,26 @@
 /* eslint-disable no-underscore-dangle */
 import './Task.css'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 const Task = props => {
+    const jwtToken = localStorage.getItem('token')
+
+    const navigate = useNavigate()
+
+    const handleSubmit = async e => {
+        e.preventDefault() // prevent the default browser form submission stuff
+        axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/updatetaskstatus/${props.task._id}`, {}, {
+            headers: { Authorization: `JWT ${jwtToken}` }
+        }).then(response => {
+            // Success
+            window.location.reload(false)
+        }).catch(err => {
+            // Failure
+        })
+    }
+
     const textColorFromBackground = background => {
         const hexToRGB = hex => {
             const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
@@ -20,6 +37,21 @@ const Task = props => {
     const today = new Date()
 
     const checkDate = date => (date < today ? 'overdue' : '')
+
+    const checkCompletionStatus = status1 => (status1 === 'COMPLETED' ? 'completedButton' : '')
+
+    const getButtonText = status2 => {
+        switch (status2) {
+        case 'NOT_STARTED':
+            return 'Start Task'
+        case 'IN_PROGRESS':
+            return 'Finish Task'
+        case 'COMPLETED':
+            return 'Completed'
+        default:
+            return 'Unknown!'
+        }
+    }
 
     return (
         <div className={`task-container ${checkDate(dueDate)}`}>
@@ -53,35 +85,14 @@ const Task = props => {
                 </div>
             </div>
             <div className="task-checkbox">
-                {(() => {
-                    if (status === 'NOT_STARTED') {
-                        return (
-                            <button className="categoryButton" type="submit">
-                                Mark task as
-                                <br />
-                                In Progress
-                            </button>
-                        )
-                    }
-
-                    if (status === 'IN_PROGRESS') {
-                        return (
-                            <button className="categoryButton" type="submit">
-                                Mark task as
-                                <br />
-                                Completed
-                            </button>
-                        )
-                    }
-
-                    return (
-                        <button className="categoryButton completedButton" type="submit">
-                            Task already completed!
-                        </button>
-                    )
-                })()}
+                <button
+                    className={`categoryButton ${checkCompletionStatus(status)}`}
+                    type="submit"
+                    onClick={handleSubmit}
+                >
+                    {getButtonText(status)}
+                </button>
             </div>
-
         </div>
     )
 }

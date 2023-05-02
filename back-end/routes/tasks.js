@@ -177,6 +177,51 @@ tasksRouter.get('/tasks/:id', passport.authenticate('jwt', { session: false }), 
     }
 })
 
+// Authenticated route. Easy method to update a task's status given its current status.
+tasksRouter.post('/updatetaskstatus/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id)
+        const taskIndex = user.tasks.findIndex(
+            task => task._id.toString() === sanitize(req.params.id).toString()
+        )
+
+        // Throw an error if the task was not found.
+        if (taskIndex === -1) {
+            res.status(500).json({
+                error: 'Unable to find specified task.',
+                status: 'Failed to update task.'
+            })
+            return
+        }
+
+        // Otherwise update the task's status and return a success.
+        const task = user.tasks[taskIndex]
+        let newStatus = task.status
+        switch (task.status) {
+        case 'NOT_STARTED':
+            newStatus = 'IN_PROGRESS'
+            break
+        case 'IN_PROGRESS':
+            newStatus = 'COMPLETED'
+            break
+        default:
+            break
+        }
+        // Update task and save to database.
+        task.status = newStatus
+        user.tasks[taskIndex] = task
+        await user.save()
+        res.json({
+            changedSuccess: true
+        })
+    } catch (err) {
+        res.status(500).json({
+            error: err,
+            status: 'Could not update specified task. Please try again later.'
+        })
+    }
+})
+
 // Authenticated route. Deletes an existing task under the logged-in user.
 tasksRouter.post('/deletetask/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
