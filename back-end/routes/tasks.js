@@ -43,12 +43,7 @@ tasksRouter.get('/tasks', passport.authenticate('jwt', { session: false }), asyn
 // Authenticated route. Creates a new task under the logged-in user.
 tasksRouter.post('/newtask', [passport.authenticate('jwt', { session: false }),
     body('stringname', 'Please specify a valid name for your task').not().isEmpty()?.escape(),
-    body('dateduedate', 'Please select a valid date').not().isEmpty()?.escape()
-        .custom((date1, { req }) => {
-            const date = new Date()
-            date.setDate(date.getDate() - 1)
-            return date1.setHours(0, 0, 0, 0) <= new Date(req.body.dateduedate).setHours(0, 0, 0, 0)
-        }),
+    body('dateduedate', 'Please select a valid date').not().isEmpty()?.escape(),
     body('status1', 'Please select a valid status').not().isEmpty()?.escape()], async (req, res) => {
     try {
         if (devError) {
@@ -63,6 +58,8 @@ tasksRouter.post('/newtask', [passport.authenticate('jwt', { session: false }),
 
         const user = await User.findById(req.user._id)
         const taskFromForm = req.body
+
+        console.log(req.body.badges)
 
         const taskInCorrectFormat = {
             title: sanitize(taskFromForm.stringname),

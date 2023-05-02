@@ -25,7 +25,6 @@ const BadgeHome = props => {
         async function fetchBadges() {
             const jwtToken = localStorage.getItem('token')
             if (!jwtToken) {
-                console.log('No token')
                 nav('/login')
             } else {
                 try {
@@ -41,7 +40,6 @@ const BadgeHome = props => {
                     }
                 } catch (err) {
                     setError({ class: 'error', text: 'Something went wrong when fetching badges. Please try again later.' })
-                    console.log(err)
                     if (err.response.status === 401) {
                         nav('/login')
                     }

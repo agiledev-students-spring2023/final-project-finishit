@@ -10,13 +10,8 @@ const NewTask = props => {
 
     const [date, setDate] = useState('')
     const dateInputRef = useRef(null)
-    const handleChange = e => {
-        setDate(e.target.value)
-    }
-
     const [name, setName] = useState('')
     const [duedate, setduedate] = useState('')
-    const [remdate, setremdate] = useState('')
     const [status, setstatus] = useState('')
     const [error, setError] = useState(undefined)
 
@@ -41,18 +36,15 @@ const NewTask = props => {
                 }
             )
             .then(response => {
-                console.log(`Received server response: ${response.data}`)
                 if (response.data.addSuccess) {
                     navigate('/')
                 } else if (response.data.status) {
                     setError({ class: 'error', text: response.data.status })
                 }
-                // navigate('/')
             })
             .catch(err => {
                 // failure
                 setError({ class: 'error', text: 'Something went wrong. Please try again later.' })
-                console.log(`Received server error: ${err}`)
                 if (err.response && err.response.status === 401) {
                     navigate('/')
                 }
@@ -88,7 +80,6 @@ const NewTask = props => {
                 setError(
                     'Something went wrong when fetching badges. Please try again later.'
                 )
-                console.log(err)
                 if (err.response.status === 401) {
                     navigate('/login')
                 }
@@ -105,10 +96,11 @@ const NewTask = props => {
             <h1>New Task</h1>
             <form method="POST" onSubmit={e => handleSubmit(e)}>
                 <div>
+                    <br />
                     <label>Name of Task:</label>
                     <br />
                     <input
-                        className="taskInputBox"
+                        className="inputLogin"
                         type="text"
                         onChange={e => setName(e.target.value)}
                     />
@@ -116,10 +108,12 @@ const NewTask = props => {
 
                 <div>
                     <br />
-                    <label>Due Date:</label>
+                    <label>Due Date</label>
                     <br />
                     <input
+                        className="inputLogin"
                         type="date"
+                        placeholder="Due Date"
                         onChange={e => setduedate(e.target.value)}
                         ref={dateInputRef}
                     />
@@ -130,6 +124,7 @@ const NewTask = props => {
                     <label>Status:</label>
                     <br />
                     <select
+                        className="inputLogin"
                         defaultValue={status}
                         onChange={e => setstatus(e.target.value)}
                     >

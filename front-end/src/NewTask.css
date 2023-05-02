@@ -23,6 +23,7 @@ button {
 }
 
 .searchWrapper, .optionListContainer.displayBlock {
-  margin-left: 20%;
-  width: 60%
+  margin-left: 40%;
+  width: 20%;
+  height: 10%
 }

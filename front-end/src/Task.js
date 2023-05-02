@@ -34,7 +34,9 @@ const Task = props => {
     }
 
     const { title, dueDate, status, badges } = props.task
+    const dueDateFmt = new Date(dueDate)
     const today = new Date()
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
     const checkDate = date => (date < today ? 'overdue' : '')
 
@@ -54,12 +56,12 @@ const Task = props => {
     }
 
     return (
-        <div className={`task-container ${checkDate(dueDate)}`}>
+        <div className={`task-container ${checkDate(dueDateFmt)}`}>
             <div className="task-info">
                 <Link to={`/edittask/${props.task._id}`}>
                     <div className="task-title-due-date">
                         <div className="task-title">{title}</div>
-                        <div className="task-due-date">{dueDate.toLocaleString()}</div>
+                        <div className="task-due-date">{`${months[dueDateFmt.getUTCMonth()]} ${dueDateFmt.getUTCDate()}, ${dueDateFmt.getUTCFullYear()}`}</div>
                     </div>
                 </Link>
                 <div className="task-categories">
