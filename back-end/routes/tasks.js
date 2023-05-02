@@ -59,8 +59,6 @@ tasksRouter.post('/newtask', [passport.authenticate('jwt', { session: false }),
         const user = await User.findById(req.user._id)
         const taskFromForm = req.body
 
-        console.log(req.body.badges)
-
         const taskInCorrectFormat = {
             title: sanitize(taskFromForm.stringname),
             dueDate: new Date(taskFromForm.dateduedate),
