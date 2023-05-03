@@ -1,8 +1,8 @@
 .task-container {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     padding: 8px;
+    min-height: 85px;
 }
 
 .overdue {
