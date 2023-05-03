@@ -60,9 +60,6 @@ const Sidebar = props => {
                     to="/logout"
                     className="bm-item"
                     onClick={logoutHandler}
-                    style={{
-                        color: 'rebeccapurple'
-                    }}
                 >
                     <h4>Logout</h4>
                 </Link>
@@ -72,6 +69,12 @@ const Sidebar = props => {
             {user && (<MenuLink to="/badges" className="bm-item" text="Badges" useFunc={setOpen} />
             )}
             {user && (<MenuLink to="/settings" className="bm-item" text="Settings" useFunc={setOpen} />
+            )}
+            {user && (
+                <p>
+                    Currently logged in as:
+                    {` ${user.username}`}
+                </p>
             )}
         </Menu>
     )
