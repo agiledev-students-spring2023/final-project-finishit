@@ -50,11 +50,11 @@ const App = props => (
                     <Route path="/newbadge" element={<NewBadge />} />
                     <Route path="/editbadge/:id" element={<EditBadge />} />
 
-                    {/* Handles invalid routes */}
-                    <Route path="*" element={<Home />} />
-
                     {/* a route to the tutorial page */}
                     <Route path="/tutorial" element={<Tutorial />} />
+
+                    {/* Handles invalid routes */}
+                    <Route path="*" element={<Home />} />
 
                 </Routes>
             </main>

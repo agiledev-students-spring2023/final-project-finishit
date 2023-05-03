@@ -55,6 +55,8 @@ const Sidebar = props => {
             {!user && (
                 <MenuLink to="/login" cn="bm-item" text="Log In" useFunc={setOpen} />
             )}
+            {!user && (<MenuLink to="/tutorial" className="bm-item" text="Tutorial" useFunc={setOpen} />
+            )}
             {user && (
                 <Link
                     to="/logout"
