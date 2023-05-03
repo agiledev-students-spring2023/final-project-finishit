@@ -46,15 +46,11 @@ const UserSchema = new mongoose.Schema({
 const BCRYPT_SALT_WORK_FACTOR = 10
 
 UserSchema.pre('save', async function (next) {
-    console.log(this)
-
     // If a user has modified their password, hash it.
     if (!this.isModified('password')) return next()
 
     const salt = await bcrypt.genSalt(BCRYPT_SALT_WORK_FACTOR)
     this.password = await bcrypt.hash(this.password, salt)
-
-    console.log(this)
 })
 
 // Compare a submitted password against the user's stored password.
