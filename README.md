@@ -22,6 +22,8 @@ This project was born as a product of a class on Agile Development at New York U
 
 If you'd like to make a contribution to the project, please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
+As of May 3, 2023, a live demo of this project can be accessed at [http://finishit.hpdouglass.net/](http://finishit.hpdouglass.net/).
+
 ## Instructions
 
 To follow any of the instructions below, you must first clone this repository onto your local machine.
@@ -63,6 +65,7 @@ To run the unit tests for the back end:
 ```
 npm run test
 ```
+Note that these unit tests are currently unfinished.
 
 ### Front-End
 
