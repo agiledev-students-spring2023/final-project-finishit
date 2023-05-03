@@ -34,7 +34,6 @@ const Reset = props => {
             }
         }).catch(err => {
             // failure
-            console.log(`Received server error: ${err}`)
             setFormMessage({ class: 'error', text: 'Not able to change password. User may not exist or security questions may not be correct.' })
         })
     }
