@@ -25,7 +25,7 @@ usersRouter.post('/create', [
         .escape(),
     body('password').notEmpty().withMessage('Password is required')
         .isLength({ min: 6, max: 12 })
-        .withMessage('Password must be between 4 to 12 characters')
+        .withMessage('Password must be between 6 to 12 characters')
         .escape(),
     body('petName').notEmpty().withMessage('Pet name is required').trim()
         .escape(),
@@ -106,6 +106,8 @@ usersRouter.post('/forgot', [
     body('motherName').notEmpty().withMessage('Mother name is required').trim()
         .escape(),
     body('newPassword').notEmpty().withMessage('New password is required')
+        .isLength({ min: 6, max: 12 })
+        .withMessage('Password must be between 6 to 12 characters')
         .escape()
 ], async (req, res) => {
     try {
@@ -169,7 +171,7 @@ usersRouter.post('/change/username', passport.authenticate('jwt', { session: fal
 usersRouter.post('/change/password', passport.authenticate('jwt', { session: false }), [
     body('newPassword').notEmpty().withMessage('New password is required').trim()
         .isLength({ min: 6, max: 12 })
-        .withMessage('Password must be between 4 to 12 characters')
+        .withMessage('Password must be between 6 to 12 characters')
         .escape()
 ], async (req, res) => {
     // Use a different method to change password so it is hashed.
