@@ -60,7 +60,6 @@ const Settings = props => {
             navigate('/login')
         }).catch(err => {
             // failure
-            console.log(`Received server error: ${err}`)
             setFormMessage({ class: 'error', text: 'Unable to delete your account.' })
         })
     }
@@ -77,8 +76,6 @@ const Settings = props => {
                 return
             }
 
-            console.log(`Attempting to change username to: ${newUsername}`)
-
             // Attempt to change the username in the database.
             axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/change/username`, {
                 newUsername
@@ -92,7 +89,6 @@ const Settings = props => {
                 }
             }).catch(err => {
                 // failure
-                console.log(`Received server error: ${err}`)
                 setFormMessage({ class: 'error', text: 'Unable to change your username.' })
             })
 
@@ -105,8 +101,6 @@ const Settings = props => {
                 setFormMessage({ class: 'error', text: 'Passwords do not match!' })
                 return
             }
-
-            console.log(`Attempting to change password to: ${newPassword}`)
 
             // Attempt to change the password in the database.
             axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/change/password`, {
@@ -121,7 +115,6 @@ const Settings = props => {
                 }
             }).catch(err => {
                 // failure
-                console.log(`Received server error: ${err}`)
                 setFormMessage({ class: 'error', text: 'Unable to change your password.' })
             })
 

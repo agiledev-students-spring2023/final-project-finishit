@@ -37,12 +37,9 @@ const Create = props => {
             motherName: motherMaidenName
         }
 
-        console.log('payload', payload)
-
         try {
             const response = await axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/create`, payload)
                 .then(response1 => {
-                    console.log(`Received server response: ${response1.data}`)
                     if (response1.data.success) {
                         navigate('/login')
                     } else if (response1.data.status) {
@@ -53,12 +50,10 @@ const Create = props => {
                 .catch(err => {
                     // failure
                     setError({ class: 'error', text: 'Something went wrong. Please try again later.' })
-                    console.log(`Received server error: ${err}`)
                     if (err.response1 && err.response1.status === 401) {
                         navigate('/')
                     }
                 })
-            console.log('response', response)
             // window.location = '/login'
         } catch (error2) {
             console.error(error2)

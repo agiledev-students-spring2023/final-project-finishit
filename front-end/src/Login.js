@@ -21,9 +21,7 @@ const Login = props => {
         event.preventDefault()
         try {
             const response = await axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/login`, { username, password })
-            console.log('response', response)
             const token = response.data.token
-            console.log('token')
             localStorage.setItem('token', token)
             // redirect to protected route
             window.location = '/'
