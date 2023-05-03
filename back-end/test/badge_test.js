@@ -9,7 +9,6 @@ const badgesRouter = require('../routes/badges')
 
 chai.use(chaiHttp)
 
-// console.log(badgesRouter instanceof express.Router)
 describe('badgesRouter', () => {
     it('should be an instance of express Router', done => {
         assert(Object.getPrototypeOf(badgesRouter.badgesRouter) === express.Router, 'badgesRouter should be an instance of express Router')
@@ -24,7 +23,6 @@ describe('badgesRouter', () => {
     it('should throw an error if something goes wrong', done => {
         badgesRouter.setError(true)
         chai.request(app).get('/badges').end((err, res) => {
-            // console.log(res)
             expect(res.error).to.be.instanceOf(Error)
             expect(res).to.be.json
             expect(res).to.have.status(500)
