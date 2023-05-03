@@ -9,6 +9,16 @@ import './Sidebar.css'
  * @param {*} param0 an object holding any props passed to this component from its parent component
  * @returns The contents of this component, in JSX form.
  */
+
+const MenuLink = props => (
+    <Link
+        to={props.to}
+        onClick={() => { props.useFunc(false) }}
+    >
+        <h4>{props.text}</h4>
+    </Link>
+)
+
 const Sidebar = props => {
     const jwtToken = localStorage.getItem('token')
 
@@ -34,18 +44,16 @@ const Sidebar = props => {
         }
     }, [jwtToken])
 
+    const [menuOpen, setOpen] = useState(false)
+
     return (
-        <Menu className="bm-item-list">
+        <Menu
+            className="bm-item-list"
+            isOpen={menuOpen}
+            onStateChange={state => setOpen(state.isOpen)}
+        >
             {!user && (
-                <Link
-                    to="/login"
-                    className="bm-item"
-                    onClick={() => {
-                        props.isOpen = false
-                    }}
-                >
-                    <h4>Log In</h4>
-                </Link>
+                <MenuLink to="/login" cn="bm-item" text="Log In" useFunc={setOpen} />
             )}
             {user && (
                 <Link
@@ -59,20 +67,11 @@ const Sidebar = props => {
                     <h4>Logout</h4>
                 </Link>
             )}
-            {user && (
-                <Link
-                    to="/"
-                    className="bm-item"
-                    onClick={() => {
-                        props.isOpen = false
-                    }}
-                >
-                    <h4>My Tasks</h4>
-                </Link>
+            {user && (<MenuLink to="/" className="bm-item" text="My Tasks" useFunc={setOpen} />
             )}
-            {user && (<Link to="/badges" className="bm-item" onClick={() => { props.isOpen = false }}><h4>Badges</h4></Link>
+            {user && (<MenuLink to="/badges" className="bm-item" text="Badges" useFunc={setOpen} />
             )}
-            {user && (<Link to="/settings" className="bm-item" onClick={() => { props.isOpen = false }}><h4>Settings</h4></Link>
+            {user && (<MenuLink to="/settings" className="bm-item" text="Settings" useFunc={setOpen} />
             )}
         </Menu>
     )
