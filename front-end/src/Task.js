@@ -35,10 +35,14 @@ const Task = props => {
 
     const { title, dueDate, status, badges } = props.task
     const dueDateFmt = new Date(dueDate)
-    const today = new Date()
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
-    const checkDate = date => (date < today ? 'overdue' : '')
+    const checkDate = date => {
+        const now = new Date()
+        const timezoneOffset = now.getTimezoneOffset() // in minutes
+        const localDate = new Date(date.getTime() + (timezoneOffset * 60 * 1000))
+        return (localDate < now ? 'overdue' : '')
+    }
 
     const checkCompletionStatus = status1 => (status1 === 'COMPLETED' ? 'completedButton' : '')
 
