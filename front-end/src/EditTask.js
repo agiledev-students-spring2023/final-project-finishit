@@ -152,6 +152,7 @@ const EditTask = props => {
                         onSelect={handleSelect} // Function will trigger on select event
                         onRemove={handleRemove} // Function will trigger on remove event
                         displayValue="text"
+                        style={{ optionContainer: { backgroundColor: 'white', zIndex: 100 } }}
                     />
                 </div>
 
