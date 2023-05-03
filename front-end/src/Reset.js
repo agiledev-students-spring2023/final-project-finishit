@@ -26,8 +26,12 @@ const Reset = props => {
         axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/auth/forgot`, {
             username, newPassword, petName, motherName
         }).then(response => {
-            setFormMessage({ class: 'success', text: 'Successfully changed your password.' })
-            navigate('/login')
+            if (response.data.success) {
+                setFormMessage({ class: 'success', text: 'Successfully changed your password!' })
+                navigate('/login')
+            } else if (response.data.status) {
+                setFormMessage({ class: 'error', text: response.data.status })
+            }
         }).catch(err => {
             // failure
             console.log(`Received server error: ${err}`)

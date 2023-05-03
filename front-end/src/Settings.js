@@ -85,7 +85,11 @@ const Settings = props => {
             }, {
                 headers: { Authorization: `JWT ${jwtToken}` }
             }).then(response => {
-                setFormMessage({ class: 'success', text: 'Successfully changed username!' })
+                if (response.data.success) {
+                    setFormMessage({ class: 'success', text: 'Successfully changed username!' })
+                } else if (response.data.status) {
+                    setFormMessage({ class: 'error', text: response.data.status })
+                }
             }).catch(err => {
                 // failure
                 console.log(`Received server error: ${err}`)
@@ -110,7 +114,11 @@ const Settings = props => {
             }, {
                 headers: { Authorization: `JWT ${jwtToken}` }
             }).then(response => {
-                setFormMessage({ class: 'success', text: 'Successfully changed password!' })
+                if (response.data.success) {
+                    setFormMessage({ class: 'success', text: 'Successfully changed password!' })
+                } else if (response.data.status) {
+                    setFormMessage({ class: 'error', text: response.data.status })
+                }
             }).catch(err => {
                 // failure
                 console.log(`Received server error: ${err}`)
@@ -132,11 +140,6 @@ const Settings = props => {
             <form onSubmit={submitHandler}>
                 <h2>Change Username</h2>
                 <label>
-                    <input className="inputBox5" type="text" name="currentUsername" placeholder="Current Username" value={currentUsername} onChange={handleUsernameChange} />
-                </label>
-                <br />
-                <br />
-                <label>
                     <input className="inputBox5" type="text" name="newUsername" placeholder="New Username" value={newUsername} onChange={handleUsernameChange} />
                 </label>
                 <br />
@@ -147,11 +150,6 @@ const Settings = props => {
                 <br />
                 <br />
                 <h2>Change Password</h2>
-                <label>
-                    <input className="inputBox5" type="password" name="currentPassword" placeholder="Current Password" value={currentPassword} onChange={handlePasswordChange} />
-                </label>
-                <br />
-                <br />
                 <label>
                     <input className="inputBox5" type="password" name="newPassword" placeholder="New Password" value={newPassword} onChange={handlePasswordChange} />
                 </label>
@@ -165,7 +163,7 @@ const Settings = props => {
                 <button type="submit" className="submitButton" onClick={submitHandler}>Confirm Changes</button>
                 <br />
                 <br />
-                <button type="button" className="submitButton" onClick={handleConfirmDialogue}>Delete Account</button>
+                <button type="button" className="deleteButton" onClick={handleConfirmDialogue}>Delete Account</button>
             </form>
             {showConfirm && (
                 <div className="delete-confirm">
