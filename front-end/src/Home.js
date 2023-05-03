@@ -22,6 +22,8 @@ const Home = props => {
             }).then(response => {
                 setUser(response.data)
             })
+        } else {
+            window.location = '/login'
         }
     }, [jwtToken])
 
