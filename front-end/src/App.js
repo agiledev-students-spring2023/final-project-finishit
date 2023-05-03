@@ -13,6 +13,7 @@ import EditTask from './EditTask'
 import NewBadge from './NewBadge'
 import EditBadge from './EditBadge'
 import BadgeHome from './BadgeHome'
+import Tutorial from './Tutorial'
 
 const App = props => (
     <div className="App">
@@ -51,6 +52,9 @@ const App = props => (
 
                     {/* Handles invalid routes */}
                     <Route path="*" element={<Home />} />
+
+                    {/* a route to the tutorial page */}
+                    <Route path="/tutorial" element={<Tutorial />} />
 
                 </Routes>
             </main>
