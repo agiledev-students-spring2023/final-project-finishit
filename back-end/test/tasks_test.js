@@ -22,7 +22,6 @@ describe('/tasks route', () => {
             .get('/tasks/1')
             .end((err, res) => {
                 expect(res).to.have.status(200)
-                console.log(res.body)
                 expect(res.body.tasks[0].id).to.equal(1)
                 done()
             })
@@ -41,7 +40,6 @@ describe('/tasks route', () => {
     it('should throw an error if something goes wrong', done => {
         tasksRouter.setError(true)
         chai.request(app).get('/tasks').end((err, res) => {
-            // console.log(res)
             expect(res.error).to.be.instanceOf(Error)
             expect(res).to.be.json
             expect(res).to.have.status(500)
@@ -52,7 +50,6 @@ describe('/tasks route', () => {
     it('should throw an error for a single task', done => {
         tasksRouter.setError(true)
         chai.request(app).get('/tasks/1').end((err, res) => {
-            // console.log(res)
             expect(res.error).to.be.instanceOf(Error)
             expect(res).to.be.json
             expect(res).to.have.status(500)
