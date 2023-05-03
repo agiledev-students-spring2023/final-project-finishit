@@ -2,7 +2,7 @@
 
 ## Deployment
 
-Our app is now deployed! You can find it at <http://finishit.hpdouglass.net>
+Our app is now deployed! You can view the live demo at <http://finishit.hpdouglass.net>
 
 ## Description
 
@@ -25,8 +25,6 @@ FinishIt will be a supercharged to-do system to help students and professionals 
 This project was born as a product of a class on Agile Development at New York University, after a need was found to organize our lives as students at the university. Paired up together as a team in the class, the four core team members (listed above) are working to decrease procrastination in school.
 
 If you'd like to make a contribution to the project, please see [CONTRIBUTING.md](./CONTRIBUTING.md).
-
-As of May 3, 2023, a live demo of this project can be accessed at [http://finishit.hpdouglass.net/](http://finishit.hpdouglass.net/).
 
 ## Instructions
 
