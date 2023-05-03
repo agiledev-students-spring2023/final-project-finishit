@@ -1,5 +1,9 @@
 # FinishIt
 
+## Deployment
+
+Our app is now deployed! You can find it at <http://finishit.hpdouglass.net>
+
 ## Description
 
 **Product Vision Statement:** FinishIt will allow users to organize their lives through an intelligent to-do/task manager application.
