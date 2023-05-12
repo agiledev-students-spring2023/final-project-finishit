@@ -224,7 +224,7 @@ tasksRouter.post('/deletetask/:id', passport.authenticate('jwt', { session: fals
         const taskIndex = user.tasks.findIndex(
             task => task._id.toString() === sanitize(req.params.id).toString()
         )
-        if (!taskIndex) {
+        if (!taskIndex && taskIndex !== 0) {
             res.json({ invalidID: true })
             return
         }
