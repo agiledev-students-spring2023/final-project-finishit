@@ -1,0 +1,78 @@
+.task-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    min-height: 85px;
+}
+
+.overdue {
+    background: #fcc;
+    font-weight: bold;
+}
+
+.task-title-due-date {
+    color: black;
+    text-align: left;
+}
+
+.task-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.task-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.task-due-date {
+    font-size: 16px;
+    color: gray;
+}
+
+.task-categories {
+    padding-top: 8px;
+    padding-bottom: 4px;
+}
+
+.badge {
+    padding: 4px 5px;
+    border-radius: 8px;
+	font-weight: 600;
+	font-size: 10pt;
+	box-shadow: 0 2px 5px rgba(0,0,0,.25);
+	margin-right: 8px;
+    cursor: pointer;
+}
+
+.task-checkbox {
+    display: flex;
+    align-items: center;
+    max-width: 130px;
+}
+
+.categoryButton {
+    background-color: #2f93f7;
+    color: rgb(245, 248, 250);
+    font-size: 14px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    width: 125px;
+}
+
+.completedButton {
+    background-color: #aaaaaa;
+    color: black;
+}
+
+.task-checkbox-input {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.overdue .task-due-date {
+    color: inherit !important;
+}

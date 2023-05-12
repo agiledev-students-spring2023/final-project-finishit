@@ -1,0 +1,25 @@
+{
+  "short_name": "FinishIt",
+  "name": "FinishIt - a supercharged TODO app",
+  "icons": [
+    {
+      "src": "FinishIt-icon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "finishit-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "finishit-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

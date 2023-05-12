@@ -1,19 +1,102 @@
-# Project Repository
+# FinishIt
 
-This repository will be used for team projects.
+## Deployment
 
-Several sets of instructions are included in this repository. They should each be treated as separate assignments with their own due dates and sets of requirements.
+Our app is now deployed! You can view the live demo at <http://finishit.hpdouglass.net>
 
-1. See the [App Map & Wireframes](instructions-0a-app-map-wireframes.md) and [Prototyping](./instructions-0b-prototyping.md) instructions for the requirements of the initial user experience design of the app.
+## Description
 
-1. Delete the contents of this file and replace with the contents of a proper README.md, as described in the [project setup instructions](./instructions-0c-project-setup.md)
+**Product Vision Statement:** FinishIt will allow users to organize their lives through an intelligent to-do/task manager application.
 
-1. See the [Sprint Planning instructions](instructions-0d-sprint-planning.md) for the requirements of Sprint Planning for each Sprint.
+FinishIt will be a supercharged to-do system to help students and professionals stay on top of their tasks. With the ability of recommending a task for a user to complete at any given time, this app will help bust procrastination and allow users to be more organized and productive.
 
-1. See the [Front-End Development instructions](./instructions-1-front-end.md) for the requirements of the initial Front-End Development.
+## Core Team Members
 
-1. See the [Back-End Development instructions](./instructions-2-back-end.md) for the requirements of the initial Back-End Development.
+- Khalifa AlFalasi: <https://github.com/Khalifa-AlFalasi>
 
-1. See the [Database Integration instructions](./instructions-3-database.md) for the requirements of integrating a database into the back-end.
+- Harrison Douglass: <https://github.com/hpdouglass>
 
-1. See the [Deployment instructions](./instructions-4-deployment.md) for the requirements of deploying an app.
+- Allen Li: <https://github.com/Bast1onic>
+
+- David Chen: <https://github.com/dc4472>
+
+## History & Contributing
+
+This project was born as a product of a class on Agile Development at New York University, after a need was found to organize our lives as students at the university. Paired up together as a team in the class, the four core team members (listed above) are working to decrease procrastination in school.
+
+If you'd like to make a contribution to the project, please see [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+## Instructions
+
+To follow any of the instructions below, you must first clone this repository onto your local machine.
+
+```
+git clone https://github.com/agiledev-students-spring-2023/final-project-finishit.git
+```
+
+### Back-End
+
+To build the back end, first navigate to the `back-end` directory:
+
+```
+cd back-end
+```
+
+Then, install all the necessary dependencies by using the following command:
+
+```
+npm install
+```
+
+If a `package-lock.json` file already exists in `back-end`, instead use:
+
+```
+npm ci
+```
+
+Finally, start the program:
+
+```
+npm run nd
+```
+
+If you save any edits to files, the program will automatically reload with your changes.
+
+### Unit tests
+To run the unit tests for the back end:
+```
+npm run test
+```
+Note that these unit tests are currently unfinished.
+
+### Front-End
+
+To build the front end, first navigate to the `front-end` directory:
+
+```
+cd front-end
+```
+
+Then, install all the necessary dependencies by using the following command:
+
+```
+npm install
+```
+
+If a `package-lock.json` file already exists in `front-end`, instead use:
+
+```
+npm ci
+```
+
+Finally, start the program:
+
+```
+npm start
+```
+
+If you save any edits to files, the program will automatically reload with your changes.
+
+## License
+
+Please see [LICENSE.md](./LICENSE.md).

@@ -1,0 +1,54 @@
+header.Header-header {
+    display: flex;
+    position: sticky;
+    top: 0;
+    left: 0;
+
+    background: #ccc;
+    font-size: 1em;
+    padding: 4%;
+
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    
+    z-index: 900;
+}
+
+.headerElement {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1.headerElement {
+    flex: 3;
+}
+
+Link.headerElement {
+    flex: 2;
+}
+
+#mk-task {
+    border-radius: 10%;
+    border: 2px solid #ffffff;
+    background-color: #2b4660;
+    font-size: 40px;
+    color: white;
+    padding: 2px 17px;
+    font-weight: bold;
+}
+
+#mk-task:active{
+    border-style: double;
+}
+
+#mk-task-link:hover{
+    text-decoration: none;
+}
+
+#main-title{
+    color: #2b4660;
+    text-decoration: none;
+    font-size: 28pt;
+}
